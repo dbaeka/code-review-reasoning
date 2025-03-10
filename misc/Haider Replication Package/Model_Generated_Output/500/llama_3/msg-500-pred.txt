@@ -1,0 +1,500 @@
+I think it's better to move the snapshot check into `ManifestGroup` and return empty `Iterable` there.
+I think it's better to pass `collectorUri` here, so that we don't need to call `ToString` in `FailedToReachCollector`.
+This is incorrect. The regex is looking for a character that is not a backslash, followed by a percent sign, followed by n, b, or s. You've changed the second part to mean "not a backslash or percent sign".
+Should we say "sys.exit" here?
+This should be error.
+glue-code needed in order to start a bee node
+Should we make this a `final` variable?
+I think it would be more readable to use `getReturnType().isPrimitiveType()` instead of `getMethodNameDeclaratorNode().getParent().getResultType().getChild(0).getChild(0) instanceof ASTPrimitiveType;`
+I'm not sure how this works. I assume that the first argument is the message, and the second is the code, and the third is the replacement, but I'm not sure how it gets formatted.
+This will add the page slug to the body class even if the page is a 404.
+I don't think we should do this. It's a hack and will make it harder to migrate connections.
+This test is not working. The button is not disabled.
+Can you explain the use case for this?
+I believe this was a mistake, we should keep the privatebindir as /opt/puppetlabs/puppet/bin
+`io.servicecomb` is not a good group id, we should use `org.apache.dubbo`
+This is the only exported thing that is changed here. I can revert the rest of the changes if you'd like.
+What if you did this in the `current_user` method in `app/services/user_service.rb` and then just did `@plan.principal_investigator_identifier = current_user.principal_investigator_identifier` here?
+I think this is a bug fix.
+nit: this is an API breaking change.
+Please add a description of what this is for.
+I would not add the `/` here.
+I think `ALL_DATA_FILES` is not the best name for this table type. Maybe `ALL_FILES`?
+This seems like a bug fix, not a feature. If we have a wireguard interface, we should treat it as a wireguard interface.
+nit: rename `getDocValues` to `getDocValuesObject`
+Can we make this log line a bit more descriptive? Something like: "Increasing receive flow control window for the connection to %d kB, in response to stream flow control window increase from %d to %d"
+I'm not sure what this assert was doing. It looks like it was asserting that `DEFAULT` was null, and then assigning to it in the next line.
+I would prefer to have the `User` as a `UserInterface` instead of a `CachedUser`
+I don't think we want to send the keypress in this case.
+why remove the `*TestData`?
+This line is not needed.
+If we have `Foo::bar::baz` this will match on `bar::`, but we don't want that.
+This is unnecessary as `cudaPointerGetAttributes` will return `cudaPointerAttributeInvalid` if either argument is `nullptr`.
+I think it is better to use a fixed value here, and not a list.
+Why not use uint64?
+Layout/EmptyLinesAroundBlockBody: Extra empty line detected at block body end.
+I don't understand why this is changed
+I think we can revert this change
+`ReadToEnd` is async
+I think we can just check for the value.
+Should we be checking the error here?
+I'm not sure why we need to make these changes.
+I'm a bit confused here. Why do we need to check for `@options[:hosts_file_generated]` here?
+Can we rename this field to `partitionFieldMap`?
+Do we need to add this to the `Beaker::Shared` namespace? I think we're generally trying to avoid having namespaces within namespaces.
+I think this should be `Set['upload','source', 'destination', 'targets']`
+Could you please use camelCase in the code?
+I'm not sure why this is necessary?
+this is not a bug. This is a feature.
+I would use "allowlist" instead of "whitelist"
+This is the default and should not be needed.
+The role is not checked here.
+This should be relative to the current file, no?
+This is not needed
+The original code here was incorrect, because it would return `0` if `sep` was negative.
+Is this intentional?
+What's the reason for this change?
+this is a bit weird. I think we should just remove the field.
+nit: can you sort this import?
+Should this be "GET"?
+Please change to `!==`
+If you're going to make this change, why not make it a switch?
+snakebite is not available for Python 2.6, so we can't use it here.
+@lunny is this safe?
+This is the same as the first test.
+should be negative.
+This is not the right place for this check. It should be done in `roots_seat_set_focus_layer()`.
+I think it would be better to not use `System.currentTimeMillis()` here, but rather return `-1L` (which is the default value for the `lastModified` field). This will make it easier for callers to know that the checksum was not found.
+I think this is a breaking change for people that have pages that inherit from this controller. We should probably add a new controller or something.
+I'm pretty sure this was a bug, as the existing code was adding `waitTimeoutMillis` milliseconds and the new code adds `waitTimeoutMillis` seconds.
+what is the unit?
+Can we use `struct gkc_summary` here instead of `H2O_VECTOR(uint64_t)`?
+I think this method should be called `registerTable` or something similar.
+nit: this is unused and can be removed
+This is only used in one place and that is in `AcceptanceTestBase#execute`, so I would say that this is not a global context.
+Is this still needed?
+I think we should keep this, but make it more general. I think "This is a test plan" is not very clear. Maybe "This is a plan for testing" or something like that.
+This is a bit of a hack. We should probably be using a proper join function.
+Dilation is not a vector, but a scalar. I think you should use `dilation_x` and `dilation_y` to get the right values.
+Is there a reason this is not just `if (pathStart == -1 || pathStart == 0)`?
+I'm not sure I like this change. The function name is not very descriptive and it's not clear why we are changing it.
+I think the ibl_linked and ibl_unlinked targets should be allocated with the same offset.
+I'm not sure what you mean by this.
+This one is not needed anymore
+This is not true. This becomes the equivalent of `--ponynoscale=1`.
+I think you need to use `add_filter` here instead of `function`.
+This is not needed anymore.
+I think this should be "whether to **NOT** validate hostname..."
+The `extraDataValidatorsAndVoteMustBeEmpty` is not used in the current implementation.
+This is a bit of a nit, but this sentence is a bit hard to read. Maybe `This works well because managed certs are only associated with one name per config. Note that the renewal inside here may not actually occur and no error will be returned due to renewal lock (i.e. because a ren
+This should probably be moved to `psalm.php` instead.
+`Article` is an alias, so we should use the fully qualified name here.
+I think this should be `BOLT_WINDOWS=true`
+This is not correct.
+Why do we need a channel here?
+I would have thought we'd want to use the constant here?
+Shouldn't it be `title: title`?
+This import should be removed.
+Can you revert this change?
+Shouldn't this be `const WireguardServiceType = "wireguard"`?
+This variable doesn't seem to be used anywhere.
+I don't think this is a good idea. I think we should stick with the server's choice.
+This file is not used in the PR.
+Is this the same as the default?
+I don't think this is idempotent anymore. I think it's fine to keep it, but I think the description should be updated to reflect that.
+@jridgewell @zhouyx this is the workaround I mentioned in the PR description. I think this is better than the `isBrowserTizen()` function, but I'm open to other ideas.
+I think you need to use `arg` as the first argument to `f` string.
+I would rather have a test where we trigger the async flush and then verify that the async flush was indeed performed. This test looks like it is just trying to trigger a bug.
+Why change this to 2?
+This eslint-disable-line is unnecessary.
+I think we should also include the shardID in the CloseShardRequest so that it can be used in the state machine to close the shard.
+this was an oversight...
+I think we should remove the whole `if` here. We should always check if the ETag is the same as the MD5. If we don't check it, we will get false positives in case there is a bug in the code that generates the MD5.
+I don't think this is right. The `fd` is a local variable, so it will be closed automatically when the function returns.
+Should we make the subject a little more descriptive? "You've been invited to join #{ApplicationConfig['COMMUNITY_NAME']}!"
+I think the `data` is already JSONB here, no need to cast it again.
+(style) line over 80 characters
+I think it would be better if this was a function of `TextInfo`, rather than of `Speech`.
+Why not remove it in the `c.configManager.DeleteNode()`?
+why this import?
+This is the only change that might break backwards compatibility. But if I am not mistaken, we do not have any users running a version older than 1.1.0, so I do not think it should be a problem.
+The same question here about `d.GetTargetFramework()`
+Shouldn't this be in the `Administration` group?
+I think we should be using `>=` here.
+Why not `if err == nil`?
+It looks like we can remove the `get_answer` variable here too
+This is not a client, it's an instance.
+I think you can do `data[:-1] + np.diff(data)/2.` inplace
+I think this is a typo
+I don't think this is needed anymore.
+This is not a breaking change, right?
+nit: `githubRepoExp` is a bit vague, how about `githubRepoPattern`?
+nit: you can use the `f"{str(info)}\n{body}"` directly in the `trim_to_bytes` call
+`percentiles` is not used.
+Let's change this to `MAX_HISTORY_ENTRIES`
+is this a valid method name?
+`Topic.top` is an SQL query, it's a query that is cached and re-used. `Topic.all` is not cached and will run a query for every page.
+this is not going to work, you need to add this to the `Chrome` class
+I think I prefer `Ready()` over `Results()`. What do you think?
+I think you can use `self._create_lambda_function()` here, this will create a lambda function with a unique name and return it.
+Please use `bool` for the new parameter
+I think we should use `get_rect` here and below.
+I'm wondering if we should just always create a new one, and add it to the map. I don't think it matters much either way.
+This is the same as the previous one, but with `ll` instead of `ii`.
+This is not the correct fix. We should only disable `not-callable` from line 4 to 5.
+I think we should remove this from the struct and only use the string value in the `create` command.
+I think we should add `# type: ignore` to the `__path__` assignment in `__init__.py` for each package, not just for `azure-core`.
+I'm not sure if we should add a new setting for this. We could just use `GIT_PROTOCOLS` or `GIT_HTTPS`.
+I'm not sure if we should be doing this in `start()` or if we should be doing this in `newKubeProxy` (where we also start the liveness scanner).
+Why is this being removed?
+The session is already configured with a default timeout in `UserSessionContext`
+Please create a separate PR for this.
+Is it possible to change the `DataType` to `std::complex<float>`?
+I think we can remove this check as it's already checked above
+Why was this removed?
+`list<array>` is the wrong type for this function.
+Nit: We usually don't use capital letters in file names.
+I'm not sure we should be changing these messages.
+should we just make this a constant?
+Shouldn't we also have `Close` and `Start` methods?
+This is a bit tricky. We have to use `owner` here to make sure the session is closed properly. We can't just use `topology.startSession()` because then we'd close the session on the driver side but not on the client side, so the client would think the session is still open.
+Why is this in the XML output?
+I think this is not needed anymore.
+Is there a reason why we don't want to have the dataman library linked in?
+The `err` here is a `*fmt.Errorf` so you need to do `err.Error()`
+why mark it hidden?
+Line is too long. [89/80]
+Why is this always false?
+@bparees @deads2k is there a better way to do this?
+This test is now testing the wrong thing, and is also testing the wrong thing in the original version. It's testing that `len(ncs.nodes) == 1` after a node is removed. But this is not the only case where this can happen. For example, if a node is added a
+I think it's better to keep the old name since it's a private class.
+This import should be removed
+Why remove this?
+I'm not sure we should change this to AWS IAM as that's not what we call it internally.
+This is wrong. It's a mirror image of the original.
+I think this should be the last thing we do here, so we can update the `result` object with the exit code before we return it.
+I think the original code is better.
+Why do we need to call `render` twice now?
+I don't understand why you added this.
+Why is this needed?
+This is the fix for the missing plugin warning, which now includes the plugin code instead of the plugin name.
+Why are we not checking `updatedInfo.Description!= ""`?
+nit: remove extra {}
+this should be removed
+Please rename to `getGroupsWithPermission`
+Can you remove this method?
+This is the only change that actually fixes the bug.
+Shouldn't this be done in `addShapeValidations`?
+I think this should be `add_undo=False` since we don't add an undo entry if it's being moved.
+should we have a separate test for this?
+Is this a temporary fix?
+@soltysh, you can just use the `Deprecated` annotation here, that will be rendered in the UI.
+Is bundle always non-null?
+This function name is now misleading.
+What is the story behind this?
+I think we should keep the `allowedOrigins` parameter as well. This allows you to restrict the allowed origins on a per-path basis.
+why is this needed?
+We can remove the `PackageFormat.HDF5` import as well, since it's no longer used.
+We don't want to lose this error, we just want to add a warning.
+This is a good idea, but can you change the `$key` to `$oldKey` to match the variable name?
+This was causing the `Diff` to not work correctly.
+Why is this necessary?
+I think this is the only place where we need to call `arg_label`.
+Why do we need to set RunId to empty string?
+This seems to be a bad idea to me. The user should not be able to override the config file.
+I'm not sure this is safe. I think we need to use a context here.
+Metrics/LineLength: Line is too long. [82/80]
+I think we need to do the same for the other test harnesses.
+should we make the name a param to the method?
+I think we can just use `@role.user.email` here, no need to use `I18n` for that.
+can we make this a `const`?
+should this be an enum?
+@ramramps I think we need to add the resourceType to the schema returned from the server as well.
+I'm not sure how much this helps, since the `BPF` object is dropped on return from `generate_bpf_program()` and the `BPF` destructor will delete the underlying `char *` buffer.
+Why is this necessary?
+Should we test that `httpHandler` works when `transport.NoDeps` is not set?
+Should we use klog.V(4)?
+This is unused
+This will be interesting to see how it goes. I think this will help us catch more issues but I'm not sure how many false positives we will see.
+ruamel is not a standard library package. Can we avoid this dependency?
+@shahzad-alam this will have an effect on the OSD.
+I don't think this is needed. It's only used in the `mcxt` test, and it's not a test that runs on the actual device.
+I think we can remove the `setTimeout` and `reload` functions.
+I think this line is not needed
+This is the only one that seems to be a problem. I'm not sure why the `r35` version is being used instead of `r351`.
+Why is this needed?
+`std::min(creature->getHealth(), maxHealth)` could be `creature->getHealth()` as `creature->getHealth()` is already `<=` `creature->getMaxHealth()`
+This should be `CancellationToken` not `CancellationTokenSource`.
+I think we need to test the response body too, right?
+I think this should be removed after the release.
+This is a breaking change. If you're not sure about it, I'm okay with it, but it's important to note that the `ddev stop` output is no longer compatible with the `ddev start` output.
+Should we be rescuing `Puppet::DataBinding::Error` instead of `Puppet::DataBinding::LookupError`?
+I wonder if we should just make this a `string` and use the same name?
+Why is `activitySource` removed from the constructor?
+This is a bit concerning. Is there a reason we can't just return the error and let the node stop?
+I wonder if this should be a separate commit, as it's a separate feature.
+This method is not used anymore, it can be removed.
+you forgot to change the type of the argument to `str`
+I think we should just always do this, and then the `if` above can just be `if a!= nil`
+this interface is missing in the reference source
+I think we can use `sync/atomic` to achieve the same effect.
+Why did you remove the nolint here?
+I think we should probably call this `CHROME_OPTIONS`.
+This is a breaking change for anyone who has a custom retention policy for the system namespace.
+This is probably a debugging statement that can be removed.
+This is a third party library. Is there a reason for adding it?
+I think this file is not used anymore.
+I think it should be `mCurrentFolder.folder.getMessageCount() == 0`
+should it be toRawKey(Arrays.copyOf(value, value.length + 1))?
+Is this still necessary?
+I think the method name should be more specific. How about `uploadFlowFileToProject`?
+This is a bit of a hack, but `alwaysTrue()` is a bit of a hack too.
+Line is too long. [87/80]
+shouldn't this be: if (this->GetTarget() == this) { this->MessageString(Chat::TooFarAway, TRY_ATTACKING_SOMEONE); auto_fire = false; return; }
+Is this really 128?
+This will probably not work properly for multiple monitors.
+This change seems unrelated. Can you revert it?
+Please revert this change.
+Is this the only place where we check for suppression?
+I think this should be 0.0000
+This is a change to `BokehModel` that was necessary for `plot_object` to be a valid `Instance`.
+This is a bit odd. The config is passed in, but then the fields from the config are used to create a new config.
+This should be a link to `/pricing`
+I think we should keep the `wget` here, since `curl` is not available on all systems.
+why not use the first icon of the category?
+Can we add a `TODO` to remove this field when the `secretCount` field is no longer needed?
+I think we can remove the `marshal` function from `pkg/yarpc` now.
+this should be set to an empty string if docker is enabled.
+I think it's clearer to raise a `KeyError` here, since it's the logical_key that's missing.
+can we remove this file?
+Is it possible to get this error when using an older driver version?
+How about a simple `Duration` type, with `Since` and `Until` fields?
+I don't see this option in `nebula --help`, does it need to be added?
+Should we remove the `proposal_url` method from the `Activity` model?
+This should be `NamedList<Object>`, I think.
+I'm confused why we need this.
+Can you remove this default here and set it to `false` in the constructor?
+I'm not sure if this is the right solution. If the `default_bucket` is in `excludes`, then it should not be included.
+I think this test is not needed anymore.
+This should be done in the constructor, and the constructor should be called in the `setup` method.
+Should we keep the `be_true` here?
+Should we use the `org.apache.gobblin.util.Logging` instead of `org.slf4j.LoggerFactory`?
+I think this can be simplified to `return buf[offset:offset + encode.FILE_IDENTIFIER_LENGTH] == file_identifier`.
+You can use the `VkQueueFlags` enum here instead of listing the flags out explicitly.
+This should be `delete tmpStream` (without the asterisk)
+I'd love to have a foreign key for funder too.
+I think we should make this configurable.
+I think we should rename this function to something like `cloneLinkWithSignedUserName` to make it obvious that it's a new parameter.
+I think this should be moved to the top of the file.
+I think this should be `timeout > 0`
+This should be `Vagrant`, not `vagrant`
+Why is this only for NVIDIA architectures?
+why not just use the offset as a part of the error message?
+Is this the correct fix? It seems like the editor is selecting the wrong lines.
+This should probably be `kinto.core.cache.redis` (or `kinto.core.cache`)
+This is the actual fix. The `singleBccRecipientFromAccount` boolean was previously checked only when the recipient list was not empty, which is not correct.
+I don't think we should add this interface here.
+This was a debugging statement that I forgot to remove.
+@benhalpern I'm going to assume you're ok with this, but wanted to check in case I've missed anything.
+Why is this version check needed?
+@jridgewell, I think the way we do this is a bit confusing. The reason we have `axe.commons.aria.isValidRole` is because it is meant to be a public API, but we don't want to make `axe.commons.aria` public. I think we should ma
+I don't know if this is the best way to test this. But I wanted to make sure that the error page works as expected.
+I'm not sure if we should expose this. It may be better to just always prune.
+This is fine for now.
+`if (metric == null) {` -> `if (metric == null) { throw new IllegalArgumentException("metric variable must not be null!!!"); }`
+I think these properties should be named with a verb, e.g. `SetRequestBodyTimeout`, `SetRequestBodyMinimumDataRate`, etc.
+Can we use the same name for this argument as for the one in `Service`?
+Layout/IndentationWidth: Use 2 (not 4) spaces for indentation.
+This should be set to `Default` in the `OnLoaded` method.
+I don't understand this change.
+I think it would be good to have this in the docs for the method.
+Just noting, we can probably rename this to `cloudformationArchitect` to match the naming of the other `architect` structs.
+The check should be `actualChecksumIn == checksum`
+I think the `T` should be `WebElement`.
+why is this check needed?
+I wonder if we should use the `traceparent` constant here. I can see how it might be useful for people who are using this header for other things, and might not want to see it here.
+I think we can remove this now that we are setting it to 2 in the config.
+This is a test for the legacy base64 encoding, which is not used in the library.
+Shouldn't this be handled inside the `try` block?
+I think this function can be in the `os` package.
+nit: Maybe this could be a bit more explicit about the issue? `Consider using Python 3 style super()` is a bit vague. Maybe `Consider using Python 3 style super() without arguments`?
+Do you think we can move these keys to the `ExecutionSource` class?
+I'm not sure if this is the right place to pass the action, but it was the only place I found that was able to retrieve the action.
+I think this should be called `intStarts` instead of `addressOffset` to be consistent with the other field names.
+I think you should add `fontWeight` to the docs for this function.
+`session.TranscodingInfo.IsAudioDirect` will always be true for a direct stream.
+This seems like a good change, but I think we can revert it, since it's a breaking change.
+Is this test really testing what we want it to? It's more testing that the `exit_early` method exists and can be called than it is testing that it can be used to exit early.
+I think we should have a separate metric for the number of active streams.
+(style) trailing whitespace
+typo, should be `casSnapshotObj`
+This is the only line that should be changed in this file.
+Why does this need a `@psalm-mutation-free`?
+This is a bit of a hack, but it seems to work. I'm not sure what other options we have.
+Do we have any idea why this is happening?
+Is it possible to use `pip` to install `shlex` so we can use it in both Python 2 and 3?
+I would expect the variable to be called "num_elems" or "num_adapters"
+this is the same as `_CleanFpInfoAttr` in the `rscms` module, I think you should just import that one and use it here.
+I don't think this is a good idea. We should not be making any changes to the code that will make it harder to remove later.
+I think this function could be called `get_extension` or `get_extension_name` or something like that.
+@citizen428 this should be reverted
+I think you need to keep the check for `DECIMAL_LITERAL` too.
+is this being called somewhere else?
+I'm not sure if this is the right way to check for the review status. I think that it's only `unreviewed` or `confirmed` that are valid review statuses.
+This class is not used anymore.
+This is not the same as the behavior in the conan API. The API will raise an exception if the package already exists, and the user needs to call `conan install --force` to overwrite. This change is going to break existing users.
+I think this should be `protected abstract void setScorer(Scorable scorer)`.
+I'm not sure that the regex is necessary.
+I think this is the only change that is really needed here.
+Shouldn't this be `static constexpr const char`?
+This is not good. You should do the same in the GPU version.
+I think the logging change here is ok. I don't think we need to log the message at all, but if we do, we should log it at info level.
+I think the `nil` is unnecessary, but I'll defer to @csrwng on this one.
+This is just a marker interface, right?
+Let's use the same margin top and bottom here as the other modules.
+Can you please add a similar method to the `org.apache.zeppelin.interpreter.InterpreterUtils` class. Thanks!
+I think this is the only place where we set the review position with isCaret=False. I'm not sure if it's necessary to always set it to False.
+Should we update the man page?
+I'm not sure if this is the right way to do it, but it seems to work.
+I would like to see the key as a parameter here as well, so we can be consistent with the other config types.
+This is still a temporary measure.
+I think it's better to move this to the else block.
+Why is this function needed? It's already in the standard library.
+I don't think you need this.
+Why do we need to check the length? We are not reusing the buffer if it's smaller than the input.
+This change is not needed.
+Why are we using a ConcurrentQueue here?
+I don't think we need to change this right now. We can change it later when we want to switch to the new `Number` type.
+This seems to be a good candidate for a `using` statement.
+We should also have a test for the other case.
+Can you add a `Preconditions.checkState` here?
+I don't think we should be delegating `includes_mentor?` here. I think this method should be on the `Purchaseable` model instead, and we can remove the `includes_mentor?` method from the `User` model.
+Layout/AlignHash: Align the elements of a hash literal if they span more than one line.
+Why the name change?
+why change the order?
+I am not sure that we should have this in the libvirt project, this is not a libvirt specific thing. I think that we should move it to some generic project.
+I think it's more common to use `Duration` in Prometheus than `time.Duration`.
+This is an important log message. I think it should be info.
+I think it would be better if this was called `LogEventType`
+The declaration should be moved to the header.
+I would prefer to keep the if inside the if (isset($bundles['JMSSerializerBundle'])) {
+`_blockTree.Head?.IsGenesis` is always true when `toBeProcessed.Number > 1`, so this can be simplified to `toBeProcessed.Number > 1`.
+I'm not sure if this will work. I think you need to check if the path exists.
+this should be 0
+I think we should add a small tooltip to this button as well, to explain what this button does.
+I think this was a bug. If there is no deadline, we should return an error.
+I think we can just use `leaf.getLiteral()` as-is here, without converting it to a `Date`. The `Date` object is just a wrapper around a long, and the `long` is the number of days since 1970-01-01, so we should be able 
+I think this is the same fix that you made in another PR.
+This is a change in behavior. Previously, the `else` block would not have been called. Now it is.
+This is a little confusing to me. I would expect this to be a `Func<Context, Context>` instead of a `Func<Context, Context, Context>`. Is this because of the `exporterOptions` parameter?
+This seems like it's going to confuse people. I'm not sure why we can't just return the `Sensitive` object.
+Is this a leftover from a previous try?
+I think this should be `master_certname` instead of `master`.
+Should this be a TODO or something else?
+nit: this could be an `Object` type
+Why does it need to be appended to `TrustedKeys`?
+why is this change needed?
+Why is this set to `false`?
+This can be removed now, right?
+The `Button` component should be imported from `GoogleComponents` here.
+You need to be more specific about what you mean by "which fields".
+Not sure why this was here.
+This should be a constant.
+This is a change that I think we should keep, as it will ensure that emails are sent asynchronously and not blocked by the controller waiting for a response.
+I'm not sure this is the best way to pin things. I'm not sure we have any other examples of this.
+nit: I would use `type` instead of `originalIcebergType`
+This will be confusing when you want to test a feature that uses a `--basedir` (like the `--basedir` `--config` option). I think this should be a `--temp-basedir` argument which is only used in `--temp` mode, and no
+@piotrdawidczyk is this change intentional?
+I think we still need to check for `pending?` here, right?
+Is it a good idea to have the default be true?
+I think the `type(None)` is wrong here.
+need to remove this line
+Shouldn't we add this to the structs in the `cstor` package too?
+This is not a valid discovery url for all google apis. For example, the pubsub api has a discovery url of https://pubsub.googleapis.com/$discovery/rest/v1.
+Should this be `what == "*" ||...`?
+Is this change really necessary?
+Can we make this a bit more strict? This will also match `VuFind 1` and `VuFind 1.1.2-DEV`.
+We should probably keep these.
+I don't think this is something we should do in this PR. We should create an issue for it.
+I'm not sure this is a good idea, if the login server returns a space, then the code will fail.
+nit: you can remove this line.
+We should use `is_bool` to check if the `lazy` attribute exists, since the value of the `lazy` attribute is a boolean.
+This is the same as `--gen`
+I don't see this being used anywhere.
+This is an interface we need to keep around for backwards compatibility, right?
+I'm not sure if this is the right way to go. I think it's fine to call this `desiredKeyGen` but I think it's better to call the other one `desiredRole` or something.
+I think we should keep the `InsertTraceIdByServiceName` indexer, but just not use it. It's possible that there are users who are using it and it would be nice to support them.
+I think this is unnecessary.
+Unnecessary whitespace changes.
+Can we get rid of this line?
+This is not a good reason to xfail a test. It should either be fixed or disabled.
+I don't see this being used anywhere.
+Why not just do this in the `if (!addrs.ok())` check?
+The `contains` check is unnecessary here, as `document.activeElement` will only be a child of the dialog, not a descendant.
+We can move the imports to the top.
+Do you need to pass a Map<String, String> here? Can't you just pass the Event object?
+I would remove this line. This is not used by the sample.
+This method is used by the `NotificationManager` to retrieve a notification. As it's called by the `NotificationManager` from the `Master` class, it needs to be synchronized.
+Nit: this should be called `StatusCodeServerErrorRequiredLockNotHeld` (and I think the same for the next one).
+Should we have a test for `RestTemplateBuilder` as well?
+Should we remove the `InMemoryMetricExporter` class if it's not used?
+@mlambacher, I don't understand this change. The indent is the same as before, but there are no spaces after the `TRY_EXCEPT`.
+Shouldn't this be `FileAccess.Read`?
+nit: revert this change
+Shouldn't we be consistent and use `BloomRef` for the `ref` parameter?
+We should be able to add a filter in front of the logger and skip the log entry if the request is a POST.
+I'm not sure that this is the right thing to do here. This is supposed to be a way for the kernel to say "hey, I know this file is open, but I'm not sure if it's open by you, or if you're just trying to get at something that's been op
+I think we should add a `RealPath` here and set it to `null`. This way when the generated code is run, it will not try to access a `null` property.
+Missing `height` in variable name.
+why is this not a global config?
+This is a bit confusing. I would rename this variable to `isOutputConnection` or something.
+@chirimoya why is this removed?
+This is not right. If `fetch` does not support `now` or `requestContext`, we should throw a `TypeError`.
+I think this should be "Clone extracts a copy of the repo to the specified output Directory."
+This is a private method, so the name change is not important.
+Is this still needed?
+Style/RequireAll: Do not use require all.
+Does this need to be a prop? I don't see it used anywhere else in the component.
+I think this should be an `add_timestamps` migration
+This is a different thing than the `xwayland` struct. This is the `XWaylandServer` struct that is allocated by `wlr_xwayland_server_create()`.
+Shouldn't we still do this.ExportBatchAsync(cancellationToken) here?
+I am not sure if this change is correct. `QFontMetrics` has both `width` and `horizontalAdvance` methods. The first one returns the width of the character in pixels. The second one returns the width of the character in design units (i.e. 1/1
+Why this delay?
+This was not the correct fix. We need to hide the button only if the video is playing locally, which is not the case when the video is being played from the server.
+Why do we need this?
+This is the real fix, so that the `c.dirtyBcache` is reset on resetCaches.
+I think this should be `http://127.0.0.1:PORT_DYNAMODB_BACKEND` (note the variable substitution).
+Why are we changing the name of this test?
+Why do you need to add `dilation` here? It is already there in the `Conv2d` call.
+Is this a bug fix?
+why not remove the methodConfigMap.get() if it may return null?
+Can you sort this list alphabetically?
+I think this is no longer needed, as the only thing in `tpb/` is the `gen.proto.sh` script, which is no longer in use.
+I think this is better to be called `enableScriptEngineLoadExternalResource` to be consistent with other similar options.
+Why is this removed?
+I don't think we should change the API here.
+I think we should still support the old syntax, because we have a lot of tests that use it.
+I removed this because it's a false positive. The tuple unpacking syntax is not supported in return statements, but this is not a syntax error.
+should we rename `shard` to `shardCtx`?
+Do we need to check that the file exists before removing it?
+I think this could be removed, as it's not doing anything.
+Why are you acquiring the lock again here?
+`keys.join('')` will always be called. We should only call `keys.then(keys => keys.join(''))` when `this.driver_.fileDetector_` is `null`.
+I think we can get rid of the `if len(types) > 0` check here.
+Why is the limit being reduced?
+I think this is a good change. It's not obvious to me that we need to pass the ambient bool to each of the providers. I think we should just pass it to the main method and have each provider just get the ambient config from the main method.
+I think this change is fine. However, I'm curious, how come we had this code in the first place?
+This is not the same thing as the category manager. This is to disable the category relation.
+This is the only thing I don't like about this PR. It's not really a "config" pass but more a "design" pass.
+I think this one is safe to remove.
+I'm not sure if this is a good idea. It's not a private variable, so it's possible for someone to set it manually.
+this should be `string|array`
+Is this a typo?
+Should we check the response service name here? I think it would be good to have this check in the same place as the request service name check.
+`private final` as well.
+I'm not sure if this is a bug, but the variable name "master" is not used anywhere
+nit: can we call this Purpose?
+I think this is a good change. I think the provisioning is a good place to start.
+Is there a reason why you changed this to a span?
+Do we want to use the latest version of `eslint-config-prettier`? It seems to be 7.0.0, which is a major version bump.
+The escape sequence for Chinese characters is `\\u` followed by the four-digit code.

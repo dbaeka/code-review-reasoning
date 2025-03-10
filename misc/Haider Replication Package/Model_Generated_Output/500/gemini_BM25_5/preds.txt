@@ -1,0 +1,500 @@
+The code won't compile because `CloseableIterable<ManifestFile>` is not a subtype of `CloseableIterable<ManifestEntry>`.
+The `collectorUri` is not used in the log message.
+The regex is incorrect.
+I'd suggest using a colon after the "instead of" text: "Instead of using exit() or quit(), consider using the sys.exit()."
+Good catch, we should add some error handling.
+This is not required, it will be overwritten by beego/main
+This is a breaking change if `GoQuorumOptions.goQuorumCompatibilityMode` becomes different between the caller and the server
+You should use `node.getParent().getResultType().getChild(0).getChild(0) instanceof ASTPrimitiveType` instead of the current implementation.
+`max-nested-blocks` is not a valid rule in linters.
+I am not sure about the need to add the basename of the permalink to the body class, but I will defer to you on this one.
+I would keep the versions as is, since it's an array of versions, and not a single version.
+Some of your code comments say "add" which means you intended to add a test but it looks like you did not. I suggest removing those comments.
+I think this is a good change.
+This looks good to me and I'll be happy to approve it.
+looks good, we can remove the empty lines
+The `Logger` field can be exported without an issue.
+`authorize` is called twice here. I would expect `authorize` to be called once and the result to be saved to a variable.
+Can we make a generic function for this? So that we don't need to repeat the code
+Does it make sense to default `allowOptionalMappings` to `false` here, when the method that calls it defaults it to `true`?
+Seems to be missing the getter for the model. Also, maybe we should consider moving this to a common utility class, as it doesn't seem to be specific to this project
+No, this doesn't look like a flaky test.
+Can we make `fileSchema` immutable? Only in constructor.
+I think you need to add a parenthesis around the if statement, like so:
+This is a breaking API change, so we won't do this for 7.10. Let's make sure this is in the 8.0 milestone.
+You can use `logger.V` for debug-level logging.
+Also, you could move the `assert` to its own line, so it gets easier to read.
+I think the `CachedUser` class shouldn't be used in the transport. Because it is only used here and the cache is not needed, we should just use the standard `User` class here.
+We should probably do this in a more general way. Also, this doesn't account for other keys.
+`TestNetworkPolicy` has no subtests, so it's not necessary to use `t.Run` for the subtests.
+`stateDB := NewStateDBAdapter(sm, 0, hash.ZeroHash256, opt...)`
+The `$recent_type` variable is unused, is this intentional?
+this should be ptr == NULL
+The first two `add` directives are redundant.
+I'd group these together under a FastRecovery sub-struct.
+This is a lot more RESTful.
+This was a bug in the test. The beforeEach hook is calling `render` directly on the components, which is not what the tests are testing.
+It looks like the `$` is not defined. Did you forget to import jQuery?
+Did you mean to use `ReadToEndAsync` here?
+This is the wrong way to do conditional compilation. Change it to `#if NETCOREAPP2_1`.
+This check can be moved into `hive-controller-operator` prior to setting the deployment.
+This is not a good regex, as it allows many things that are invalid, such as `gs://bucket/dir/file.txt`. The correct regex is: `^gs://([a-z0-9][-_.a-z0-9]*)/(.+)$`, and that's the one used in the fix.
+Please move the `if` logic to the line above, it's more readable that way.
+The names "partitionFields" and "timeFields" are a bit confusing. It would be better to use the names "partitionKeyFields" and "timestampFields", as they are more descriptive of the purpose of the fields.
+This should be a method on `RSpec::ExampleGroups` not a module.
+The `source` and `destination` keys are required in order for this module to work properly, and the `upload` key is not used anywhere in the code, so it's safe to remove it from the `allowed_keys` set.
+In the case that the NABoolean is false, there is an uninitialized pointer.
+FactoryGirl is no longer supported by Rails. Use FactoryBot instead.
+This is a bit weird. Why not just use the UID as the hash?
+'Allowlist' is the correct term, not 'Whitelists'
+It looks like the new fields are not documented in the code. Also, the commit message does not mention them.
+yes, this is a bit of a hack - we should have a better way of integrating our protected state in the control framework
+This include should be changed to `#include "MolTransforms/MolTransforms.h"`
+The `eprosima::fastrtps` namespace is not used.
+This condition seems redundant: `assert morphSep > 0; assert morphSep > flagSep;`
+This is a valid change, but it has no impact because the test is already skipped on `single` topology.
+The uses of replacer.Replace occur in a few places in this PR, but it doesn't seem to be defined anywhere.
+`type UnsignedMessage struct {}` doesn't do anything. Did you mean to use `type UnsignedMessage struct`?
+The added packages are not used in the file.
+Is it possible to use a more descriptive name for `dialAddr` variable?
+this is not what was discussed in the issue.  This needed to be moved to the end of the `__construct` method.
+We should add a test to verify that `o.name` and `o.appName` are trimmed.
+This is a bit hacky, might be worth checking if the version is in `("cdh3", "apache1", "snakebite")` and if not defaulting to `cdh4`
+do the attrs need to be in a slice?
+Good catch, I'll make that change.
+`zero` is a reserved word in Go.
+Nit: Only change the focus layer if the surface is interactive, and only if it's not already focused.
+I would suggest to explicitly handle the error here, so that we can return a more meaningful error message to the user. The exception message should be sufficient for this purpose.
+This change seems to conflate two different concerns. The `HighVoltage::PagesController` inherits from `ActionController::Base` and therefore already bypasses the application layout. The `layout false` is redundant and should be removed.
+[CODEREVIEW]	<good>This is a good change.  `waitTimeoutMillis` should be an int, so the multiplication should be reversed.  The multiplication operator in Go has higher precedence than addition, so the original code would have been interpreted as `time.Millisecond * (waitTimeoutMillis time.Millisecond)`.  This would have resulted in a compile-time error.</good>
+nit: let's use camelCase for constants
+maybe mention that this is a histogram of latency values, to distinguish from the other values which are summaries
+This is a bad signature, since TableIdentifier is not serializable.
+OK but if you're going to be adding new imports to the top of the file, do it consistently.
+please use our own Logging framework, and use getLogger("org.apache.logging.log4j.Logger")
+Is this an array? If not, it's better to make it an `IEnumerable<ITaskItem>`
+This could be wrapped in a partial and reused in the new plan form.
+The function can be made more efficient by using a stringstream.
+This looks like a naive implementation of dilated convolutions, which is not efficient.
+This is unnecessary. We already check pathStart != -1 in the previous if-statement.
+This is a breaking change as the default version of the Docker API for Windows is now different.
+`ibl_tgt` is not used after this line, so it is safe to remove. We can also remove the `ASSERT(ibl_tgt != NULL)` line since it is no longer needed.
+This method doesn't close the stream, so it's fine to pass it a stream that someone else owns.
+this seems like a perfect place to use a proper Promise instead of a callback.
+Is that comment about cycles really necessary?
+This commit changes `roots_request_filter` to `roots_get_search_form`. It was a *mostly* correct mechanical substitution but it does not account for the fact that `roots_request_filter` is pre WordPress 3.6 and `roots_get_search_form` is for WordPress 3.6+. We should only remove `roots_request_filter` if we are going to use `roots_get_search_form`.
+maybe we can use f-string here: `return dagster_pd.dataframe_input(name, sources=[dagster_pd.csv_dataframe_source(f"{name}.csv")])`
+This should be "validates hostname of temporal cluster against server certificate"
+The constructor `BftValidatorsValidationRule()` is redundant since it does the same thing as the other constructor.
+WDYT about adding a comment about why it's ok to continue even if `err` is not nil?
+Can we move the require_once call to the top of the file?
+Determine if this text should be moved to the default language file.
+This is a good example of how we can use Bolt's configuration DSL to set conditional defaults based on the environment.
+maybe would make more sense to use `switch` here?
+The `cancelledCh` is a channel that is used to cancel commands. It should be closed when the `CommandRunner` is stopped.
+I don't see any reason to delete the fields of the struct.
+This is the last change I will include in the new pull request.
+The import `k8s.io/apimachinery/pkg/util/intstr` is unused.
+The comment should be removed.
+This should be a named constant, not a variable.
+Nit: add a description to the function
+I wonder if the spec guarantees that the ACME server will accept any of the `PreferredChain` values? Maybe we should note that `PreferredChain` is a hint at best. Also, I wonder if we should recommend a specific chain for Let's Encrypt.
+You don't need the `Promise` variable. You can simply pass `require('bluebird')` to `MongoClient.connect` directly.
+It doesn't seem to be used anywhere in the code.
+This is a bit confusing -- if it returns a bool, then perhaps rename it to `hasPrefetched`?
+Use constant for Tizen browser. const isTizen = browser.tizen;
+@JunruL Indeed, that is another way to format the message. Thank you for the suggestion!
+can we also do this in a loop N times?
+it looks like the correct change is to remove the `return 2` statement and return the result of the ternary expression directly:
+this is a bit confusing, is `attachGamepadScript` used in both cases, or just the second?
+This is a bit weird, but I guess we won't use `CloseShardRequest` and `AddTasksRequest` anywhere else.
+This change is not backward compatible. If the iterable is an instance of Seq, the return value will be Seq instead of List.
+md5 = md5.lower()
+Ensure this is not leaking `fd` if it is opened.
+InvitationMailer is a subclass of BaseMailer, so it can use the `mail` helper method.
+The added lines aren't aligned with the rest of the code.
+this code is not easy to read, it would be easier if the if was on a new line and the } of the previous block was on the same line as the last line of the block
+In the first snippet, the docstring should be indented. In the second snippet, there appears to be a missing colon after `gesture`.
+Rename the function to `func (c *ClusterManager) replayNodeDecommission(ctx context.Context)` to prevent issues in the future.
+Please put `upload` after `upstream_auth`
+the `Rules` property looks like it should have a default value so that it doesn't return `null`.
+Why not use the Include/Exclude on the TargetFramework?
+This was a whitespace fix.
+Let's keep this as `pandas` for now.
+Suggestion: this should be done on the resource, not in this general loop.
+``get_answer`` is never defined.
+Also, while you're at it, make `client` private again and change the function signature to `func (i *Instance) Cleanup(client daisyCompute.Client)`.
+This is not a valid numpy function. Did you mean `np.convolve`?
+Looks good! I think this is the best way to write your model declaration.
+Good catch! I've fixed it.
+The start iteration is inclusive?
+Nit: "Please enter a valid GitHub repository, e.g. https://github.com/myCompany/myRepo" doesn't need quotes around the example and doesn't need to start with "Please"
+It is good to cache the `info` but the variable name is not clear.
+`percentiles` is still a list of numbers, right?
+This commit unnecessarily introduces a new line between the two const declarations.
+This is a static class with only static methods, so it's idiomatic to have private constructors, even if they are empty.
+This is inconsistent with the other `topics` method. This should use `Topic.top` as well.
+This is a huge change - I'm not sure what the intention is here. Can you provide some context?
+The `Query` interface has two methods for getting results, `Results` and `Ready`. `Results` is a channel that delivers the results one by one, while `Ready` delivers the results as a map when all the results are ready. It's not clear why we need both methods. Can we just have one method that returns a channel that delivers the results one by one?
+You can use a multiline string as the value of add.
+why is this function called h2o_next_token with an h2o prefix if it doesn't look like it's related to h2o?
+I think it would be good to make this throw an error if the driver is not w3c.
+create and register<keep>* a new {@link SettableGauge} if none is registered  > create and register a new {@link SettableGauge} if none is registered.
+This conditional can be rewritten as a `case` statement using the `enum` module.
+I think it's better not to use these useless suppressions. It just confuses the reader.
+This is a breaking change, the old `Privatefs` field was a bool. The new `RootfsMountMode` field is an enum.
+The __path__ extension is only needed if this package is installed in editable mode.
+`DisableHttpGit` should be renamed to `DisableHttp` as it affects all the http apis - not just git.
+What's the purpose of freeing up the conntrack table asap?
+This class was extending PrivacyApiMethod, that was extending JsonRpcMethod. Now it just implements JsonRpcMethod. This means it won't be able to access the privacyParameters. Why the change?
+I don't think this is needed: if the user is authenticated then the session timeout should have been already configured.
+This is a private method, so it should be omitted
+It looks like `value` is not used anywhere in the function. Is it possible to remove it?
+`org_id.present?` and `org_id.blank?` do the same thing. Use one or the other.
+`public class SpanBuilder` can be renamed to `internal class SpanBuilder`.
+You should use the correct return type for `array_chunk` which is `array[]`.
+Please remove the "Legacy" part from there and just call it "ErrorNotification"
+I would suggest similar approach as before - group all the `raise`s together.
+This is not quite right. The error message is now stored on the +base+ key, not the +.restrictable_posts+ key.
+This is missing a comment describing what the ranges represent.
+session and owner should be passed as parameters of this function, not as variables of the function.
+This is a security issue, as it reveals the user's ID to the attacker. You should never output user IDs in error messages.
+The if statement condition is too long and may be hard to read. Consider using the ternary operator to simplify it:
+This is a feature toggle. If the feature is not enabled, the code won't be compiled.
+The error message is not wrapped, so it will be lost.
+This flag is not used anywhere
+Consistency: There is no space between the method name and the opening parenthesis.
+I suggest using `IsPaused` and `IsDeleted` instead of `Paused` and `Deleted`, to match the naming convention of other getters.
+Why this is map[string]int64 rather than a string?
+This code seems to be incorrect. The finalizer for childNode2 won't be run until after the goroutine that initiated the finalization has returned.
+okay so this is just a renamed class?
+This is a bad import.  `rdkit` shouldn't be imported here.  It should be imported in the function.
+The `switch` statement is missing a `default` case.
+"Identity and Access Management" is redundant
+You can simplify this a bit using the null-coalescing operator:
+Why is this being replaced by a hard-coded 0?
+The default value for a boolean should be FALSE, so this line is wrong.
+This test could be improved by using a spy instead of a stub, and checking that the spy is called twice. This would make the test more robust and less likely to break in the future.
+There is no need to include the `follow-redirects` option as it is enabled by default.
+we can just return the status and err here, the caller will handle the lock
+This code has a bug. If the plugin code contains special chars like a quote, the HTML will be broken. You should escape the plugin code.
+I think this is a bug and the conditional should be `info.OwnerEmail != updatedInfo.GetOwnerEmail()`.  Currently, if the email address is unchanged, it will still set configurationChanged to true.
+The `if (isHiveTable())` condition is duplicated.
+no need to cast the string to a char* to compare it
+`<keep>` and `<add>` are now mixed together in the diff.
+@RussKie this is the potential leak.
+Why can't `checkAndPanic` be a method on `GossipData` and you just call that instead of the free function?
+This is a good change, but it would be better to extract the logic for adding shape validations into a separate function.
+`transfer` is a boolean value, but the code compares it to a string.
+`google.cloud.bigquery.Dataset` is not a valid asset type. It should be `google.bigquery.Dataset`
+Please disable that rule elsewhere. It's not allowed in this file.
+I'm not sure whether the break of "unmanaged" over two lines is intentional. If it is, you might want to add a comment to make it clear that it's intentional.
+space between `:` and `false`
+This looks like a good improvement.
+These are all identical except for the input string and the expected output.  Why not create a table-driven test function?
+We don't need the warning here, as it's already logged in the `CrossOriginFilter` itself.
+`report.files` is a `dict`, so it might be better to use `get` instead of assuming the key exists.
+I'm not sure if the `owner` parameter is necessary for `create_package` since it's already part of `package`.
+This is a bit odd, since the error is still an error, just not a fatal one. I would suggest keeping it as an error.
+The variable `oldKeys` is never used and could be removed.
+I think the `diff.WithIgnoreAddingMapKeys()` is unneeded here, as the diff process wouldn't care about the keys in the maps.
+I think you should rename `Body` to `Data` to match the other responses.
+This seems fine at first glance but doesn't this introduce a nasty problem in the cases where the allocation size is 0? The `cudaMalloc` call will succeed and return a non-NULL pointer in that case, even though the returned pointer is not usable.
+`forkRunID` should be set in the request, not `""`
+The `lazy` value should set `config->xwayland_lazy` to `true` but it's currently being set to `false`, as is `config->xwayland`.
+I would add a comment before the `<-errCh` as to why we're doing that.
+The `do_restore_snapshot` and `do_take_snapshot` methods don't return anything, but the `do_stop` method does return `result`. It would be better to make all these methods to return something or nothing.
+This looks like some sort of Chrome flag. Maybe you could split it into its own helper method to make it easier to read?
+This test does not currently do anything, since there's no actual variation for "v1".
+This is a great use of string interpolation!
+If homedir.Dir() returns an error, it will be silently ignored.
+The name of the variable is too long.
+This change is wrong, `ResourceType` and `ApiVersion` are attributes of the resource definition, not properties.
+I think I'd keep it as `ebpf::BPF* bpf = new ebpf::BPF();` or `ebpf::BPF* bpf; bpf = new ebpf::BPF();` if you want to initialize the pointer after declaring it.
+I think the change to `Current` is a good one.
+it should be `transporttest.NewContextMatcher(t, ctx)` instead of `transporttest.NewContextMatcher(t, )`
+I like it. Do you want to include this change in this PR?
+W0611 Unused import luigi.task (imported from luigi)
+The severity of this message should be `Info`
+This looks like a Python2 script. Is it really necessary to have print_function?
+Sure, here is the change you requested:
+It's unfortunate that we have to use a macro here. :(
+The `reload()` function immediately invokes itself. Is that intentional?
+This is a duplicated include.
+1) why is the install command so complicated 2) this might be a red herring but why is there a ca-certificates dependency?
+I think this is not so good since the previous list is not sorted.
+The `maxHealth` variable is unused so let's get rid of it
+This was a good change.
+This is a good way to test this function.
+It's not clear why this code is being added to the file without any context.
+the original error message is much better here as it suggests the user to run a command that might fix the issue
+We should rescue `Bolt::Error` before `Puppet::DataBinding::LookupError` since the former is a superclass of the latter.
+This is a Go function with an explicitly set Go linkname. It's not clear to me that this belongs in this file, which is for generating C code. It may make more sense to move this function to a file in the `internal/bytealg` package.
+Why does the constructor take in an `ActivitySourceAdapter` parameter but the implementation uses a `DiagnosticSourceSubscriber`?
+can we use `Log()` instead of `Fatal()` here?
+it's not clear what `domain` is, since linux sockaddr is always 16 bytes in size.
+We should be throwing `IllegalArgumentException` instead of `Exception`.
+Both `get_screenshot_as_file` and `save_screenshot` are named very similarly, but their functionality is different. It'd be best to rename one of them for clarity.
+you should shadow it in the loop because it's a pointer and you dont want to change the value in opts.Accounts
+This is a bit ambiguous, do you want to add the `ISpanDecorator` interface to the `Datadog.Trace.ClrProfiler.Interfaces` namespace or do you want to create a new namespace `Datadog.Trace.Interfaces`?
+nextEpoch flag is not used anywhere in the code
+Can we remove the `// nolint` here? This looks like a nice place for a `retryutils.UntilTimeout` call.
+This is not related to this change
+This should be a comment, not a const.
+Is this line necessary? Can't we just call `ParseTemplates` on the path directly?
+this looks like a set of selenium imports. can you remove any that are not needed?
+What is the new header needed for?
+This code is missing an `else` clause.
+This is a breaking change, please open a new PR for it.
+`mdamFlag` and `skipRowsToPreventHalloween` are set to their default values, so this code can be simplified to:
+These are the methods we've been waiting for!
+This is a minor nit, but we should use one of the standard Java ways to pass a null value for the fileProjection. For instance, we could use `Optional.empty()` or `null`.
+Nit: would it make sense to log the result?
+This is not a priority.
+Why is snprintf being used here? It's not necessary for this case, and it's less portable than sprintf.
+the variable names here are not very clear - `self.window_state_before_fullscreen` and `self.config_state_before_fullscreen`?
+This comment should  be in a better place.
+`private static final String TAG = "AntennaPodSharedPreferences";` should be moved outside of the class definition.
+Also, throwing when Activity.Current is null is a bit too strict. We should just log a warning that it's null, and maybe check the value for null before doing the log.
+This is localizable, so you should wrap it in a call to LocalizableElement.
+this _looks_ like a rename and should be made one.
+I think we should remove the dataDir and chdir from here and move it to the control config, which is the only place it's used.
+There's a missing leading forward slash in the `prime_path` link.
+I'm pretty sure that this will always fail. Can't you just use the `retry` module?
+`entry.getValue().get(0).getCategoryIcon()` is not null safe, and might throw an exception if the list is empty.
+`SecretARN` is now optional, but it has a default value, so I'm not sure what this `// +optional` is doing.  If this is not optional, remove the `// +optional`, if it is optional, remove the default.
+This removes the unmarshal of the request and the marshal of the response from the handler.
+inline comment says "unix://" is required, but the code is setting "tcp://"
+This `except` block is no longer needed after the change in the `try` block.
+The `use strict` is not in the right place. It needs to be before all other code.
+The code is hard to read. Can you refactor it to make it more readable?
+Why not use `time.Time` for `Since` and `Until`?
+i don't think this is the best way to do it, it will make it hard to pass the flag when using the binary.
+Please add a space after the comma.
+`doAnalysis` returns `NamedList`, but subclasses are returning more specific types, like `NamedList<String>`.
+Is there a better way to write this?
+The name of the default for `TaskCPUMemLimit` is misleading because the default value is not enabled.
+This is a good fix but the description of the change could be improved.
+This is not a valid Go comment because it doesn't start with a capital letter.
+why not just return if engineTools is null before the if block? this would remove the need for the empty block
+Line is too long. [81/80]
+Remove the extra space in the line `public static abstract class ContextListener implements ServletContextListener {`
+I would suggest extracting the size prefix and doing the slice in one go, like this:
+another option would be to use a function for the flags and pass the pool as a parameter
+You should delete `tmpStream` only if it was created successfully, i.e. `tmpStream != nullptr`.
+The column `funder_id` is added without a foreign key. I would recommend adding a foreign key to ensure data integrity and to enforce the relationship between the `plans` and `funders` tables.
+It's not a good idea to couple the rate limiter with the RPS config. The rate limiter should be configured separately.
+This change is redundant, since the `signedUserName` parameter is not used in the function.
+The `#include "src/externals/service_service.h"` is not necessary and should be removed.
+should be `timeout <= 0` - will fix during merge.
+The new generic installer tests are useful but it looks like they are pretty broken at the moment. For example, the `install arbitrary msi via url` test is failing on the `hosts.each` loop because `generic_install_msi_on` doesn't exist.
+Please use `#pragma omp parallel` instead of `omp_set_num_teams` and `#pragma omp parallel for` for loops.
+I'd name the field `genesisProto` and remove the `init` prefix, but otherwise good.
+This makes sense, `keyDownUp` should trigger `onCellMouseDown` and `onCellMouseUp` events, which should trigger selection changes.
+This change does not appear to be needed. Will undo.
+This should be && instead of ||
+This is a marker trait and you can't extend from a marker trait. The only thing you can do with a marker trait is to query if a type implements it.
+This is super noisy. Let's only log on error conditions.
+The code does not respect the 80 characters per line limit. [101/80]
+Removes a `sys.modules.pop("__main__")` that was accidentally left behind in a 3.2 test.
+This check seems unnecessary. We can just check if the length of filtered roles is > 0.
+This is a great addition. It will help us to debug errors more easily.
+This was a comment before but it was not formatted as a comment.
+looks good to me, but I would recommend to add a comment explaining what the `alias` function is doing and why it is needed
+This method is annotated with `@SuppressWarnings("unchecked")`, which is a code smell. Would be good to get rid of it.
+`_frameStreams` is not initialized anywhere.
+Is the `create_no_window` needed in the `__init__`? It should be set in the `start` method, no?
+This is a no-op. The return statements are the same, and the tap block is effectively a no-op since clear_changes is already called at the end of the method.
+I'd suggest making `Frameworks` a set, and `AdditionalDependencies` a dictionary with the framework as the key. This will allow you to do some nice checks against it.
+This should be `[MaybeNullWhen(false)]` since the key exists if this method is called.
+I think this is a duplicate of the enum
+It should be `import archerCfn "github.com/aws/amazon-ecs-cli-v2/internal/pkg/deploy/cloudformation"`. The replacement code has the wrong path.
+@ElmerLastdrager In the line `if (actualChecksumIn != Long.reverseBytes(checksum))` you are using the `Long.reverseBytes` method, that is only available in Java8 or higher, this code needs to be ported to Java7, so it needs to be rewritten to be compatible with Java7.
+This is a weird change, because it is not in line with the rest of the API.
+This if statement can be written without braces.
+TraceparentHeader should be all lowercase to match the supported http headers.
+This is a good change, but the return value can be nil for `client` which is not allowed.
+This should be marked as a unit test.
+If we add this, we should probably also add a check for PermissionError
+This code would fail if the file is a symlink to a directory.
+I don't think we need to add this one. Python 2 is reaching its end of life and we can safely assume that most users will be on Python 3.
+Nit: this constant can be simplified to `public static final String UTF_8 = StandardCharsets.UTF_8.name();`.
+I think you should move action to the first parameter of the `from_exception` method call.
+What is the purpose of `addressOffset` array?
+This can be written as a one-liner: `return context.measureText(text).width`
+It seems that the code would be much easier to read if you swapped the order of the `if` statements to:
+The second argument is now `Keccak stateRoot`. What is that?
+I'd prefer to specify this in the argument names, like `return_code: 42`
+Why do you add `APICalls` in the `JetStreamStats`? It seems unrelated.
+This change introduces a backwards compatible change to flux_kvs_txn_symlink. This is not allowed by the coding standards.
+A `func` can return multiple values. Should use that instead of the `Data` map.
+`import httplib`
+this change is not needed.
+The UpdateSpan call is unnecessary. The span is already updated by the exception handler.
+maybe use the actual pod phase names?
+Why is `shlex.split` used with `posix='win' not in sys.platform`?
+The variable `count` is declared but never used.
+In this snippet, the name of the newly added function is wrong. It should be `CleanFpInfoAttr` instead of `_CleanFpInfoAttr_`.
+I think we should remove this, since it is a hack that doesn't really help the user and it also makes the code harder to read.
+The only 2 cases are default or extension, why not put them in a `switch`?
+Separate every 3 digits in the integer portion of a number with underscores(_).
+Literal types should be handled consistently - either all with `JavaTokenKinds` like the first two or all with the primitive type names like the last two.
+`Task.Delay` is an async method. It should be called with `await` like this: `await Task.Delay(TimeSpan.FromSeconds(1))`.
+The --review-status flag is not supported in the version of the tool that we are using. We should remove it or update the tests to use a newer version of the tool.
+Please remove the empty line between the two `import` statements.
+Inconsistent indentation here (and in other places below, as well).
+Yeah, that's a better name.
+Perhaps use a more descriptive name than "expected_error_message". Also, there is no need to define the variable as a string, it is already a string.
+There is a minor issue with the `hashret` function, currently, it is using `self` variable to get the `seq` attribute, which is not correct as the function is meant to be used with the `Packet` class, not its subclasses.
+The comments are not tied to the code.
+you can also use the layer_param_ directly without the need of making a copy of it
+These are good changes. It would be even better if you could add a comment explaining why you are changing the log level from Info to Warning.
+This change makes sense.
+I don't think we should add a `codeGenVersion` method to the `Cluster` interface. The version is already available in the `Cluster` object that is passed to the `SnippetSetRunner`.
+It's hard to see what's going on when there's so many nested ternary operators. I would recommend extracting the logic to a helper function and moving the JSX to a dedicated component.
+This is a great change, I'm glad you did it. It makes the code much more readable and maintainable.
+This diff is a bit weird: the second line adds `isFocus=True`, but the second line deletes `isCaret=False`. These two options seem contradictory. Should it be `isFocus=True, isCaret=False` instead?
+`--recursive` is non-standard and should be changed to `-r`.
+The analytics snippet should be loaded before the signed_in_analytics partial is rendered.
+The `key` is added to the `__init__` function to provide a unique identifier for each config type. This is necessary because the `ConfigType` object is used as a key in a dictionary, and the dictionary key must be unique.
+I added this back since it's live in prod. Will you be reverting the change to remove it?
+This is only needed for the error case where we need to push a result code.
+This code should be moved to `scapy.utils` module.
+nitpick, it would be more readable to group the `ContextCompat.getColor` calls:
+s/len(cnb[0])/int64(len(cnb[0]))/
+The change results in a more complicated and less readable function.
+The comment about NetStandard20 is good, but it might be better to simply use the right type for the current target framework.
+What's the reason for not using bytes.Buffer?
+Is there a way to make this more readable without losing performance? I feel like adding some newlines there would improve readability.
+The test class is missing unit tests.
+use `if (dataManifests == null) dataManifests = ...`
+You can also use `delegate(to: :purchaseable) { includes_mentor? }` to delegate a single method.
+Line exceeds 100 characters. [101/100]
+@pinzart I'm not sure why we are changing the type of `Stacks` and `CodeFlows` here. In both cases we are going from a more generic type to a more specific type. What's the reason for this?
+This is a list of packages imported by the file, not a list of dependencies.
+There are some `#ifdef __ANDROID__` blocks in this file that should probably be updated to `#ifndef __ANDROID__`
+These look like new fields to me, but they are not in the `pkg/apis/metrics/v1alpha1/metrics.go` file. Can you point out the change that declares these?
+Nit: the `finest` level is not that useful, since it's not visible by default.
+`Error` and `Fatal` are the same, right?
+(style) Add `extern` to function prototypes in header files.
+The second `add` should be `delete`
+This is a bit too verbose. Is there some reason that _blockTree.Head?.Header == _blockTree.Genesis cannot be _blockTree.Head.IsGenesis?
+This is inline with the convention but you can also move it to the top of the file, before the imports.
+Is it possible to have a situation where `exit_code` is not 1?
+You can remove the parentheses around async arrow function.
+@jba the `once` is already waited in the `dial` function. Do we need to wait on it again here?
+This is a good example of how to abstract away the underlying data types. I like how you're using the `LITERAL_FIELD` to access the literal value of the leaf.
+Why use `getName` if you can just use `name`?
+What's the purpose of the `return Task.CompletedTask`?
+this code was not updated after the renaming of the class to OpenTelemetryExporterOptions, so it is now broken
+the password example seems to be using `out::message` which is not defined in the provided code.
+Why not use the RAII idiom here?
+This was an error, `master_certname` is what should be used in `q_puppetagent_server`.
+Where should we add ExecMetrics ?
+You can use {@link #setIeService} to manage the geckodriver process.
+it might be worth checking if the key is already in the list of trusted keys before adding it. while it's unlikely to happen in practice, it's possible that a single key is in the list of signing keys and also the issuer, in which case it would be added twice.
+This commit introduces a bug: when a predicate column is created with a non-null default, it is not added to the list of predicate columns. This means that the predicate will not be evaluated when the table is queried, and the results will be incorrect.
+`this.readPreference = resolveReadPreference(parent, options);` This line exists two times.
+This is a good change. But can you share why did you need to add a `StringArrayEqualityComparer` and a `ConcurrentDictionary`?
+Remove the extra asterisk in the `Internal dependencies` comment.
+I suggest adding all string fields here, e.g.
+This looks good to me.
+There is no need to define the `TEST_ARN` variable here. You can just use the string directly in the test function.
+The first `deliver` method will be deprecated. Please use `deliver_now` instead.
+There is also no point in pinning the `mock`, since the test is already run with a copy of it.
+This seems unnecessary. The `originalIcebergType` is the same as the `icebergType`, just without the nullability. Why not just store the nullability in the `nullabilityHolder` and use the `icebergType` for both?
+I'm not a fan of using prefix, it's too verbose and makes the code harder to read and maintain. Can you change this line :
+Why are we recreating the activity when home is pressed?
+The `set_exception` method is called twice. Is this intentional?
+It would be better to write 'Allow for unprotected (non EIP155 signed) transactions to be submitted via RPC (default: false)'.
+This should be `if isinstance(name, tuple) or name is None`.
+The `peerstore` dependency has been removed.
+`ZvolWorkers` is a number so it would normally be an integer type, not a string.
+Maybe use a constant for the base URL and just concat the path ?
+This code doesn't seem to handle cases where there are multiple error pages for a given status code. At the moment it will only set the last one.
+This code seems to be missing a closing brace.
+This change could potentially cause issues if the generator contains a version number that is not in the expected format.
+This import should be from the index.js not the src folder.
+This one is good to go
+I believe this will break in the case where the url has trailing whitespace
+Inconsistent spaces on the right side of the assignments for `self._commands`
+This is a good example of a well-written code. It's easy to read and understand, and it uses consistent formatting. The use of whitespace and indentation helps to make the code more readable, and the comments provide helpful information about what the code is doing.
+Why is the 'kJsonSchema' added here?
+Should probably add a comment next to `DefaultImage` to say what it is.
+I don't understand the need to introduce `mdDecryptionKeyGetter`. It seems to be a subset of `encryptionKeyGetter`, so why not just use that interface?
+I'd recommend changing the function signature for `LoadTeamPlusKeys` to avoid the need for 3 optional parameters:
+This is a good refactor, but I think it could be further improved to make it more readable. For example, you could introduce helper methods to encapsulate the creation of the indexers.
+The sender is now a link to the user's profile page.
+No need for the braces.
+Nit: This diff is a bit too large. It would be great to split it into smaller, more focused diffs.
+you should add 4 spaces before the '@pytest.mark.xfail' decorator to make the code readable
+`start_moto_server` and `start_elasticsearch_service` should be in a different module, like `es_starter.py`
+If there are no addresses for `FLAGS_meta_server_addrs`, why not return a `Status::success()` instead of a `Status::failure()`.
+It's weird to blur the active element, I'd expect a focus instead.
+The `github.com/go-logr/logr` package is already imported as `log` in this file.
+`/azkaban-web` imports from `azkaban.utils.Props` are commented out. Should this be done for all of them?
+Seems like this is a good place to add comments to the code. You can add a comment above the list with a short explanation of the purpose of the list.
+`store` is not thread-safe...
+I suggest renaming `StatusCodeServerErrorCannotReadFinalizedTLF` to `StatusCodeServerErrorReadFinalizedTLFNotAllowed` for consistency with the other error codes.
+This change can be reverted since it consists only of import ordering.
+The condition is always true, making this an unconditional return.
+This is a good refactoring, making the code more readable and easier to follow.
+`FileAccess.ReadWrite` is not the default access mode. It should be `FileAccess.Read`.
+Why did we make _commit optional?
+The `LogEntryStructRef` and `BloomStructRef` types don't seem to be defined in the assembly.
+The allowedPostRequest is a bit confusing.  I would think that the if else should be the other way around.
+Can this be written as `<add>return dir.Fsync(ctx, req)`?
+This model needs to be added to the list of models that are excluded from validation in the ModelValidator class in the core.
+Is there any reason to store original image size? The width and height of the image you event sends is the original size.
+I would make it explicit that `api_quota_configs` is a dict.
+@cdupuis, I'm a bit confused about this condition: `if (localConnection && localConnection.type == Blockly.OUTPUT_VALUE)`. In the case where the user is dragging a block to connect it, `localConnection` is always an output connection, right? So why do we need to check if it's an output connection?
+This is a breaking change.
+I think the if/else can be simplified using the if/elif/else syntax.
+It looks like `Local` is a path to a local git repo, not a local copy of a repo.
+The naming of the method is not very clear. Maybe changing it to something like `_apply_downsampling` would be more descriptive.
+This is not really the entry point, it is the first function that runs. The entry point is the main function.
+Consider moving `require 'deprecation'` to a location where it is only loaded if the version of Rails requires it.
+The padding prop is not valid for a component.
+Looks good! I would recommend adding a foreign key constraint on the `grant_id` column to ensure that it always references a valid `Grant` record. This will help maintain data integrity and prevent orphaned records.
+This change is not in master
+the `ConfigureAwait(false)` on `ExportBatchAsync` is unnecessary and potentially harmful.
+It seems like `fm.horizontalAdvance()` is the right thing to use here, since it takes into account any kerning that might be applied to the string.
+I wonder if it's correct to have a delay of 1 hour?
+The `controller` should not be null in this context. A null check is not needed.
+This looks like a bug. The new mode should be assigned to the mode, not created.
+This should be a helper function in `blockcache.go`?
+The port number should be PORT_DYNAMODB_BACKEND instead of PORT_DYNAMODB_BACKEND - 1.
+This is a good change, but `TestTransitionDependenciesResolved` is no longer a good name for the test.
+It's good to see that you have initialised the `dilation` argument of the `ConvNd` layer.
+This code has a bug. It assigns the same color to the secondary and tertiary slots.
+I suggest we throw an IllegalArgumentException if a method in the interface config is not found in the map. This will help catch errors early and will make it easier to debug.
+`groupSet`, `productCodes`, `ebsOptimized` should be in a separate line. The line can be too long and hard to read.
+you should be able to make this configurable as well. we are going to hit this again for things like including certain directories or excluding specific directories.
+enableScriptEngineLoadExternalResources shouldn't be false by default. I think the default should be true and change the javadoc to say that it is not recommended to set this to true in a production environment.
+It would be nice to have some documentation here explaining why we're setting the project ID to the value of the `GOOGLE_PROJECT_ID` environment variable and why we're checking for the existence of the `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
+The 'pygment' argument here is unused.
+Is this change intended? If so, could you explain why it's needed?
+The code was missing a closing parenthesis.
+`shardID` is already an integer, so you don't need to manually wrap it in an `Int32`.
+The `RegenerateCerts` function doesn't currently do anything.
+This code is not properly formatted. Please use the correct formatting for this language.
+This code is hard to understand. 1) What is the purpose of the lock here? 2) If the `lookupAccount` fails, it should return error instead of setting the `sys` to nil. 3) The `addSystemAccountExports` should be called outside of the lock. 4) The `resetCh` should be sent after the `addSystemAccountExports` is called.
+This should be switched to `getParameter` now that the parameter is a Promise.
+This check is redundant, because `len(types) > 0` will always be false when `len(data) == 0`.
+This change is not backwards compatible.  The new sizes are 10 times smaller than the old sizes.
+nit: change the argument to `serviceAccountFile` for consistency with other arguments.
+I'd prefer to keep the Job ID in the constructor, the job properties should be immutable
+This is a good change, but I think the info text can be improved. It's a bit long, and it doesn't really explain why you would want to disable the category manager. I would suggest something like:
+The added lines don't seem to fit the indentation level of the rest of the file.
+I would rename the class to `ShardSplittingTest` to avoid the collision with the other `ShardSplitTest` in `solr-test-framework`.
+`mochaResults` is a typo. It should be `mochaResult`
+Why is the `$value = $this->getFlattenedValue();` needed?
+`subdoom` is a typo, should be `subdom`.
+In the case of a mismatch, it would be helpful to log the headers from the response as well, as this may help developers track down the issue.
+`anonymous` should be declared as `final`, and `preInvocationAdvice` should be declared as `final` if it is not going to be set later.
+The comment "Add all keys into a master list" doesn't exactly match the code, which is adding keys into a "primary list".
+The prerequisites should be moved to the top of the file so it is easier to skim and find them.
+Shouldn't we use `sorted` to ensure the order?
+`currencyFormat` is not defined.
+`eslint-config-prettier` shouldn't be needed, as it's built into `plugin:prettier/recommended`.
+This doesn't seem like a valid change. The last test is checking for a string literal containing Chinese characters, which doesn't seem to be related to the previous tests.

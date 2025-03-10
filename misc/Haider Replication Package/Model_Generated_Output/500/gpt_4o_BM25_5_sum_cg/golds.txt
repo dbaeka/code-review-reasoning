@@ -1,0 +1,500 @@
+If there are no manifests, then entries should be `CloseableIterable.empty()`, not the manifest iterable. That doesn't need to be closeable.
+Didn't went with backwards compatibility since it's still in beta
+Is this actually a lint related change?
+I don't know if there are strict conventions about this, but I think the name of the warning should be the diagnosis, not the suggested course of action. In this case, that would mean changing the name of the warning to `interactive-exit` or something like that.
+what to do if some failed? just logging?
+It provides a type called Node which is a fully functional bee client. This package is where the dependencies are injected. It is not just a glue-code, it is concept of node.
+Same here, can we presume if `privacyParameters` is set we need goQuorum handling? Or is there a goQuorum sub option in `privacyParametes`?
+In case the method is `void`, there won't be any children and `getChild(0)` throws. We'll need to check with `isVoid()` for that case. I'll update this when I merge.
+I'd rephrase it as `Simplify chained comparison between the operands`.
+can you replace the tabs with 2 spaces please to match the rest of the project?
+Please explain why a user would enable this (space savings), and the requirements for this option to be safe.
+I believe it's misleading name for the condition. I prefer "element_to_be_disable" We can have a condition, when element is enabled but we can't click it, because another element overlays above it. So, If we use "unclickable" we might mislead people, who use that condition to verify if element can be clicked
+Should this be called something that indicates its function, rather than its content? validationMessagePrefix, or similar?
+This winds up flipping the desired values. Looks like I gave you a bum steer @kevpl
+are you sure you can read version by this artifactid?
+To minimize the possibility of regret, perhaps we name this `ZapLogger`.
+Since the IdentifierScheme's don't change without us making additional code changes, perhaps this should be added as a constant as we previously did with Perms?
+You can most likely remove that (and the try/finally) too, as we shouldn't have any flickering from removing/inserting tabs anymore now.
+I looks like we can make `allowOptionalMappings` non-optional since we have another overload without it. (I thought this generated a compiler warning, but maybe it's just R#)
+I think if we can provide a more convenient method to add configs . e.g. public static void addConfig(String k, Object v)
+Minor detail, but let's use the interpolated template string syntax instead.
+I think these can all be .name() to get the value we are looking for
+nit: a switch perhaps?
+can we remove this since `getDocValues` already returns an iterator? (we might need to do `T extends DocIdSetIterator` above)
+How often do we expect this to trigger? Should we maybe put it behind an if logger.Debug()?
+This now throws when running tests (maybe the move to java 11??). Do we want to keep it?
+As far as I can see you're not rollbacking transaction anywhere. This could potentially cause further issues(and very hard to debug ones) with not synchronized transactions between message handling. Is the transaction required in this place anyway? You seem only to be fetching data here. ack method is performing some updates so it makes sense
+We should probably use ctrl-enter if `tab` is given, just like in `follow_selected`?
+I think it will revert the change @antoninbas did on purpose 05eee251c9c53400277def576f92d614ca234898
+`stateDB := NewStateDBAdapter(sm, 0, hash.ZeroHash256, NotFixTopicCopyBugOption())`
+As mentioned below, I'm not sure why this is only allowing refs that are tagged with `*` at the start!
+Should this be using the `CUDA_SAFE_CALL` macro here?
+Type is redundant since it is inherited.
+Add explanations around these variables - what do they mean, how they should be configured, etc.
+1 trailing blank lines detected.
+Huh, this seems weird to me... Surely the suspenders render was called again in order to get the new `<div>Hello second 2</div>` output... Imma take a peak at these tests to understand what's going on
+Maybe a single quote would be compatible with airbnb style.
+This needs to be synchronous for the timeout to work.
+nit: probably swap the if condition and `if/else` and check `NETCOREAPP2_1` which looks more natural.
+This can be simplified somewhat to `pointer.Int32Ptr(0)`. But it is not necessary.
+the variable names are not entirely clear. "bucket" is essentially the regex that follows gcs naming pattern, right? if so, it should be changed to bucketregex. and then bucketregex, gsregex should be changed to something more specific to what pattern the regex is supposed to match.
+So we weren't able to hide the fact that the file wasn't pre-generated and had to introduce this "option" to detect that?
+Overall LGTM, one nit is that I think `partitionFields` here would be good to be renamed so that it's easy to tell it's just for collision detection. Also I wonder if we want to do this check for other transformations too (e.g. bucket, and record numBuckets in the string), so that we might be able to combine `fields` and `partitionFields` into potentially something like a LinkedHashMap?
+I feel like we do this in a lot of places should we move that out into its own PR?
+Does this fail validation if you now use the `upload` key instead of `source`?
+A small nit: This variable should start with a lower case letter.
+This shouldn't be required. What was going on here?
+need to fix the error message here
+Is the plan to rename this later?
+Setting this to `true` means that it will always get merged in. The way merging is done here is that if a value is its zero value (`false` for `bool`), the value is considered unchanged. In order for this to work, you'll need to change this to be a `*bool` type instead.
+I do not care much, but you could as well just return bool(focusObject and focusObject.isProtected) here and avoid the if check? I know, really trivial.
+Why is this needed here?
+Is this necessary?
+We don't store empty dictionary entries anymore: they bring no benefits, only trouble.
+I think its safe to remove this if we're removing `reIndex` outright. The description shows us that the test is "An example showing how to force a reindex of a collection"
+Didn't we have specific logic for handling slices vs structs?
+Is this required for tuple encoding? This is confusing.
+You imports are out of order
+You can use `http.MethodHead` here.
+Is there a reason why we need a special case for Email at this point? Is the idea that other methods can turn into Email even if it's not configured as a top-level option?
+Do we also need to validate `envName` flag then? `appName` and `envName` are used in `initLogsSvc` which are called by `svc logs` from within `Execute()`
+I think it would be better to have a separate configuration option for specifying which HDFS interaction layer to use instead of using the existing hadoop version option. I think there are still cases where things might have to rely on Hadoop version for other things, and overwriting that information with "snakebite" would make that difficult. The existing hadoop version option could still be used to distinguish the different HDFS CLI flavours.
+Why this to be a public function?
+Dashboard stories also need to have the default padding.
+again: it is a bad practice to have some global parameters with such common names for unit test purpose.
+This is Very Meh . We want to get rid of `role_data`, and it's an internal field.
+this seems unrelated to the rest of the PR, although related to the original report
+How about a `app/views/layouts/pages.html.erb` layout that contains the HTML head, body, wrappers and yield's the `new-topics` template into it? I think we might be able to delete the `app/controllers/pages_controller.rb` file at that point.
+unrelated but just changing for consistency with code below it
+3.6 seconds? what does it stand for?
+Could you please elaborate the reason for not using `gkc_summary` like the values above? I ask this, because I assume what we want to collect is a histogram of event loop latency, and we use `gkc_summary` for collecting histograms.
+Maybe, `import` would be a better name.
+@mhils didn't we try to get rid of these (now empty) wrapper classes?
+Is there any reason not to have the `static` modifier for the logger? _(that would be in keeping with the reference being uppercase)_
+Is there a scenario were we want to get an arbitrary set of blobs that don't share a common root?
+Does this still need to be a partial? is the intention down the line to move back towards a conditionally different title?
+concatHosts may be a better func name to explain this?
+Should this be `const`?
+This is the `GET % HTTP/1.1` scenario right?
+Please revert this file.
+> i#4670 signl-interrupted special ibl xfer frag: Unlink if signal pending nit: This looks like one of many commits with the text before the colon. nit: On the long side: 56 or 60 chars is what some views show Spelling error.
+guessing this method could/should close it but I didn't see where it was getting called.
+Can we deuglify this?
+Should we remove this entirely now then?
+I just updated a number of sites using older versions of Roots onto WP 3.6 and this little function change was required. Multiple search bars were displaying when I used the search widget in a widgetized sidebar. Updated the roots_get_search_form as seen in this change resolved it for me!
+Having to write this util makes me think that maybe we should have kept the csv_input stuff. I don't know.
+same nit here: maybe word as - "disables validation of the temporal cluster's server certificate"
+This rule is quite specific to qbft and so I don't think it should be part of the common rules. Would rather the common bft code didn't know anything about contract based voting/validator governance.
+@cretz Just a thought: what if another renewal process updates the certificate between the beginning of this for loop (above on line 67) and actually calling RenewCert? Even though we have a read lock on the certCache, something else could have renewed it by now, and finished, which would cause this certificate to be renewed twice. Could you double-check my thinking here and see if that's a plausible 'race' condition? I wonder if the lock needs to be put over this whole function. (It's still early here; I could be wrong...)
+Would it make sense to include this file via composer files-autoloading instead?
+Annotations in this hunk should follow PhpDoc style (above the occurrence, type first)
+We generally do this via tags in the Rakefile, not separate environment variables.
+Use const for "user", same as below
+I'm very curious about why using buffered-channel. Is there something wrong to use an unbuffered channel with zero capacity?
+Make the flag derived default available in the readiness controller
+I would rather find the code that inverts the logic and remove that.
+move this to below `antrea.io` import section
+please update the year. it can be setup in intellij template.
+Why should we move it into `bootstrap.go` file?
+Please give a more descriptive name and add a command to explain what it does.
+Explain that this must match the `CommonName` of the first (or is it last?) certificate in the chain, where the first certificate is the chain root CA and the last certificate is the leaf certificate.
+Why do we need to pull bluebird in here?
+Not sure if this is what we really need, we might need to adjust this constant after more extensive benchmarking.
+"and returns that" -- it looks like this method has no return value.
+Add `browser` import
+This file should probably not be touched as the formatting of the string seems to be a test in itself ?
+should users also do a triple-flush?
+@mprobst Looks like the `isStdLib` function has been removed in the latest Python plugin. Any thoughts on how to handle this? The new version doesn't seem to have any relevant alternatives.
+`attachGamepadScript` above can also be placed inside.
+Personally I wish we didn't have a proto for every single little thing we do. RequestShardAction with an enum for the action type would be a lot cleaner imo, but I'm pretty sure that ship has sailed :) Just kvetching.
+I'm not sure about this, please check the usages. It's only used currently to reverse it, maybe we should eliminate this method completely instead.
+Line length (PEP8, should be 80 chars max)
+This seems like a common enough pattern to offer an equivalent wrapper in `ot-fs-util.c`, no?
+Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+we don't mention `last_modified` here?
+I don't think you should be changing the dag unilaterally at parse time. If cores isn't specified, then it isn't specified.
+nit: This should perhaps be called `waitForAndReportSelectionChange`, as it affects braille as well, not just speech.
+can we move the code before deleteNodeFromDB ? this way even if the node crashes after remove config we can still re-run decommission again ?
+Let's call this `share` and not `upload` - the user wants to share their flows, uploading is just the implementation of that. :)
+maybe prefix these with `appsec_` for consistency?
+Do we actually use Include anywhere yet or is this just for completion?
+We should remove this
+Better remove this dependency altogether
+Hmm should we clean up container resources before task resources here? or the order does not really matter here?
+Is there a reason why this is change is in the same commit?
+Add a GetSerialPortOutput method to Instance that way you don't need to access the client, also it makes the call cleaner as you don't have the odd i.Client and path.Base(i.Project), path.Base(i.Zone)
+Much simpler than a weird and confusing ``convolve`` call!
+@kevinansfield Would be cool if you can take a   if this is the best way to add `subscriptions` info on member model. This uses the transform + separate model definition way which seemed to be the right way from other references in Admin  
+nit: move this to the group below.
+Is new model format backward compatible with current v2?
+nit: error starts with capital letter
+Ideally, we'd fold the schema into an expanded system_meta, but this is a good first step.
+Could you add a type hint? `percentiles: Optional[List[float]] = None`
+Are there tests for this? What happens when you get to limit?
+Nit: `Headless` is one word, not two, and so doesn't need camelcasing in this way.
+I'm not 100% sure, but I think this should be `explorable`. If not, I think `explorable` can be removed entirely.
+`options['binary'] = WebDriver::Chrome.path` if set?
+I would have expected the Ready method to need to change to be a `<-chan Result` instead of a `<-chan map[string]Result`. The difference being that now the Ready channel can produce more than one set of results. In fact the name Ready is inaccurate now since its not about the query being ready but just a mechanism to deliver results. If this should be a follow up PR that is fine, lets create an issue for it.
+Can we add an assertion here the policy actually contains both statements created above?
+I think we might prefer generalizing the interface rather than creating an exception. Current design of `h2o_next_token` assumes the input to be a comma-separated list, and allows the caller to specify a different separator when parsing a nested list. As I understand, what we are trying to attain in this PR is to have a way of parsing a flat list of semicolon-separated list. Assuming that is the case, I think it would be better to change the API of the function to accept two separators (i.e. inner and outer), where for our existing use-cases `outer` would be `,`.
+This would return a tuple of two dictionaries. You need to combine them and return a dictionary
+Shouldn't line 313 be public \<T\> SettableGauge\<T\> **settable**Gauge(String name) { ? It would also be good to call it a few times and with differnet types (Long, Integer, String) in the test as well.
+Can you add an `else:` case to handle an invalid length? That will prevent weird errors.
+I think this is the most elegant way to allow us to still fail on `I`.
+Shouldn't this be something like `rootmountmode` to fit the pattern of the other fields' serialized representations?
+Yes, not much we can do here.
+Change to `DisableHTTPGit`
+Since it's a one-off, worth putting an info log before and after.
+nit: not your problem - but I wonder if this should have been a "ConstantResponseRpc" - which takes a name and a value .... maybe a more reusable concept.
+Yes, this is needed here. This is a builtin user who just reset their password.
+we can just use read env here, pretty sure
+Why does this become blocking for the CPU path? Shouldn't it remain independent of the GPU path?
+if funder_is is not blank (L375) there is not need to check if org_id is not blank (L379) since you will never enter in the if (L374).
+can we delete this file altogether?
+I missed the $preserve_keys=true case when adding this to Phan. For psalm, two separate signatures may make sense
+Please use the same (plural) name for the new component since it renders multiple notifications.
+@akarve this breaks error catching logic on the front end, I'll fix this. That's why I prefer to use some machine-friendly error codes that won't change frequently.
+This assertion should use the actual expanded string, so that it is clear what the message produced looks like. Right now one has to run the code to determine what the message is.
+That is way too generic a name.
+can't this just be left undefined/null?
+Please also indent the new response line as was done to the existing line above.
+This is not really needed, the line added in `GridNodeConfiguration.java` is what really fixes the `remoteHost` regression.
+This should still be guarded with an `#ifdef` since the DataMan code will only be supported for shared lib builds.
+I don't see how removing "open file bucket" helps your purpose.
+same here, CryptoSm2 won't be changed once command is compiled
+I think there's an `approval_for`
+`whether this resource is paused` to `whether this resource has been paused` ? To keep same doc style.
+Should be podiochaos?
+Fixed the test; @strib want to validate that this is okay? Seems to be consistent new GC behavior.
+what mypy warning does this address? I'm confused by this change.
+I don't think this is required.
+maybe call it `fromRetryTaskV2Failure`
+AWS Identity and Access Management (IAM)
+Can you throw an exception if width or height are both null
+We expect to use Bolt::CommandResult for scripts as well?
+Changing the default value for isClosed from TRUE to FALSE can have other repercussions. We might miss throwing error. Can you please confirm this change.
+I'm honestly scared because act is now a hard requirement for useEffect which it wasn't before... This could break some tests :(
+In my point we have to check conversion with specific (non-ASCII) characters in unicode string.
+Will the above call to cStorPoolAddEventHandler() get executed in the same thread as this line?
+This is using a different lang key, we should switch it to using the new key and remove the old key if it is no longer used.
+This is small braking change: there is no way to clear description any more. If value is empty string, description will not be updated at all. It will affect existing Thrift endpoints also.
+Need to ensure this is set to TRU for LOB datatype access too not just for hive .
+The changes below here can also be undone.
+Use " List<String>" instead of ArrayList<String> in declaration.
+Same thing with the OtlpExporter
+I don't think we need this check. Instead `Entries.merge` should check that its argument is correctly sorted (in addition to the existing pre/post check on the method receiver).
+This is never set anywhere in the `cli/gen-api` folder. Should it be?
+wouldn't it be simpler to just add `or transfer` here? That way the more complicated set of conditionals down below don't have to get more clauses.
+Please re-run PYTHONPATH=. python tests/services/inventory/update_cai_dumps.py following the instructions at the top of this file to ensure the test files have the correct CAI asset type.
+I don't think we should have file-wide exceptions for this rule, let's annotate the individual instances.
+Hmm, I'm not sure this is exactly what we want to get across. The behavior of leaving both values unset allowing the entire config to be managed is what is indeed deprecated. It's just that not the entire field is deprecated, just that one behavior.
+SmartStoreInspectorTest was throwing a NPE here
+Same here. Should this be pipeline YAML file? Like `MarshalPipelineManifest`
+I believe that all the changes in this file are not valid for v1.2 of the Avalon toolkit.
+Because the default value of allowedOrigins is * (all origins), so it isn't necessary to set again at all.
+Couldn't we use type hints to express this?
+An alternative to setting format to the default in Package.__init__ would be to set it in create_package. I think we can assume all packages are created by create_package, but not necessarily by build_package.
+These changes to the resource helpers have some more far-reaching implications as they also affect calls made in hive-operator, I believe. It's probably OK still, though. Ideally, the resource helper would not be the one doing the logging, since it cannot know the severity, but that is well beyond something that we should tackle for this PR. I would rather have the hive-operator log warnings than have the syncsetinstance controller log errors.
+Do we need to add `theme` here?
+We don't need this option because plan-preview is comparing between 2 commits, not using the live state.
+rename -> info ?
+this call doesn't work doesn't? I mean there doesn't seem to be an 2 argument allocate overload. Maybe arg_logical_size should just be defaulted to the arg_alloc_size thing. Or we should just report out physical allocation size instead of logical.
+If there any other tests, I would make it optional there also.
+I don't think this should enable xwayland, because it's convenient to toggle xwayland just by setting `xwayland` to `false`
+This looks like you're not collecting everything from the error channel.
+I don't think that this belongs in the host code. A host is pretty much unaware of what hypervisor is running it and I don't want them to be so coupled to their hypervisor.
+It seems that NetworkService is behind a feature flag because it's still experimental. If we see new issues, we should look at flipping this back off.
+Per our style guide, I don't think we indent `private` keyword. Would you mind fixing that?
+interpolation here was causing the translation to not get picked up
+This function does not need to be public
+Could you please use `camelCase` in the property name to follow the naming convention used in the rest of the properties?
+Why not just look for the "type" property instead of creating a ResourceType property?
+Why not `ebpf::BPF bpf;`? Assuming that the instance is not huge, I do not think there is a good reason to use a pointer when it can be retained as a value.
+The other way around Current can be null.
+Might be easier to just do `handler{Handler: rpcHandler}` since zero-value of `Deps` is now valid.
+Probably change "ovs" to "OVS".
+It seems like you accidentally pulled some unrelated changes to util_test into this.
+why are we turning this one into a Warning?
+Add a newline. We group by 1: standard library, 2: 3rd party library, 3: application library
+Same thing here, I think the proper fix is elsewhere.
+I would expect this to be named *get* not *set*: it's a query; it's not setting some persistent state.
+Would this work, as a one liner? `setTimeout(window.location.reload, 5000);`
+Don't use relative paths. src directory is already on the include search path
+@StrikerRUS what if we just removed build numbers and did `r-pkgdown=1.3.0`? Won't we have to fix this again if the RTD build machines change?
+Code style issue: `if` body is not wrapped in braces.
+This will only fix client side (so showing it in-game) server still gonna hold invalid values I guess?
+This is only used for headers and therefore isn't used.
+Consider faking the TestClient's GetProject/GetZone/GetMachine methods.
+Is the `codecs.register(lambda name: None)` gracefully handled by codecs? The lambda is expected to return a tuple of functions (encoder, decoder, stream_reader, stream_writer) (or a CodecInfo object), according to the docs. I've only checked python's built-in help, though.
+stylistic nitpick: I _feel_ like we've largely shown errors like this as "error: " vs. "error=". IMO colon/space reads better.
+It'd be nice if we also caught `Unknown variable $trusted / $server_facts / $settings::` here - while I highly doubt anyone is using them (and if they are they're surely misusing them) it'd be crazy-making to have a working plan suddenly start failing with no clue as to why.
+This fails on Go 1.11 because `indexByte` is already defined in strings_go111.go. I would suggest simply renaming one of the two, for example you could rename the other one to `strings_indexByte` (that will be one of the things we'll drop when we drop Go 1.11 support so it's better to make that one look ugly instead of the function that we will likely keep for a longer time).
+I initially thought (inccoreclty) this is a breaking change! The public api analyzer is a gift!
+Leave a TODO message to say we will fix the log level in the future, once committing the block and the state become a transaction
+Do we need `domain` and `so_reuseport` now that we open new sockets immediately after calling `add_listener`?
+why did you took `Exception` out? Is this method only throwing runtime exceptions?
+This needs to be just return self.get_screenshot_as_file(filename)
+Would want @matthiashanel to have a look since if I recall he had to add the shallowCopy() to fix some bugs during reload. That being said, since I believe the $G account cannot referenced in configurations, this should not be a problem, but Matthias has looked at this in more details in the past.
+(Probably repeating myself) Instead of `Datadog.Trace.Interfaces`, should we move this and several other files into a `Datadog.Trace.Decorators` namespace instead?
+`epochNum` is a global variable (from `gochecknoglobals`)
+I wonder what does this `// nolint` ignore? And what are the standards that you choose which error to fix and which to ignore?
+nice touch since Google likes to change things every now and then.
+Wow, did it literally mean the retention days is a huge number?
+Intended to be checked in?
+And again. The reason it's bad is that if someone uses a JDK not produced by Oracle they won't have this class.
+The naming of the include file appears to be unlucky.
+I'm not sure I agree that this should take priority over "Loading".
+it will be better if you can provide some examples
+Partitions is misspelled 8 times in this commit, might make sense to fix the spelling for all of those.
+Can we have the same argument order as `getUploadedFlowFile`?
+The purpose of this was to allow pushing filters into the manifest files if we ever use a format other than Parquet. I think overall this is a good change because we can add it back later. Just wanted to note why the unused argument was there.
+Is this a testing debug statement?
+Shouldn't need this-> here.
+this one bothers me. There are many places where this one is written to for an error message and just a single callsite is changed.
+If you really want to rename this, you'll also need to adjust the name in `__init__` and in other places it's used (`browser/commands.py`).
+Changing the default value may cause BC-breaking. Suggest changing this value in config.
+Please don't touch unrelated files to keep the git history clean
+Probably a good optimization to have this, but I don't think it's strictly required. For "legacy" Activity flows we pass them through an ActivitySource for sampling. So the logic below should also catch these?
+This is probably more digits than needed - perhaps rename OneOverK0 to IonMobility instead
+Minor unrelated fix that snuck in.
+At some point we need to condense down and refactor our "configs" as we have too many in too many places and we're starting to get more illegible code. No change necessary but calling out for future reference.
+I like the word "give" here. Feels like I'm giving a gift to my team.
+Pretty sure the single quotes here should be double quotes, single quotes are not expanded by the shell.
+Is it possible that the shortcuts list is empty?
+I'm wondering if we need to add some type of validation here that the SecretCount != 0... Or do we think it would be valid to have a SecretCount of 0?
+we can drop this and use the returned body above, right?
+if the user specifies a url scheme on the cli this is going to cause problems, no?
+It's very error-prone to have so large `try` clause with such non-specific exceptions handled. Consider rewriting it with either of these: 1. Check that expected columns are present in `DataFrame` (`{'physical_key', 'logical_key', 'size'}.issubset(df.columns)`). 2. Normalizing output of query by using `COALESCE()` (or normalizing `DataFrame` itself?). Also it looks like a row with package metadata isn't used here, so might make sense to filter out it with `WHERE logical_key IS NOT MISSING`.
+For now, don't add "use strict" to any existing files. That's a separate project that we'll do later. (New files can use "use strict".)
+same question here as I have on the other file regarding doing this check here vs L112 vs not at all
+Maybe next time better to make separate PR?
+Great God, I have a question. This ".nebula_history" file is used to save history commands. Is there a file size limit? When the file is large, does it take a long time to start initialization (loadHistory)? How did you think about this? Thx.
+@jessieay Intentionally moving away from passing a param?
+I think best practice is to use `NamedList<Object>` as the return type, and `NamedList<?>` as the argument type in methods, but I can't find a reference for it right now.
+@strib I assumed this is what you meant; but let me know if I'm wrong!
+Why are we not implementing a BooleanDefaultFalse struct and replacing all of these config vars that default to false with that? Are "default false" config vars not affected by this bug?
+I would assign the key you're looking for into a variable first, and then use it in the comparisons.
+We have other tests to assert all properties of a condition are valid. It's enough to assert the condition is not nil here.
+Just asking: Should this happen, that null is passed? If this is the case I think we should think about passing an `Optional` object to the method.
+`expect(cancellation).to be_can_downgrade_instead` would be preferred :rainbow: :rainbow:
+everywhere else in the project, `LOGGER` is used
+When calling functions with keyword arguments: please provide the arguments as keyword arguments, not positional arguments.
+Looks like this could be `const` (I realize it wasn't like that before)?
+the `if` isn't necessary here; it's safe to call `delete` on `nullptr`
+Does this point out at a ROR funder id? If so, could we get rid of the `funder_name` field on the plan and just use the `name` of the funder with id `funder_id`?
+Conceptual question: why do history and matching need throttler at all? Shouldn't throttling to be handled on FE only?
+Call `userName` is good enough, `signedUserName` is narrowing the actual usage of this method.
+If tbb.h is included, there is no big sense to include other TBB headers.
+I would create a new method (NewStepWithDefaultTimeout?) for this purpose because timeout<=0 looks like a hidden logic
+@johnduarte I was curious about the case when the operating system was neither `osx` or `win`; in this case, the test will indeed pass, but nothing will have actually really been tested. Should this have a `skip_test` condition at the top?
+What about `VOLTA72`, `TURING75`, `AMPERE80` and `AMPERE86`? We only want to set the number of teams for these two architectures or for all the architectures newer than Maxwell?
+rename Round -> requestedRound and DbRound -> dbRound. we don't need to export the fields here, only the error struct.
+The autocomplete editor shouldn't change its own behavior, I assume that `autoWrapCol` and `autoWrapRow` options should be set to `false` in handsontable editor.
+Does this mean that `kinto_redis` is required to run tests?
+Flipped the logic here, was this actually wrong before?
+Can we name this `TableObject`? I'm not a big fan of the `I` prefix for interfaces and that's not really used in Go. Is it also possible to have the method be unexported? I don't know if that's possible. If it's not, this is good. If it is possible, I'd prefer this method to be unexported.
+this is redundant because it gets logged immediately on entering the handleContainerChange function
+I'd suggest using the actual MIME types here - so `text/plain` and `multipart/alternative` or does that cause problems with what postgres allows for enumeration names? If so then maybe just replace the slash with an underscore?
+Why do we do this check here? `sys.version_info` cannot be less than 3.3 as pylint does not support older versions. I think we should avoid popping `__main__` altogether.
+Can you put the output of this into data, and list which roles are invalid? Same thing with abstract role. I know that's not strictly part of this PR, but it'd make the messaging about this a bunch better.
+This is specifically for testing?
+what does it mean enabled?
+With this fix, I am not even sure we need to overwrite this function.
+I'd make this a `throw new NullPointerException("metric == null");` instead
+nit: Probably should renamed to `InitializeBody`
+I would rather no have this as a `kwarg` as it encourages "growth" which lead to an unweildy constructor in other classes. Let's add a method or property to take care of this instead as I think it's usage is going to be quite low.
+Layout/DotPosition: Place the . on the previous line, together with the method call receiver.
+Unfortunately I think the assumption of "empty" means the default dependency section is not correct. For a project.json file the default dependencies section is a shared section between all the different target frameworks and our TargetGroup being empty may map to many different target frameworks so they aren't really equated.
+How come this change was needed?
+what is the number thrown by Geth?
+We could get rid of this dependency being forced on clients by changing the `StackConfiguration` interface abstraction to deal with strings instead of `cloudformation.Parameters` and `cloudformation.Tags`, and internally to the `cloudformation` package translate the input strings into the `service/cloudformation` package specific values hiding that from consumers. I don't think that should be taken on as part of this PR, but I think we should consider doing it at some point.
+IMO we should instead fix the above call to do `long actualChecksumIn = Long.reverseBytes(in.readLong());` to get the actual checksum value? This way the below error message would also be correct?
+This change should also probably go into the corresponding method of the abstract By class?
+Shouldn't need this-> here.
+nit:s/Traceparent/traceparent/ - As per the spec header name is all lowercase.
+I want to write some type of test for this but there are not Getter methods to assert this value. I tried to extract the value via the stats that are exposed without luck.
+this is asserted as invalid input
+Could you simply add it to the previous clause ?
+Do you need this? Don't think you use it?
+The checks in this file are disabled by default since they are meant for Python 3 porting, and this one does not have to do with Python 3 porting at all.
+Shouldn't "source" be a noun? How about? -EXECUTION_SOURCE_USER -EXECUTION_SOURCE_SCHEDULE -EXECUTION_SOURCE_EVENT (because it's an event based trigger mechanism)
+Should this be optional, or default to 'action' as well?
+s/`terms text`/`terms's text`
+prefer changing the signature by adding params to the end, not the middle, I think.
+@MrTimscampi don't we want to remove this term entirely? Might as well do it now if that's the case.
+stateRoot or maybe ParentHeader would make more sense from API point of view?
+Nearly there! This should assert on the output, take the result of "start" and "finish" as an example :)
+This is ok to change since I believe that these were added just in main and not in public release.
+Not critical but "common" is not that helpful in the commit title. Maybe go with "libkvs/txn:" for this one?
+All the code that reference to this function must also be changed.
+Is this import needed?
+this feels weird
+Zach, is `UpdateSpan` of concern too? I see that it is called from `ExecuteAsyncInternal`.
+Shall we rename this status to CONTAINER_FAILED? ^^ cc: @sshardool
+`sys.platform` could be equal to `darwin` which is posix. Use `not startswith('win')`?
+count doesn't seem to be used. Let's remove it.
+should probably be called `_DeleteFpInfoAttr` because it removes it. Cleaning gives the impression it is still there. I would also move this to the end of the function `GetAtomicWeightsForFingerprint`.
+Wouldn't this still fire afterwards if you created one called `pleasings`? or am I missing something?
+The function seems to either return "default" or return the extension stripping the preceding dot. Does the fact mean that we can no longer register `.default` as an extension?
+There seem to be more changes in here than I'd expect (mostly `limit: 255` additions).
+Note that this is a bug, that should be fixed on master. `DECIMAL_LITERAL` cannot match any token, because it's declared with a `#`.
+just confirming: if we remove explicit Collect(), then we are relying on the provider dispose... which has a hard-coded 5000 msec to finish flushing. On the other hand, if we keep explicit Collect(), we can pass an explicit timeout to it. (we were not doing it now and was relying on Infinite timeout). Net effect of this change in test code: Previously we would wait indefinitely for Collect() to be over. With this PR, we hope Collect() will be over in 5 secs. If we ever need more than 5 sec, we need to bring back Collect(maxTimeInMilliSecs..).
+I don't see any test cases which would test that fix dates are set properly on review status changes / storage events. For this reason please create some more test cases and also check my scenarios above.
+Nit: please remove unnecessary whitespace changes.
+I seem to recall a UI issue with this... @akarve I think you didn't like this for some reason...
+This is used in o.a.l.sandbox.search.LargeNumHitsTopDocsCollector.
+Shall we also add `ks.Series([1, 2, 3], name=["0", "1"])`?
+You probably don't want to assume that `self.underlayer` has a `seq` attribute.
+it would be better to move the declaration of the variable with its initialization at line 68
+How about, instead of reading the param every time, just add a class member variable to hold the value of the flag, and just set it once during `LayerSetUp`?
+please start log with caps letters
+does this get wrapped in the calling method?
+maybe `toolkitVersion` instead? It doesn't necessarily have to be called that in the generated code, but in the view model classes, I think it makes it clearer that it is the version of toolkit itself.
+  Any chance we can get a CSS class for this? I know it's just in one place but feels like a dangerous precedent to set.
+Prefer adding a second `positive(String, double)` that delegates down to this three-param version. Using `null` in code is generally Not A Great Idea, and it looks ugly.
+As isCaret is False by default, explicitly specifying isCaret=False here is not needed, and is perhaps a little confusing. I'd prefer that anywhere in the codebase that isCaret is only ever specified if it needs to be set to true. Mirroring that of isFocus for setNavigatorObject.
+You need to declare variable `recurse` above, same place as `localTime`.
+Might we want to separate including this snippet and sending the data for signed in users into different partials?
+I wonder if it'd be possible to autogenerate a key from the name within this function if one is not provided explicitly, rather than having all the callsites pass both the name and key (and usually as the same value)? Might give us a good place to implement a `name->key` function that isn't 1:1.
+what's the prod url for this? just curious. @amirsaber
+We don't return now?
+Docstring would be nice
+It would be nice to have an `attr` in `styles.xml` for this, so we don't need the same `if` statement in multiple places
+Seems len(cnb[0]) will be the length after the write since of the *v thing we saw no?
+If this is not used, we should just delete the line.
+another option would be to create a `CreateRequestQueue(bool lockingQeueue)`, and set it only in `InitializeTarget`, isn't? The would prefer having the creation and "business" rules for the creation in one region, I think `InitializeTarget` would be the best place.
+There's no core.Number yet. ;)
+move to finally - I can see at least one return that would omit it, also any exception and so on
+this class should be named `ArrayInitializationVerbosenessTest` to work
+What about using `dataManifests == null || deleteManifests == null`?
+I'm actually surprised this is valid Ruby. I thought you'd need either `delegate(...)` or `delegate \ ...`.
+Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+Here's the object model change. `CodeFlows` is a set of objects of type `CodeFlow`, rather than a list of list of `AnnotatedCodeLocation`. Exactly parallel with `Stacks`.
+File is not `gofmt`-ed with `-s` (from `gofmt`)
+Could you please change this to `#ifndef __linux__`? That's when we use our own implementation instead of `posix_spawnp`.
+Can we rename 'refresh' to 'read' and 'update' to 'write'? Until I had read more of the code below, I couldn't tell the difference between 'update' and 'refresh'.
+This is an informational message that allows someone to read the console output and understand how the grid node is configured. Please leave.
+This seemed like the easiest way to allow log level checks, it will require an update to the vendors tool, to ignore that file on update.
+This variable name should probably contain `grab`
+I think `serializer.xml` can be moved into condition below too
+IMO == true is more readable than ?? false
+Why is this needed?
+Might as well add a docstring for the new `exit_code` parameter too.
+It's not async
+do we want to still validate that the context had a nonzero TTL? i suppose it's fine to let clients determine whether or not their streams will timeout (though we still don't have the means to cancel them from the server other than EOF), and they can still cancel their own contexts - so maybe not a huge deal, but thought it was worth bringing up.
+I think we should check the type returned by `getLiteral` and handle that here. Then we won't need separate code for different versions.
+what was the reason for this change?
+Nit: missing newline above.
+Maybe we could add some use of `exporterOptions` in this example, otherwise the proper code would replace this variable name with an underscore?
+This would have assisted me a lot! I am on the "functions" page more than any other page in the docs
+Why swallow the exception here rather than propagate it?
+where does `master_certname` come from?
+Is this Todo necessary?
+`this.ieService_` should be initialized to null in the constructor.
+So during a config reload, this function is invoked, but prior to that the o.TrustedKeys slice is set to nil, so this code would work. However, I am wondering what happens to s.trustedKeys, I am not sure this is handled at all. (same with the new map you are adding). I am not sure if this is supposed to be supported with a config reload, but just wondering if this is not putting things into a bad state.
+Would a check for added columns with non-null default be sufficient for aligned format?
+A little skeptical of `explain` being here. Why is this now a property of all commands?
+another alternate option which doesn't have the risk of too many entries (when user keeps providing keys in different order) Have the dictionary as before If tagKeys lookup fail, sort and lookup again. If fails, insert both original tagKeys and its sorted one to the dictionary. So that we only store atmost 2 entries per key set. And we only do a single lookup in hotpath, as opposed to 2 look ups.
+Just leaving this in one place but thanks so much for re-organising all these imports.  
+This bit I wasn't really sure about.
+I guess this assignment is now redundant?
+nit: better rename to `TEST_QUEUE_ARN` or `TEST_EVENT_SOURCE_ARN`
+Thanks for cleaning up these deprecated calls
+Using the variable on range scope `mock` in function literal (from `scopelint`)
+`icebergType` indicates the corresponding iceberg type of the `FieldVector` `originalIcebergType` indicates what the real type we will read from the `FieldVector`. For example, the parquet int backed decimal, the `icebergType` should be integer, `originalIcebergType` is decimal. I intend to only keep the `originalIcebergType`, but listening to your ideas.
+As discussed in IRC (just so it doesn't get lost): This probably should be `-basedir-`, not `-prefix-`
+Does this work at runtime?
+Don't think we want this line, right? (Plus "failing" is spelled wrong).
+This looks inverted to me: if `--rpc-require-chainid-in-txs=true`, then shouldn't `unprotectedTransactionsAllowed == false`? Suggest changing this variable to `requireTxReplayProtection` or similar. I think the flag name could be clearer as well, maybe: `--require-tx-replay-protection`.
+I would remove this line. Otherwise looks fine cc @ueshin
+File is not `goimports`-ed (from `goimports`)
+Can we mention how can one determine the best value given an infrastructure? Does it default to any value?
+Why is this not the default, and why only for JS?
+Maybe it is better to add checking for status code duplications? It can prevent some stupid copy-paste user errors.
+I noticed (SonarCloud noticed actually) that the implementation of `::edit` method is the same as `__construct` is. Does it make sense to call the `edit` method from the constructor?
+Would it be too greedy to preg_replace `VuFind (\d+\.?)+` with `'VuFind ' . $this->to` anywhere in the string? This would update something like 'Finna (VuFind 7.1.0)' as well. Just a thought, please disregard if you'd like to keep it as is.
+Oh interesting - does web-test-runner not resolve package.json files?
+Should these methods be renamed in this PR?
+Fix for URISyntaxException.
+Nit: Group this with the other commands by moving it down one line.
+I would prefer to set up space between classes in format pattern, `%s %s` and then use `trim()` to remove unnecessary whitespaces. This will also solve stripping whitespaces from the beginning and end of a string `$attributes['class']`
+lets leave out the `-S` ?
+Can we define this constant in the`deploy` pkg instead? this would allow us to keep it private
+Could combine this with `encryptionKeyGetter` to have a single `keyGetter` interface. I'm not sure which way is better.
+I believe you meant "specify `desiredUID` and `desiredRole`"?
+since this makes the indexer thing really only used for a single table, now, you can put in a TODO for me to cleanup and simplify this
+is this "unless" actually needed?
+can you revert changes to this file.
+now that we have the signature in the hive messages, it might be that this must be drastically reduced, since there are limits on the protobuf reader/writers i believe
+Please remove this blank line.
+I think we can remove this function, right? (duplicate with `ses_starter.py`)
+If FLAGS_meta_server_addrs is not empty, in which case "toHosts" return empty array?
+This can happen with any dialog. Maybe the best place to add this change would be the dialog component instead.
+Please re-format/groupimport this line. You might need a little manual work.
+The convention is to use <p> see the google style guide and use checkstyle to check. You can change it later.
+I'd like to see if this can just be set on the service account instead of the project. Using the SVC_ACCT_ROLES (which should otherwise be deleted as I don't think anything else is using it.)
+is it not a problem when one synchronized function is called by other?
+"contingent to" -> "contingent on"
+this test only covers the happy path. what about no acceptable rest template found?
+I'll fix the InMemoryExporter right after this PR lands
+Update year range in Copyright notice, and elsewhere too.
+We don't have a requirement anywhere in Test Platform for GetStream() with write access. It is ok to directly change `return new FileStream(filePath, mode, FileAccess.Read)`.
+The whitespace removal above here is probably unintentional :slightly_smiling_face:
+would rename to TopicsFilter and original one to SequenceTopicsFilter
+req.getQueryString() != null is not necessary since same check is already done in allowedPostRequest
+If we don't have a `dir` yet, we wouldn't need to do a sync right? If so, perhaps we can just `getStoredDir()` like `Attr()`?
+fixes ArgNullEx when using both `x-ms-parameter-grouping` and media type `application/xml` in the same operation (issue #2236)
+I think you should use `$event->getOriginalFileUrl()` instead of `$sourceFilePath` here.
+nit: It's a matter of taste, but it would be tighter if this is called `api_quota`.
+...and in turn, this should probably be var updatePreviews = true; if (!(localConnection && localConnection.type == Blockly.OUTPUT_VALUE) && (Blockly.localConnection_ && Blockly.highlightedConnection_)) { since the first clause is a no-op. If you want to leave it this way for clarity, that's fine too.
+Class import is therefore redundant I guess :)
+Is that `try..except` block really needed? I mean, when it could fail?
+nit: blank between, for consistency.
+Not sure I like the name ``_apply``. Even though ``_process`` is supposed to process elements already, how about ``_process_element`` which processes elements, *excluding* Overlays/NdOverlays.
+Might not hurt to mention the function never returns (since this all ends in `execve`) so `main` never actually runs.
+Should we generate `gem "rsolr"` into the application Gemfile?
+All stories in this file also need to have the default padding.
+If you end up changing grant to an association, this may need to change to a reference to enforce the foreign_key `add_reference :plans, :grant`
+Typo: this should free `xwayland` instead
+Please add `ConsigureAwait(false)` here and on `ShutdownAsync` below.
+I think it's the time for bumping `REQUIRED_QT_VERSION` to the last LTS, 5.12. `QFontMetrics::horizontalAdvance()` doesn't exist in 5.10.
+An hour seems a significant amount of time to wait for within a test, does it need to be that long?
+i have removed this line because whenever a video is played in AntennaPod this line was making play button invisible
+Issue is that `currentMode = newMode;` is called at the end of the method. Passcode screen will come up, but since the activity thinks current mode is biometric check we don't check passcode when submitted.
+please move this down to immediately above the assignment to `c.dirtyBcache`
+nit: If we want to squeeze out a few more milliseconds from the startup, we may actually be able to remove this line (`wait_for_port_open(PORT_DYNAMODB_BACKEND, http_path="/", ...` should already be sufficient to ensure that the service is up and responding to HTTP requests). Thoughts?
+has this changed? are we testing "all possible situations" now?
+We may use `_pair` to wrap `dilation`.
+Would you explain why here please? E.g. from the PR description > the renderer expects to be able to use the secondary color as the fill for a shadow.
+Can we check for containsKey here?
+add 'sriovNetSupport' also to this list
+For some reason `protoc` doesn't copy license header from `proto` files to generated code. But this code will never be checked in, so it is ok.
+So it seems that loading a script file from the classpath needs to be enabled explicitly now since this is `false` by default. Is it possible to enable this via the YAML config file in a Camunda Platform Run distribution?
+We don't need this anymore, as Google's library handles various auth mechanisms for us. We'll be less explicit about why we're failing but we gain support for several authentication methods- swings and roundabouts!
+This should be `pygment=False` like in `browsertab.py`
+:+1: that's a easier example :)
+Turns out the unittests also had a false positive.
+This tag was broken, the value write to log was the memory address. Please verify that this actually write out meaningful content in log.
+What happens if the certificate rotation fails and we are prematurely removing this file?
+I'm not sure if there are any links to swap for Handosntable package. Should this be a top lvl script?
+That's fine though, meaning that you can send to this channel under the server lock. The internalSendLoop will pick up the change when the server lock is released (if loop is blocked trying to grab the server lock). Even the way you do it here (releasing the lock, sending, then reacquiring) does not guarantee that the internalSendLoop will have time to refresh in that interval.
+Also update line 2205 below
+This was necessary due to a bug uncovered in testing. If an actor method which requires params is called without any params at all, not returning an error here causes a panic.
+change size to 50MB criticial, 10MB warn... change count to 50k critical, 5k warn...
+From what I can tell, the `serviceAccountFile` is never set to anything except ""? It'd be best to remove this altogether, so we don't mislead future developers  
+quick question, isn't ProcessJob used by all job types? Then why is JOB_ID not found?
+Please add line breaks, so the line doesn't exceed 80 chars.
+This is fine, but by Symfony convention this part is responsability of the compiler pass class, i.e `DependencyInjection\Compiler\?`
+I don't think this should be here?
+Why are you changing this?
+`if (is_string($value) && $this->getDefinition()->get('allow_html')) {`
+Afaict, nothing cares
+Might we want a hook to allow emitting metrics or logs in the case of a permitted empty service header response (or similar UpdateSpanWithErr on empty service header in response if strict enforcement is desired by the caller)?
+Rather than have another member and and if/else statement, if the user passes in `PreInvocationAuthorizationAdvice` it could be adapted to match `PreInvocationAuthorizationReactiveAdvice`
+This occurrence of "master" is unrelated to master/slave replication. Maybe simply remove the word "master" or replace it with "reference" but "primary" doesn't really make sense.
+Simple Storage **Service**
+Why change this?
+This is the only "extra" change here.
+We run prettier as an eslint plugin, so this harmful
+before the fix, does this sentence make service crash? My point is can you re-produce the problem. I'm not sure the bug is due to non-asiic code

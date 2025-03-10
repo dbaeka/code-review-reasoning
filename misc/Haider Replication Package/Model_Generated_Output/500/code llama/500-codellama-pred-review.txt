@@ -1,0 +1,500 @@
+I think this is a bug. `snapshot` should never be null here.
+I think we should use `collectorUri.OriginalString` instead of `collectorUri.ToString()` here.
+This is a bit of a nit, but I think it's better to use `RegExp` literals instead of `new RegExp` when possible.
+This message is not very clear. I would say something like: > Instead of using exit() or quit(), consider using sys.exit().
+`ret` -> `result`
+This is the package that contains the glue code needed to start a Bee node.
+I think this is a good candidate for a constant.
+This is a bit of a hack. I'm not sure if there is a better way to do this.
+missing a comma at the end of the line.
+This is a bit of a nitpick, but I think it would be better to use `get_post_field('post_name')` instead of `basename(get_permalink())` here.
+This is only valid for the client.
+This test is not doing anything. It is just waiting for the element to be unclickable.
+I think this is a breaking change. I think we should add a new `PathTemplateCheckView` with the new `methodName` field.
+This is the only change that I'm not sure about. I'm not sure if we should be changing this to the new location.
+I think we can use `io.servicecomb.java-chassis` instead of `io.servicecomb`
+I think we should remove this field.
+Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+This is the only change that is not backward compatible.
+I think this should be `allowOptionalMappings = false` by default.
+This method is not thread safe.
+I think this should be `test-slug` instead of `test/`
+nit: `String.valueOf(MetadataTableType.ALL_DATA_FILES)` can be replaced with `MetadataTableType.ALL_DATA_FILES.name()`
+I think this should be `if ifaceName == "wireguard.cali" {`
+I think this should be `abstract T getDocValues(int numDoc)`?
+I think this should be `Increasing receive flow control window for the connection to %d kB, in response to stream flow control window increase`
+This is not true anymore. We can call init multiple times.
+I think we should use the `UserId` from the `SharedKernel` package here.
+I think this should be `self._tab.key_press(Qt.Key_Return)`
+I think we should keep the `skipIfNotIPv4Cluster` check here.
+why not use `NewStateDBAdapter(sm, 0, hash.ZeroHash256, NotFixTopicCopyBugOption())` directly?
+This is a bit of a hack, but it's the only way I can think of to handle `::` as a special case.
+This is a good idea, but I think it should be done in `cuda_prefetch_pointer` itself.
+I think we should add a `pretrained` field in the config file.
+I think this should be `AgreementFilterTimeoutPeriod0`
+Trailing whitespace detected.
+I think this is a bug in the test. I think it should be called thrice.
+I think this is a good example of how we can use template literals to make our code more readable.
+I think this test is going to fail if the response is larger than the buffer size.
+nit: I think we should use `Activity.Current` instead of `activityProcessor.Invocations[1].Arguments[0]`
+I think we should also set the `spec.template.spec.containers[0].image` to the empty string.
+I think this is a good change, but I'm not sure if we should be using `bucket` here. I think it's better to use `bucketRegex` here.
+Style/GuardClause: Use a guard clause instead of wrapping the code inside a conditional expression.
+nit: I think this should be `partitionFieldMap` to be consistent with the other names.
+Style/BlockDelimiters: Avoid using {...} for single-line blocks.
+I think we should keep the `source` key here, since it's a valid key for the upload step.
+This is a bit confusing. I think it would be better to call this method addOneRowAggregatesForceGroupByAgg() or something like that.
+Line is too long. [112/80]
+Can we add a check here to see if the hash is already set and if it is not, then only calculate the hash and update it.
+I think this should be `perm_getNodesAllowlist`
+I think this should be false.
+This is a bit of a hack, but it's the only way I can think of to get the password field to be protected.
+This is a change in the API. I think it's better to keep the old API.
+This include is not needed.
+This is a bit of a weird case. I'm not sure what the right thing to do is here. I'm not sure if we should just return 0 or if we should throw an exception. I'm not sure if this is a case that should be handled by the caller or if it should be handled here.
+This test is skipped because it is not working on 3.6.
+I think this is the only place where we need to do this.
+This is a breaking change.
+Nit: I think we should use `gcloud` instead of `gcp_clients` as the package name.
+I think this should be `const`
+This is not a valid strategy.
+I think we should check for the existence of the app and job before we try to get the logs.
+I think this should be `return configuration.get_config().get("hadoop", "version", "cdh4").lower()`
+I think this should be `^text$` instead of `^checkbox$`
+This is the only test that uses the `padding` prop. I'm not sure if we should be using it in all of the tests.
+typo: negtive -> negative
+This is a bit of a hack, but it's the only way to get the layer surface to get keyboard focus.
+I think this is a bit of a hack. I'd rather return 0 here and let the caller decide what to do with it.
+Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body end.
+I think this is the only place where we're using `waitTimeoutMillis` as a `time.Duration` and not as an `int64`.
+I think 3000 is better.
+I think this should be `H2O_VECTOR(uint64_t)` instead of `H2O_VECTOR(double)`.
+I think this should be `Table registerTable(TableIdentifier identifier, String metadataFileLocation);`
+nit: I think this should be `from mitmproxy.proxy import context`
+This is a bit of a hack, but it's the only way I could get the test name to be logged in the logs.
+I think this should be `ITaskItem[] BlobNames { get; set; }`
+This is a test plan.
+`hostsString` is not used.
+I think this should be `kernel_extent = dilation_data[i] * (kernel_shape_data[i] - 1) + 1;`
+nit: I think this should be `if (pathStart == -1 || pathEnd == -1)`
+This is a breaking change. We should not change the name of the function.
+I think we should be able to remove this.
+This is a bug fix.
+This line is too long. [105/80]
+This is the equivalent of --ponynoscale.
+This function is no longer used.
+This is a bit of a weird name, but I'm not sure what else to call it.
+typo: validates -> validate
+I think this is a bit confusing. I would suggest to rename the parameter to `extraDataValidatorsMustBeEmpty` and `voteMustBeEmpty` and then the constructor to `BftValidatorsValidationRule(final boolean extraDataValidatorsMustBeEmpty, final boolean voteMustBeEmpty)`
+I think this is a good idea, but I'm not sure if it's the best way to do it. I think it would be better to have a `RenewCertIfNeeded` function that returns a bool indicating whether it renewed or not. Then we can call it here and in `RenewCert` and have them both return the same bool.
+This should be `require_once __DIR__ . '/Psalm/Internal/exception_handler.php';`
+I think it would be better to use `Shopsys\FrameworkBundle\Model\Article\Article` here, because it is used in other places in this fixture.
+Style/StringLiterals: Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+I think this should be `msg.GetGroup() == "user" || msg.GetGroup() == "user_data"`
+I think we should use a buffered channel here.
+I think this should be `renewBeforeExpiryDuration`
+I think this is a bug. The artist should be the first argument.
+nit: remove empty line
+I think this file should be removed.
+I think we should use `const ServiceType = "wireguard"` instead of `const ServiceType = "wg"`
+nit: I think this should be `const cb_ = () => {}`
+I think this is a bit misleading. The ACME server is not guaranteed to deliver the preferred chain. It's the client that is not guaranteed to deliver the preferred chain.
+This is a breaking change. We should not be using bluebird in the driver.
+I think this should be 4MB.
+I think this is a bit confusing. It's not clear what "caches" means here.
+I think this is the only place where we need to check for `browser.tizen`
+This is a good example of how f-strings are better than %-formatting.
+I think this is not needed. The `LogManager.Flush()` below will wait for the previous flush to complete.
+I think this is a bug fix.
+I'm not sure if this is the best way to do this. I'm not sure if we should be using `compat` here.
+I think we should have a `CloseShardRequest` struct in `persistence/shard.go` as well.
+This is a breaking change.
+I think this should be `if server_side_encryption_customer_algorithm is not None:`
+This is a bit of a hack, but it's the only way to get the summary data on Linux.
+Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body end.
+I think this is the only place where we need to worry about the `data` column being null.
+This is a bit of a hack, but it's the only way to get the default value of `resources.cores` to be `1` instead of `0`.
+This should be used when an object does not notify of selection changes.
+I think we should log the error here.
+This is not alphabetically sorted.
+I think we should use `Security.Instance.Settings.RulesPath` here.
+I think this should be `Include = d.GetValueList("Include"),`
+Please add a comma at the end of the line.
+I think this is a bug in the test. We should not be pinning the version here.
+I think we should log the error here.
+I think this is a good change. I'm not sure why we were using `json` before.
+I think this should be `Client` (capital C)
+I think this is the same as `data[:-1] + np.diff(data)/2.`
+I think we should use `hasMany` here.
+This import should be grouped with the other stdlib imports.
+why change this?
+I think this error message should be more specific.
+I think this is the only place where we're using `trim_to_bytes` with a string. I'm not sure if we should be doing that. I think we should be using `trim_to_bytes` with bytes.
+I think this should be `percentiles: Optional[List[float]]`
+I think this should be a constant in `src/utils/constants.js`
+I think this should be `sendCommandForDownloadChromeHeadless` (without the extra `S`)
+Line is too long. [105/80]
+Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+This is a breaking change.
+Can you please add a cleanup for this function?
+nit: `coma_separator` -> `comma_separator`
+I think this should be `self._execute(Command.GET_ELEMENT_RECT)['value']`
+I think this is a bit misleading. It's not a new or pre-existing gauge, it's a new gauge.
+I think this is wrong. The timestamp is supposed to be the sum of the two values.
+This is a test of the late disabling of useless-suppression.
+I think this should be `RootfsPropagationMode`
+This is a workaround for a mypy bug.
+I think this should be `DisableHttpGit` instead of `DisableHttpGit`
+I think this is the only place where we're using the `conntrack.NewScanner` function. I'm not sure if we should be using it here. I think we should be using the `conntrack.NewLivenessScanner` function instead.
+This class is not used anymore.
+I think this is needed here, because the user is logged in, and the session timeout is set to the default value.
+I think this is a bit confusing. The `ReadOnlyTransactionProcessorFactory` is used for the `readOnlyTransactionProcessorFactory` and the `readOnlyTransactionProcessorFactory` is used for the `readOnlyTransactionProcessor`. I think it would be better to rename the `readOnlyTransactionProcessorFactory` to `readOnlyTransactionProcessor` or something like that.
+This is a change in behavior. I'm not sure if this is a good change.
+Metrics/BlockNesting: Avoid more than 3 levels of block nesting.
+This class is not meant to be public.
+This is a list of arrays, not a list of `array[]`
+I think we should rename this to `ErrorNotification` as well.
+I think this is a good change. I'm not sure if we should change the message for the other two, though.
+Line is too long. [105/80]
+I'd prefer to see this as a method on the `Monitor` interface, rather than a separate method.
+I think this is a bug. We should not be creating a new session here. We should be using the existing session.
+Standards: Please add a space after commas.
+This is a bit of a hack, but it's the only way I could think of to get the remote host to be set.
+I think this is not needed anymore?
+This is a breaking change.
+I think we should remove this flag.
+Layout/SpaceInsideParens: Space inside parentheses detected.
+I think we should not implement this method for fakeTwoPhaseChaos.
+I think we can use `map[string]int64` to store the generation of pods.
+This is the only change that I'm not sure about. I'm not sure if this is the right way to test this.
+I think we should keep the name as `LightGBMCallbackEnv` for consistency.
+Please don't import sys in a module that is not a script.
+I think we should also remove the `newRetryTask` and `newRetryTaskV2` functions.
+This is the same as the other snippet.
+I think this should be `if ($settings['width'] === null)`
+Style/RedundantSelf: Redundant self detected.
+This is a bit of a weird one. I'm not sure why this is here. I think it's a leftover from the original code.
+I think this is the only place where we need to use `act` now.
+I think this is a bug. The `follow-redirects` should be set to `False` here.
+I think this should be done in `cStorPoolAddEventHandler` itself.
+Please use `foreach ($missingPlugins as $pluginCode => $plugin)` instead.
+I think this is a bug. We should not be comparing the pointer here.
+This is a bit of a hack. I'm not sure if this is the right place to do this.
+This is a warning, not an error.
+This method is not used anywhere.
+I think we should keep this code. It's not a breaking change.
+This is a bit of a hack, but it's the only way to get the tests to pass. I'm not sure if there's a better way to do this.
+I think this should be `NoValidateShapeMethods` (note the extra `e`)
+I'm not sure if this is the best way to do this. I'm not sure if it's possible to do this without passing a flag.
+I think this is the only change that is needed to make this work.
+I'm not sure if we should be disabling this rule for this file. I think we should be able to use camelCase for acronyms.
+I think we should remove this warning.
+I think this is not needed.
+This is a breaking change. We should not change the method name.
+I think this is a bug in the AvalonTools code.
+I think this should be `GET,POST,PUT,DELETE,HEAD,OPTIONS`
+This can be used to filter deduplications of multiple reports.
+This is a bit of a hack, but it's the only way I could get the package to install. I'm not sure why the package format is being set to HDF5, but it's not being used.
+I think this should be an error.
+Please add a space after the `=`
+I think we should keep this flag. It's not a bug, but it's a feature.
+I think this should be `VersionsResponse` (without the `*`)
+I think this is a good change. I'm not sure if we should have a default label of "CudaSpace" or something like that.
+I think this is a bug. We should not reset runID here.
+I think this should be `config->xwayland_lazy = true;`
+I think this is the only place where we can't use `io.Copy` because it doesn't return the number of bytes copied.
+Line is too long. [101/80]
+nit: I think we should add a space between `--ignore-certificate-errors` and `--enable-features=NetworkService`
+I'm not sure if this is the best way to do this. I'm not sure if we should be passing the `name` key to the `headlines.landing` translation. I'm not sure if we should be passing the `name` key to the `shared.subscription.name` translation. I'm not sure if we should be passing the `name` key to the `headlines.landing` translation. I'm not sure if
+Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+I think this should be `filepath.Join(paths...)`
+I think we should use `azkaban.execution.source` as the key name.
+I think this is the only place where we set the resource type. I think we should remove this line and instead set the resource type in the `AddProperty` call below.
+This is a leak.
+NIT: I think this should be `T?`
+I think this is a bug. We should be passing in the transport.NoDeps here.
+I think this should be `klog.Info("preparing ovs bridge ...")`.
+This is not used anymore.
+I think this should be `Error` as it's a breaking change.
+I think this should be `import yaml` instead of `ruamel.yaml`
+I think this is the only change that is not related to the volume control.
+I'm not sure if this is the right place to call this. I think it should be called in `get_cpu_info` and then the value should be cached.
+I think this is a bit too aggressive. I'd rather have the user click a button to reload.
+This is not needed.
+I think this is a bug in the conda-forge feedstock.
+This is a bit of a hack, but it's the only way I could think of to prevent the same account from being added twice.
+This is a bit of a nitpick, but I think it would be better to use `std::clamp` here.
+This is a breaking change.
+nit: this is a bit of a weird test. It's testing that the client is able to parse the response, but it's not testing that the client is able to parse the response correctly.
+This is a temporary fix.
+This is a bit of a weird one. I'm not sure if we should be printing the error here. I think it's probably fine, but I'm not sure.
+I think this is the only place where we're using `PALError.new` instead of `PALError.from_preformatted_error`. Is there a reason for that?
+This is a duplicate of `internal/bytealg.IndexByte`.
+I think we should keep the `ActivitySourceAdapter` here.
+I think we should not use Fatal here.
+I think it would be better to use `H2O_VECTOR(int)` instead of `H2O_VECTOR(int *)`.
+This method is not used anywhere.
+This is a bit confusing. It's not a method of the driver, it's a method of the `self.driver` instance.
+I think this is a bug. If we have a mapping, we should not be removing it from the opts.Accounts.
+I think this interface should be public.
+why not use a bool?
+nit: can we add a reason why we ignore this?
+I think this should be `GOOGLE_CHROME_OPTIONS` (uppercase) to match the other constants.
+I think this should be `time.Hour * 24 * 30` to match the default retention period for user namespaces.
+I think this should be `log.Debug`
+This import is not needed.
+This is a circular dependency.
+This is a bit of a hack, but it's the only way I could think of to get the number of messages in the folder without loading the entire folder.
+nit: I think this should be `nextPrefixKey`
+nit: can we use 0 instead of -1?
+This method is not used.
+This is a breaking change.
+Prefer single-quoted strings when you don't need string interpolation or special symbols.
+This is a bit of a hack, but it's the only way I can think of to get the auto-fire to work.
+snprintf(str,128,"unknown *KEYWORD: %s", arg[ioffset]);
+I think this is a bug. If the user is in fullscreen mode and then they toggle the setting, they will be stuck in fullscreen mode.
+Defaults to 0.0001.
+Unused import statement
+I think this should be `if (Sdk.SuppressInstrumentation || !this.handler.SupportsNullActivity && Activity.Current == null)`
+I think this should be `0.00000`
+This is a breaking change. I think it's better to keep the old name.
+I think this is a breaking change.
+I think we should use `t('shared.subscription.name')` here as well.
+I'm not sure if this is the best way to do this, but it seems to work.
+I think this is a bit of a hack. I'm not sure if it's the best way to do this.
+I think we should remove this field from the spec.
+This is a bit of a weird pattern. I'm not sure why we're using a `Buffer` here.
+I think this is the only place where we need to add the `unix://` prefix.
+I think this is a good change. I'm not sure if we should be catching KeyError here, though. I think we should be catching it in the `get_package_entries` function.
+This file is not used.
+I think this should be `if (items.some(item => item.toLowerCase() === 'loadbalanced')) {`
+I think we should use `time.Duration` here.
+I think we can use `enable_history` to replace `enable_history_file` and `history_file_path`
+Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+This method should return a NamedList<NamedList<?>>.
+I think this is the only place where we're using `h.TypeForKeying()` instead of `h.Type()`. I think it's fine to use `h.TypeForKeying()` here, but I'm not sure if it's worth changing all the other places where we're using `h.Type()`.
+This is a breaking change. We need to make sure we don't break any existing customers.
+I think this is not needed anymore, as the default bucket is always included.
+This is the only place where we set the actor state.
+This is a bit of a hack, but it's the only way I could think of to avoid the NPE.
+Line is too long. [105/80]
+This is a bit of a nitpick, but I think it would be better to use the `LOG` constant from `ContextListener` here.
+I think this should be `offset += (number_types.UOffsetTFlags.bytewidth if size_packed else 0) + number_types.UOffsetTFlags.bytewidth`
+I think this should be `VK_QUEUE_TRANSFER_BIT | VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_SPARSE_BINDING_BIT | VK_QUEUE_PROTECTED_BIT`
+This is a leak.
+Line is too long. [81/80]
+I think this is the only place where we use `NewDynamicRateLimiter` directly. I think we should be able to remove it.
+I think this is not a good idea to pass signedUserName here.
+I think it is better to use `TBB_INTERFACE_VERSION_MAJOR` and `TBB_INTERFACE_VERSION_MINOR` instead of `TBB_INTERFACE_VERSION`
+I think this should be `if timeout <= 0 {`
+Line is too long. [85/80]
+I think this should be `KOKKOS_COMPILER_CLANG_VERSION_GE(1300)`
+I think this should be `round %d before earliest stored db entry %d`
+I think this is a bug. It should be `[[0, 0, 0, 0]]`
+I think we should keep the `kinto.core` prefix for these settings.
+I think this is the wrong fix. The bcc field should be visible if there is more than one bcc recipient.
+I'm not sure if this is the best way to do this, but it seems to work.
+This is the only place where we're logging the container name. I'm not sure if we should be logging the container name here. I think we should probably just log the task ARN and the event type.
+Use the new Ruby 1.9 hash syntax.
+This is a workaround for a bug in Python 3.2 and 3.3. See #1034.
+This is a bit of a hack, but it's the only way I could get this to work. I'm not sure why the `getAttribute` method doesn't work here.
+Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+I think this should be `false` by default.
+I think this is a good idea. I'm not sure if we should do it in this PR, but I think it's a good idea.
+I think this should be `metric must not be null`
+I'm not sure if we should expose these properties. I think we should keep them internal.
+This is a breaking change.
+Line is too long. [105/80]
+I think this should be `string[] Frameworks { get; set; }`.
+This method is only used in .NET Framework.
+I think this should be `TracerTimeout` (notice the `r` at the end)
+nit: I think we should be able to remove this import now that we're using `archer.Environment` instead of `archerCfn.Environment`.
+This is a bit confusing. I think it would be better to write the checksum that was read from the file.
+This method is not used in the codebase.
+This is a bit of a hack, but it's the only way I can think of to prevent auto-firing when the player is too far away.
+I think we should keep this lowercase.
+I think this should be `pgcfg.MaxIdleConnections > 0`
+This test is not needed anymore.
+This is a bit of a hack, but it's the only way I could get this to work. I'm not sure if there's a better way to do this.
+This is a duplicate of `internal/fileutil/fileutil.go:105`
+This is a bit confusing. I think it would be better to say "On Python 3, these arguments are the default."
+I think we should use `EXECUTION_SOURCE_FLOW_TRIGGER` instead of `EXECUTION_SOURCE_FLOW_TRIGGER_JOB` in the `ExecutionContext` class.
+I think this is a good change, but I'm not sure we should be passing the action to the callback. I think it would be better to pass the action to the `Result` object and then have the callbacks use that.
+I think this should be `int[] addressOffsets` to match the other names.
+This is a breaking change.
+I think this is the only case where we can have a transcoding session with only video direct and no audio direct.
+I think this is a breaking change.
+Line is too long. [105/80]
+I think we should keep the old fields for backwards compatibility.
+(style) line over 80 characters
+I think this is a typo.
+This is a bad import. It should be in the top of the file.
+This method is not mutation-free, because it returns a string that is not a literal.
+I think this is the only place where we can set the exception on the span.
+I think we should use the same string as the one used in the UI.
+This is a bit of a hack, but it's the only way I could get it to work. I'm not sure if there's a better way to do this.
+nit: I think this should be `unsigned int`
+I think this should be called `CleanFpInfoAttr` (with an uppercase C)
+I'm not sure if this is the best place to put this. I'm not sure if it's worth adding a new command for this.
+nit: space after `else`
+Line is too long. [85/80]
+This is a breaking change. I think we should keep the old name for now.
+I think this is the root cause of the flakiness. I think we should keep this line.
+I think this is a bug. We should be able to pass in a list of statuses.
+nit: can we use `io.netty.util.concurrent.ScheduledExecutorService` instead?
+I think this should be `print("{owner}/{pkg} already installed. Overwrite? (y/n)".format(owner=owner, pkg=pkg))`
+I think this should be `protected` instead of `public`
+I think this should be `expected_error_message = "Series.name must be a hashable type"`
+This is a bit of a hack, but it's the only way I could think of to get the seq number from the underlying layer.
+I'm not sure if this is the right way to do this. I'm not sure if this is the right way to do this.
+This is a bit of a hack, but it's the only way to get the pooling parameters in the CPU code.
+I think we should keep this as info.
+This is a bit of a nit, but I think it's better to return the error here, rather than just logging it.
+I think this should be `public abstract String codeGenVersion();`
+I think this should be moved to the top of the page, right after the `ErrorNotice` component.
+I think this method is not used anywhere.
+This is a bit confusing. I think it would be better to have a separate `setFocus` and `setCaret` method.
+I think this should be `r` instead of `R` to be consistent with the other flags.
+I think this should be in the `signed_in_analytics` partial.
+I think this is a bug. The `key` should be the first argument.
+I think this should be removed from the list of allowed origins.
+I think this is the only place where we call `onFinished` and it's not needed anymore.
+I'm not sure about this one. I'm not sure if it's a good idea to have a function that does the same as `issubclass` but with a different name. I'm not sure if it's a good idea to have a function that does the same as `issubclass` but with a different name.
+nit: space after `if`
+I think this is the only place where we can't reuse the buffer.
+I don't think we need this anymore.
+I'm not sure if this is the right place to put this. I'm not sure if this is the right place to put this.
+I'm not sure if this is a good idea. It would be a lot of work to change all the code that uses this type.
+This is a bit of a hack, but it's the only way I could get the linked source to stop. I'm not sure why it's not stopping on its own.
+This class is empty.
+nit: this is not needed, the `if` is redundant
+Layout/AlignHash: Align the elements of a hash literal if they span more than one line.
+Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+I'm not sure if this is the right change. I think it should be `IList<CodeFlow>`.
+please keep the import order as before
+This is a problem. We should not be including this header on Android.
+I'm not sure if this is the best way to do this. I'm not sure if we should be using the last update time for the refresh interval. I'm not sure if we should be using the last refresh time for the refresh interval. I'm not sure if we should be using the last update time for the refresh interval. I'm not sure if we should be using the last refresh time for the refresh interval. I'm not sure if we should be
+I think this should be `INFO` level.
+I think this should be public.
+This is a global variable, which is not allowed.
+I think we should not load this file if the bundle is not installed.
+I think this is a bug fix.
+I think this should be `process.env["ANDROID_NDK_HOME"] || process.env["ANDROID_NDK"]` so that if both are set, we use the one that is set first.
+Style/OptionalBooleanParameter: Pass true or false as the last argument.
+I think this should be `Assign to Notebook`
+This is a breaking change. I think we should just remove this check.
+This is a bug fix. The `daysFromTimestamp` method was called for DATE type.
+I think this is a good change. I'm not sure if we should be using the thread name or the thread id. I think the thread name is more useful.
+This is the only change in this file.
+I think we should not set the `MetricReaderType` here. It should be set by the user.
+Use the `unwrap` method instead of calling the `unwrap` function.
+I think this is the right thing to do.
+Line is too long. [105/80]
+@jglick I think this is the only place where we use guicy. I think we should be able to remove guicy from Azkaban.
+This should be `!ie.ServiceBuilder`
+I think this is the only place where we need to check for `StrictSigningKeyUsage`
+This is a bug fix. The previous code was not working for the case where the column is added with a non-null default value.
+I think this should be `this.options.readConcern` instead of `this.readConcern`
+I think this is a good change, but I'm not sure if we should use `StringArrayComparer` here. I think we should use the same comparer as the one used in `keyValue2MetricAggs` below.
+This is a change in the import path.
+I think this is the right place to put this.
+This is a bit weird. I think we should just remove this line.
+Nitpick: I think this should be `TEST_QUEUE_ARN` to be consistent with the other tests.
+Layout/SpaceInsideHashLiteralBraces: Space inside { missing.<br>Layout/SpaceInsideHashLiteralBraces: Space inside } missing.
+I think this is a bug in the test. The test is expecting an error, but the test is not setting the error.
+nit: I think this should be `private final Type originalIcebergType;`
+This is a bit of a hack, but it's the only way to get a unique name for the temp dir.
+I don't think we need this anymore.
+Style/RescueStandardError: Avoid rescuing Exception.
+I think we should set the default to false for this option.
+I think this is a bug fix. `names` should be a list of tuples.
+remove empty line
+I think we should use `json:"zvolWorkers,omitempty"` here.
+I think this should be `https://www.googleapis.com/discovery/v1/apis/%s/%s/rest`
+I think this should be `handler.ErrorPages[whatInt] = where`
+I think this is not needed.
+This is a bit of a hack, but it's the only way I could think of to check for a version number.
+This is a test for the `src` build.
+I think this is a good candidate for a refactor. I'm not sure what the best name for this method is, but I think it should be renamed.
+I think this is a good idea. I'm not sure if we should do this for all the URLs, but I think it's a good idea to do it for the login server.
+I think this should be `GET_CONTEXT_LIST` to be consistent with the other commands.
+I think it would be better to use `array_key_exists` instead of `isset` here.
+I think this should be "Generate JSON schema" (with an uppercase "J")
+I think we should use the latest version of the image.
+This is a bit confusing. I think it would be better to rename this to `mdDecryptionKeyGetter` and `mdEncryptionKeyGetter` and have them implement the `KeyGetter` interface.
+I think this is a breaking change.
+I think this is the only place where we use the `InsertTraceIdByServiceName` and `InsertTraceIdBySpanName` classes. I think we can remove them.
+Use safe navigation (&.) instead of checking if an object exists before calling the method.<br>Line is too long. [105/80]<br>Prefer single-quoted strings when you don't need string interpolation or special symbols.
+Nit: please remove the extra line.
+this is not needed anymore
+This test is failing on my machine. I'm not sure why.
+I think we should use the same port for all services that use the same port.
+If `addrs.value().empty()`, `metaClient_` will be nullptr.
+I'm not sure if this is the best way to do this. I'm not sure if there is a better way to check if the element is a child of the dialog.
+remove empty line
+I think we should add a note here that the event reporter is not thread safe.
+I think this is the only change that is needed.
+This is a bit of a hack, but it's the only way I could get this to work. I'm not sure if there's a better way to do this.
+I think this should be `StatusCodeServerErrorRequiredLockIsNotHeld`
+import org.springframework.web.client.RestClientException; import org.springframework.web.client.RestTemplate;
+I think we should keep this code. It's not a big deal, but it's a bit confusing to have a test that doesn't do anything.
+I'm not sure if this is a good idea. I think it's better to keep the try-except in the same line.
+I think this should be `FileAccess.Read` by default.
+This is a change in behavior. I'm not sure if we want to do this.
+I think this should be `TopicFilterBase` (singular)
+I think this is the only place where we need to check for the allowed post request.
+This is a no-op, right?
+I think this should be null instead of an empty array.
+I think it's a typo here.
+I think we should use `service_config.get_api_quota_config()` here.
+This is a bit of a hack, but it's the only way I could think of to get the previews to update when you drag a block out of a stack.
+I think this is not needed anymore, as the `GET` method is not protected by any security.
+This is a bit of a hack, but it's the only way I could think of to make this work. I'm not sure if there's a better way to do this.
+This is a bit confusing. I think it would be clearer to say "Either GitRepo or LocalRepo must be set, not both."
+This is a breaking change.
+I'm not sure if this is the right place to put this. I think it should be in `init()` of `main.go`
+Prefer single-quoted strings when you don't need string interpolation or special symbols.
+I think we should remove this.
+Line is too long. [81/80]
+This is wrong. The `xwayland->server` is a pointer to a `wlr_xwayland_server` object. It is not the `xwayland` object itself.
+I think this is the only place where we need to call `ForceFlushAsync` explicitly.
+This is a bit of a hack, but it works. I'm not sure if there is a better way to do this.
+I'm not sure if this is the right value to use here.
+This is the only change that is not related to the bug fix. I'm not sure if this is the right place to put this.
+I think this is the only place where we need to set the mode.
+This is a bit of a hack, but it's the only way to get the dirty block cache out of the config.
+I think we should use `get_service_url` here, as it's the preferred way of getting the endpoint URL.
+I think this test name is a bit misleading. It's not testing the transition, it's testing the verification.
+I think this should be `self.dilation` instead of `self.dilation[0]`
+This is a bit of a hack, but it's the only way to get the colour to update.
+I think we can remove this line.
+trailing comma
+I think this should be `vendor/` instead of `tpb/`.
+I think this should be `enableScriptEngineLoadExternalResources`
+This is the only change that is not related to the fix.
+I think this is a bit confusing. I would rather have a boolean argument `use_pygment` or something like that.
+I'm not sure if this is a good idea. I think it's better to keep the `when` attribute.
+This is a regression.
+I think we should use `ShardContext` here.
+I think this should be `os.Remove(dynamicListenerRegenFilePath)` instead of `os.RemoveAll(dynamicListenerRegenFilePath)`
+This is a bit of a hack, but it's the only way I could get this to work. I'm not sure if there's a better way to do this.
+I think this is a bit dangerous. If the server is shutting down, the `resetCh` will be closed and this will panic.
+This is a bit of a hack, but it's the only way I could get the keys to be sent in the correct order.
+This is a breaking change. I think we should just return an error here.
+I think we should keep the same value as before.
+I think this is a breaking change.
+This is not needed anymore.
+I think it would be better to use the `isRequired()` method here.
+I think this should be done in the `easyadmin.config.manager` service, not in the `easyadmin.configuration.design_config_pass` service.
+This test is slow, but it's not marked as such.
+I think this is a good change. I'm not sure if we should change the name of the variable though. I think it's a bit confusing to have a variable called `mochaResults` that is not an array of mocha results.
+This is a BC break.
+I think this is a typo.
+I think this should be `yarpcerrors.InvalidArgumentErrorf` since the request is invalid.
+I think this should be final.
+I think this is a good change. I'm not sure if we should rename the variable to `primaryKeysSource` or `primaryKeySources` though.
+This code example demonstrates how to upload an encrypted object to an Amazon S3 bucket.
+I think this is the only change that matters.
+I think this should be `metrics.0.values.0` instead of `metrics[ 0 ].values[ 0 ]`
+I think this should be `eslint-config-prettier/recommended`
+nit: remove extra newlines
