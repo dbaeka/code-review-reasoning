@@ -13,6 +13,7 @@ from src.common.tools import shard_dataset, init_logging
 from src.service.groq import review_comment_generation as rcg_groq
 from src.service.ollama import review_comment_generation as rcg_ollama
 from src.service.vllm import review_comment_generation as rcg_vllm
+from src.service.openai import review_comment_generation as rcg_openai
 
 # from src.service.unsloth import review_comment_generation as rcg_unsloth
 
@@ -95,6 +96,9 @@ if __name__ == "__main__":
         rcg_fn = rcg_ollama
     elif provider == "vllm":
         rcg_fn = rcg_vllm
+        n_jobs = 1
+    elif provider == "openai":
+        rcg_fn = rcg_openai
         n_jobs = 1
     else:
         # rcg_fn = rcg_unsloth
