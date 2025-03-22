@@ -12,6 +12,7 @@ from tqdm import tqdm
 from src.common.tools import shard_dataset, init_logging
 from src.service.groq import review_comment_generation as rcg_groq
 from src.service.ollama import review_comment_generation as rcg_ollama
+from src.service.vllm import review_comment_generation as rcg_vllm
 
 # from src.service.unsloth import review_comment_generation as rcg_unsloth
 
@@ -84,12 +85,17 @@ if __name__ == "__main__":
 
     n_jobs = min(mp.cpu_count(), num_instances)
 
+    provider = provider.lower()
+
     # choose provider
     if provider == "groq":
         rcg_fn = rcg_groq
     elif provider == "ollama":
         n_jobs = 3
         rcg_fn = rcg_ollama
+    elif provider == "vllm":
+        rcg_fn = rcg_vllm
+        n_jobs = 1
     else:
         # rcg_fn = rcg_unsloth
         rcg_fn = None

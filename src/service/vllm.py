@@ -1,28 +1,38 @@
 import logging
 from time import sleep
 
-import torch
 from tqdm import tqdm
+from transformers import AutoTokenizer
+from vllm import LLM, SamplingParams
 
 from src.service.common import extract_cot_and_answer, get_unprocessed_examples, save_results
-from unsloth import FastLanguageModel
 
-unsloth_model = None
+vllm_model = None
 tokenizer = None
 max_seq_length = 4096
 
+vllm_model_map = {
+    # "Qwen/QwQ-32B": "qwen-qwq-32b",
+    # "Qwen/Qwen2.5-1.5B-Instruct": "qwen2.5:1.5b-instruct",
+    # "Qwen/Qwen2.5-Coder-7B-Instruct": "qwen-2.5-coder-32b",
+    "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B": "unsloth/DeepSeek-R1-Distill-Qwen-1.5B-bnb-4bit",
+    # "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B": "unsloth/DeepSeek-R1-Distill-Qwen-1.5B",
+    "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B": "unsloth/DeepSeek-R1-Distill-Qwen-7B"
+}
+
 
 def load_model(model_name: str):
-    global unsloth_model, tokenizer
-    if unsloth_model is not None:
-        return unsloth_model, tokenizer
-    unsloth_model, tokenizer = FastLanguageModel.from_pretrained(model_name, max_seq_length=max_seq_length,
-                                                                 load_in_4bit=True)
+    global vllm_model, tokenizer
+    if vllm_model is not None:
+        return vllm_model, tokenizer
+    # mapped_model = vllm_model_map.get(model_name)
+    mapped_model = model_name
+    tokenizer = AutoTokenizer.from_pretrained(mapped_model)
+    vllm_model = LLM(mapped_model)
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "left"
 
-    FastLanguageModel.for_inference(unsloth_model)
-    return unsloth_model, tokenizer
+    return vllm_model, tokenizer
 
 
 def forward(
@@ -37,31 +47,27 @@ def forward(
         is_reasoning_model: bool = False
 ):
     logging.debug("Generating model response")
-    outputs = model.generate(
-        **inputs,
-        tokenizer=tokenizer,
-        max_new_tokens=max_new_tokens,
-        stop_strings=["</s>"],
+    sampling_params = SamplingParams(
+        max_tokens=max_new_tokens,
         temperature=temperature,
-        use_cache=True,
-        num_return_sequences=num_of_results,
-        do_sample=True,
+        n=num_of_results,
+        seed=seed if seed is not None else None,
         top_p=1,
-        seed=[seed, seed] if seed is not None else None
+        stop=["</s>"]
     )
-    decoded = tokenizer.batch_decode(outputs, skip_special_tokens=True)
-    logging.debug("Total decoded: " + str(len(decoded)))
+    outputs = model.generate(
+        inputs,
+        sampling_params=sampling_params,
+    )
     all_results = []
-    for idx in range(0, batch_size):
+    for idx, output in enumerate(outputs):
         result = []
-        prompt_results = decoded[idx * num_of_results: (idx + 1) * num_of_results]
-        for seq_idx, text in enumerate(prompt_results):
-            logging.debug(f"Prompt {idx + 1} - Decoded Sequence {seq_idx + 1}: {text.replace(tokenizer.pad_token, '')}")
+        for seq_idx, multi_result_output in enumerate(output.outputs):
+            logging.debug(f"Prompt {idx + 1} - Sequence {seq_idx + 1}: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
             logging.debug("_" * 70)
-            result.append(extract_cot_and_answer(text, is_reasoning_model))
+            result.append(extract_cot_and_answer(multi_result_output.text, is_reasoning_model))
         all_results.append(result)
     logging.debug(f"Total number of results for the batch: {len(all_results)}")
-    print(len(all_results))
     return all_results
 
 
@@ -90,23 +96,19 @@ def review_comment_generation(
     )
 
     model, tokenizer = load_model(model_name)
-
+    batch_size = 2
     for i in tqdm(range(0, len(filtered_input), batch_size)):
         end_index = min(i + batch_size, len(filtered_input))
         batch = filtered_input[i:end_index]
 
         prompts = [v["prompt"] for v in batch]
-
-        device = "cuda" if torch.cuda.is_available() else "mps" if torch.mps.is_available() else "cpu"
-
         texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
-        inputs = tokenizer(texts, padding_side="left", padding="longest", return_tensors="pt").to(device)
 
         print(f"Processing batch {i} to {end_index}")
         logging.debug(f"Processing batch {i} to {end_index}")
         try:
             results = forward(
-                inputs,
+                texts,
                 model=model,
                 tokenizer=tokenizer,
                 temperature=temperature,
