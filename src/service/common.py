@@ -6,6 +6,16 @@ from src.utils.string import prettify
 
 
 def extract_cot_and_answer(response, is_reasoning_model: bool = False):
+    think_start_token = "<think>"
+    think_end_token = "</think>"
+
+    if is_reasoning_model and think_end_token not in response:
+        return {"cot": "", "answer": response}
+
+    # Add a start token if it's missing to keep compatibility.
+    if is_reasoning_model and think_start_token not in response:
+        response = f"{think_start_token}{response}"
+
     # Extract content within <think>...</think>
     cot_match = re.search(r"<think>(.*?)</think>", response, re.DOTALL)
     cot = cot_match.group(1).strip() if cot_match else ""
@@ -16,7 +26,6 @@ def extract_cot_and_answer(response, is_reasoning_model: bool = False):
     # Extract content after </think>
     answer_match = re.search(r"</think>\s*(.*)", response, re.DOTALL)
     answer = answer_match.group(1).strip() if answer_match else ""
-
     return {"cot": cot, "answer": answer}
 
 
