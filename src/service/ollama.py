@@ -99,7 +99,8 @@ async def forward(
                 host=host,
                 gpu_index=gpu_index
             )
-            results.append(result[0])
+            if result and len(result) > 0:
+                results.append(result[0])
         results = [results]
     else:
         logging.debug("Result")
@@ -139,8 +140,8 @@ async def task_to_run(
         seed: int = None,
         is_reasoning_model: bool = False,
 ):
-    # Load config
-    config = toml.load("ollama_config.toml")
+    config_path = os.path.join(os.path.dirname(__file__), "../../ollama_config.toml")
+    config = toml.load(config_path)
     gpus = config["ollama_instances"]
 
     shard_index = shard_indices[instance_index]
