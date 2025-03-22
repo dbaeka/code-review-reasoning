@@ -6,14 +6,14 @@ import random
 from functools import partial
 
 import torch
-from datasets import load_dataset
 from dotenv import load_dotenv
-from rank_bm25 import BM25Okapi
 from tqdm import tqdm
 
-from src.common.tools import shard_dataset, get_bm25_scores, init_logging
-from src.service.groq import review_comment_generation
-from src.utils.string import prettify
+from src.common.tools import shard_dataset, init_logging
+from src.service.groq import review_comment_generation as rcg_groq
+from src.service.ollama import review_comment_generation as rcg_ollama
+
+# from src.service.unsloth import review_comment_generation as rcg_unsloth
 
 models = [
     "Qwen/Qwen2.5-7B-Instruct",
@@ -44,6 +44,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch_call", type=int, help="Flag to use batch call for inference")
     parser.add_argument("--log_file", type=str, help="Log file to store logs")
     parser.add_argument("--num_instances", type=int, help="Number of instances to process", default=1)
+    parser.add_argument("--provider", type=str, help="Provider to use for inference", default="ollama")
 
     args = parser.parse_args()
 
@@ -56,13 +57,13 @@ if __name__ == "__main__":
     seed = args.seed
     temperature = args.temperature
     num_of_results = args.num_of_results
-    num_of_few_shot = args.num_of_few_shot
     with_summary = args.with_summary
     with_callgraph = args.with_callgraph
     is_reasoning_model = args.is_reasoning_model
     pause_duration = args.pause_duration
     batch_call = args.batch_call
     num_instances = args.num_instances
+    provider = args.provider
 
     if seed is not None:
         torch.manual_seed(seed)
@@ -71,31 +72,29 @@ if __name__ == "__main__":
     init_logging(base_drive_dir)
 
     base_results_dir = os.path.join(base_drive_dir, "soen691/results/")
-    test_results_dir = os.path.join(base_results_dir, prettify(model_name), f"{test_name}_input")
+    test_results_dir = os.path.join(base_results_dir, f"{test_name}_input")
 
-    shard_dataset(f"dbaeka/soen_691_msg_{test_name}_hashed", test_results_dir, shard_size)
+    output_dir = "_base" if not with_summary and not with_callgraph else ""
+    if with_summary:
+        output_dir += "_summary"
+    if with_callgraph:
+        output_dir += "_callgraph"
 
-    train_dataset = load_dataset("dbaeka/soen_691_msg_train")['train']
-    print(f"Train data length: {len(train_dataset)}")
-    print("\n-----------------\n")
-
-    # Set up BM25
-    tokenized_corpus = [doc["patch"].split(" ") for doc in train_dataset]
-    bm25 = BM25Okapi(tokenized_corpus)
-
-    # Query example
-    query = "CrossProduct"
-    tokenized_query = query.split(" ")
-    sorted_indices, scores = get_bm25_scores(bm25, tokenized_query, top_k=3)
-    # Show top 3 matches
-    top_k = 3
-    print("Top Retrieved Documents:")
-    for i in range(top_k):
-        index = sorted_indices[i]
-        patch = train_dataset["patch"]
-        print(f"Rank {i + 1}: Score {scores[index]:.4f} - {patch[index]}")
+    shard_dataset(f"dbaeka/soen_691_few_shot_{test_name}{output_dir}_hashed", test_results_dir, shard_size)
 
     n_jobs = min(mp.cpu_count(), num_instances)
+
+    # choose provider
+    if provider == "groq":
+        rcg_fn = rcg_groq
+    elif provider == "ollama":
+        n_jobs = 3
+        rcg_fn = rcg_ollama
+    else:
+        # rcg_fn = rcg_unsloth
+        rcg_fn = None
+        n_jobs = 1
+
     with mp.Pool(processes=n_jobs) as pool:
         shard_indices = list(range(total_shards))
         random.shuffle(shard_indices)
@@ -105,20 +104,14 @@ if __name__ == "__main__":
         while shard_indices:
             # Pop n_jobs shards for processing, keeping the rest
             current_shard_indices, shard_indices = shard_indices[:n_jobs], shard_indices[n_jobs:]
-
             for _ in pool.imap(
                     partial(
-                        review_comment_generation,
+                        rcg_fn,
                         model_name=model_name,
                         test_name=test_name,
                         shard_indices=current_shard_indices,
                         base_dir=base_results_dir,
-                        train_dataset=train_dataset,
-                        bm25=bm25,
                         batch_size=batch_size,
-                        num_of_few_shot=num_of_few_shot,
-                        with_summary=with_summary,
-                        with_callgraph=with_callgraph,
                         temperature=temperature,
                         pause_duration=pause_duration,
                         batch_call=batch_call,
@@ -128,8 +121,8 @@ if __name__ == "__main__":
                     ),
                     range(n_jobs)
             ):
-                progress_bar.update(1)  # Manually update tqdm for each completed shard
+                progress_bar.update(1)
 
-        progress_bar.close()
-        print("Finished processing all shards")
-        logging.info("Finished processing all shards")
+    progress_bar.close()
+    print("Finished processing all shards")
+    logging.info("Finished processing all shards")

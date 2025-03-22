@@ -1,0 +1,4 @@
+[ollama_instances]
+#format: "hostname:port" = GPU index
+"localhost:11432" = 0
+#"localhost:11432" = 1
