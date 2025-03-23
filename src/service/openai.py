@@ -76,7 +76,7 @@ async def forward(
             for seq_idx, multi_result_output in enumerate(output.outputs):
                 thinking = choice.message.reasoning_content if is_reasoning_model else "NO THINKING"
                 logging.debug(
-                    f"Prompt {idx + 1} - Sequence {seq_idx + 1}: {thinking + "\n\n" + choice.message.content}")
+                    f"Prompt {idx + 1} - Sequence {seq_idx + 1}: {thinking}\n\n{choice.message.content}")
                 logging.debug("_" * 70)
                 final_output = {"cot": thinking, "answer": choice.message.content}
                 result.append(final_output)
