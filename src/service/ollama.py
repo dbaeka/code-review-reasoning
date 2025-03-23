@@ -139,6 +139,7 @@ async def task_to_run(
         num_of_results: int = 1,
         seed: int = None,
         is_reasoning_model: bool = False,
+        output_dir_prefix: str = ""
 ):
     config_path = os.path.join(os.path.dirname(__file__), "../../config.toml")
     config = toml.load(config_path)
@@ -151,7 +152,7 @@ async def task_to_run(
     filtered_input, existing_results, output_path = get_unprocessed_examples(
         base_dir, model_name, test_name,
         shard_index, num_of_results,
-        is_reasoning_model
+        is_reasoning_model, output_dir_prefix
     )
 
     task_queue = asyncio.Queue()
@@ -193,7 +194,8 @@ def review_comment_generation(
         seed: int = None,
         is_reasoning_model: bool = False,
         batch_size: int = 32,
-        pause_duration: int = 4
+        pause_duration: int = 4,
+        output_dir_prefix: str = ""
 ):
     asyncio.run(task_to_run(
         instance_index,
@@ -205,5 +207,6 @@ def review_comment_generation(
         batch_call,
         num_of_results,
         seed,
-        is_reasoning_model
+        is_reasoning_model,
+        output_dir_prefix
     ))

@@ -73,13 +73,12 @@ async def forward(
     if response is not None:
         for idx, choice in enumerate(response.choices):
             result = []
-            for seq_idx, multi_result_output in enumerate(output.outputs):
-                thinking = choice.message.reasoning_content if is_reasoning_model else "NO THINKING"
-                logging.debug(
-                    f"Prompt {idx + 1} - Sequence {seq_idx + 1}: {thinking}\n\n{choice.message.content}")
-                logging.debug("_" * 70)
-                final_output = {"cot": thinking, "answer": choice.message.content}
-                result.append(final_output)
+            thinking = choice.message.reasoning_content if is_reasoning_model else "NO THINKING"
+            logging.debug(
+                f"Prompt {idx + 1}: {thinking}\n\n{choice.message.content}")
+            logging.debug("_" * 70)
+            final_output = {"cot": thinking, "answer": choice.message.content}
+            result.append(final_output)
             all_results.append(result)
     logging.debug(f"Total number of results for the batch: {len(all_results)}")
     return all_results
@@ -121,6 +120,7 @@ async def task_to_run(
         num_of_results: int = 1,
         seed: int = None,
         is_reasoning_model: bool = False,
+        output_dir_prefix: str = ""
 ):
     config_path = os.path.join(os.path.dirname(__file__), "../../config.toml")
     config = toml.load(config_path)
@@ -133,7 +133,7 @@ async def task_to_run(
     filtered_input, existing_results, output_path = get_unprocessed_examples(
         base_dir, model_name, test_name,
         shard_index, num_of_results,
-        is_reasoning_model
+        is_reasoning_model, output_dir_prefix
     )
 
     task_queue = asyncio.Queue()
@@ -175,7 +175,8 @@ def review_comment_generation(
         seed: int = None,
         is_reasoning_model: bool = False,
         batch_size: int = 32,
-        pause_duration: int = 4
+        pause_duration: int = 4,
+        output_dir_prefix: str = ""
 ):
     asyncio.run(task_to_run(
         instance_index,
@@ -187,5 +188,6 @@ def review_comment_generation(
         batch_call,
         num_of_results,
         seed,
-        is_reasoning_model
+        is_reasoning_model,
+        output_dir_prefix
     ))

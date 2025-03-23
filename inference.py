@@ -76,13 +76,16 @@ if __name__ == "__main__":
     base_results_dir = os.path.join(base_drive_dir, "soen691/results/")
     test_results_dir = os.path.join(base_results_dir, f"{test_name}_input")
 
-    output_dir = "_base" if not with_summary and not with_callgraph else ""
+    input_dir = "_base" if not with_summary and not with_callgraph else ""
+    output_dir = "" if not with_summary and not with_callgraph else ""
     if with_summary:
+        input_dir += "_summary"
         output_dir += "_summary"
     if with_callgraph:
+        input_dir += "_callgraph"
         output_dir += "_callgraph"
 
-    shard_dataset(f"dbaeka/soen_691_few_shot_{test_name}{output_dir}_hashed", test_results_dir, shard_size)
+    shard_dataset(f"dbaeka/soen_691_few_shot_{test_name}{input_dir}_hashed", test_results_dir, shard_size)
 
     n_jobs = min(mp.cpu_count(), num_instances)
 
@@ -127,7 +130,8 @@ if __name__ == "__main__":
                         batch_call=batch_call,
                         num_of_results=num_of_results,
                         seed=seed,
-                        is_reasoning_model=is_reasoning_model
+                        is_reasoning_model=is_reasoning_model,
+                        output_dir_prefix=output_dir
                     ),
                     range(n_jobs)
             ):

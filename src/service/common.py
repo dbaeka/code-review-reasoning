@@ -35,7 +35,8 @@ def get_unprocessed_examples(
         test_name: str,
         shard_index: int,
         num_of_results: int,
-        is_reasoning_model: bool
+        is_reasoning_model: bool,
+        output_dir_prefix: str = ""
 ):
     input_dir = os.path.join(base_dir, f"{test_name}_input")
     input_path = os.path.join(input_dir, f"shard_{shard_index}_input.json")
@@ -46,7 +47,7 @@ def get_unprocessed_examples(
 
     output_dir = os.path.join(base_dir, prettify(model_name), f"{test_name}_output")
     os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, f"shard_{shard_index}_output.json")
+    output_path = os.path.join(output_dir, f"shard_{shard_index}{output_dir_prefix}_output.json")
 
     # Load existing results if they exist
     existing_results = jload(output_path) if os.path.exists(output_path) else {}
