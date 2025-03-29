@@ -107,7 +107,7 @@ def review_comment_generation(
         num_of_results: int = 1,
         seed: int = None,
         is_reasoning_model: bool = False,
-        output_dir_prefix: str = ""
+        dir_prefix: str = ""
 ):
     shard_index = shard_indices[instance_index]
     print(f"Processing instance {instance_index} for shard {shard_index}")
@@ -116,7 +116,7 @@ def review_comment_generation(
     filtered_input, existing_results, output_path = get_unprocessed_examples(
         base_dir, model_name, test_name,
         shard_index, num_of_results,
-        is_reasoning_model, output_dir_prefix
+        is_reasoning_model, dir_prefix
     )
 
     for i in tqdm(range(0, len(filtered_input), batch_size)):
