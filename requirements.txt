@@ -11,3 +11,4 @@ tqdm~=4.67.1
 ollama~=0.4.7
 toml~=0.10.2
 vllm~=0.8.1
+bitsandbytes>=0.45.3
