@@ -132,7 +132,7 @@ if __name__ == "__main__":
                         num_of_results=num_of_results,
                         seed=seed,
                         is_reasoning_model=is_reasoning_model,
-                        output_dir_prefix=local_path_dir
+                        dir_prefix=local_path_dir
                     ),
                     range(n_jobs)
             ):
