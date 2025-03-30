@@ -10,7 +10,6 @@ from src.service.common import extract_cot_and_answer, get_unprocessed_examples,
 
 vllm_model = None
 tokenizer = None
-max_seq_length = 4096
 
 USE_BNB = True
 
@@ -41,6 +40,10 @@ def forward(
         is_reasoning_model: bool = False
 ):
     logging.debug("Generating model response")
+
+    if is_reasoning_model:
+        max_new_tokens = 512
+
     sampling_params = SamplingParams(
         max_tokens=max_new_tokens,
         temperature=temperature,
