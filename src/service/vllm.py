@@ -20,7 +20,12 @@ def load_model(model_name: str):
         return vllm_model, tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if USE_BNB:
-        vllm_model = LLM(model_name, dtype=torch.bfloat16, quantization="bitsandbytes", load_format="bitsandbytes")
+        vllm_model = LLM(
+            model_name,
+            dtype=torch.bfloat16,
+            quantization="bitsandbytes",
+            load_format="bitsandbytes"
+        )
     else:
         vllm_model = LLM(model_name)
     tokenizer.pad_token = tokenizer.eos_token
@@ -42,7 +47,7 @@ def forward(
     logging.debug("Generating model response")
 
     if is_reasoning_model:
-        max_new_tokens = 512
+        max_new_tokens = 250
 
     sampling_params = SamplingParams(
         max_tokens=max_new_tokens,

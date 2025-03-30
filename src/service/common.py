@@ -22,10 +22,11 @@ def extract_cot_and_answer(response, is_reasoning_model: bool = False):
 
     if not is_reasoning_model:
         cot = "NO THINKING"
-
-    # Extract content after </think>
-    answer_match = re.search(r"</think>\s*(.*)", response, re.DOTALL)
-    answer = answer_match.group(1).strip() if answer_match else ""
+        answer = response
+    else:
+        # Extract content after </think>
+        answer_match = re.search(r"</think>\s*(.*)", response, re.DOTALL)
+        answer = answer_match.group(1).strip() if answer_match else ""
     return {"cot": cot, "answer": answer}
 
 
