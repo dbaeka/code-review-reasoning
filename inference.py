@@ -76,7 +76,7 @@ if __name__ == "__main__":
     if num_of_few_shot > 0:
         datasets_path = "few_shot_" + test_name
         datasets_path += "_base" if not with_summary and not with_callgraph else ""
-        local_path_dir = "_few" if not with_summary and not with_callgraph else ""
+        local_path_dir = "_few" if not with_summary and not with_callgraph else "_few"
         if with_summary:
             datasets_path += "_summary"
             local_path_dir += "_summary"
