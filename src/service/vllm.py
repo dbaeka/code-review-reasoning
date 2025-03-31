@@ -23,8 +23,8 @@ def load_model(model_name: str):
         vllm_model = LLM(
             model_name,
             dtype=torch.bfloat16,
-            # quantization="bitsandbytes",
-            # load_format="bitsandbytes"
+            quantization="bitsandbytes",
+            load_format="bitsandbytes"
         )
     else:
         vllm_model = LLM(model_name)
