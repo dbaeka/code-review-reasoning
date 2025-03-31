@@ -3,7 +3,7 @@ import multiprocessing as mp
 import os
 from functools import partial
 
-from datasets import load_dataset, Dataset, DatasetDict
+from datasets import Dataset, DatasetDict, load_dataset
 from tqdm import tqdm
 
 from src.common.tools import init_logging
@@ -95,47 +95,47 @@ if __name__ == "__main__":
     for i, (key, value) in enumerate(shards_dict.items()):
         shards_dict_chunks[i % n_jobs].append({key: value})
 
-    # with mp.Pool(n_jobs) as pool:
-    #     new_datasets = list(tqdm(
-    #         pool.imap(partial(combine_results, dataset=few_shot_dataset, chunks=shards_dict_chunks), range(n_jobs)),
-    #         total=len(shards_dict_chunks.items()),
-    #         desc="Combining dataset"
-    #     ))
+    with mp.Pool(n_jobs) as pool:
+        new_datasets = list(tqdm(
+            pool.imap(partial(combine_results, dataset=few_shot_dataset, chunks=shards_dict_chunks), range(n_jobs)),
+            total=len(shards_dict_chunks.items()),
+            desc="Combining dataset"
+        ))
 
-    # zero_shot_dataset_dict = {hash: sample for hash, sample in zip(zero_shot_dataset["hash"], zero_shot_dataset)}
-    # new_dataset_dict = {}
-    # for i, new_dataset in tqdm(enumerate(new_datasets)):
-    #     for hash, sample in new_dataset.items():
-    #         if hash not in new_dataset_dict:
-    #             new_dataset_dict[hash] = sample
-    #         else:
-    #             for key, value in sample.items():
-    #                 if key not in new_dataset_dict[hash]:
-    #                     new_dataset_dict[hash][key] = value
-    #         zero_shot_prompt = zero_shot_dataset_dict.get(hash, None)
-    #         new_dataset_dict[hash]['zero_shot_prompt'] = zero_shot_prompt["prompt_base"] if zero_shot_prompt else None
-    #
-    # # Ensure all dictionaries have the same keys
-    # all_keys = set()
-    # for sample in new_dataset_dict.values():
-    #     all_keys.update(sample.keys())
-    #
-    # for sample in new_dataset_dict.values():
-    #     for key in all_keys:
-    #         if key not in sample:
-    #             sample[key] = None
-    #
-    # hf_dataset = Dataset.from_list(list(new_dataset_dict.values()))
-    #
-    # # reorder the columns put hash first, few_shot_prompt second, and zero_shot_prompt third, and then the rest
-    # columns = ["hash", "few_shot_prompt", "zero_shot_prompt"]
-    # columns += [key for key in hf_dataset.column_names if key not in columns]
-    #
-    # hf_dataset = hf_dataset.select_columns(columns)
-    #
-    # hf_dataset = DatasetDict({"test": hf_dataset})
-    #
-    # hf_dataset.push_to_hub(f"dbaeka/soen_691_{test_name}_hashed_with_results")
+    zero_shot_dataset_dict = {hash: sample for hash, sample in zip(zero_shot_dataset["hash"], zero_shot_dataset)}
+    new_dataset_dict = {}
+    for i, new_dataset in tqdm(enumerate(new_datasets)):
+        for hash, sample in new_dataset.items():
+            if hash not in new_dataset_dict:
+                new_dataset_dict[hash] = sample
+            else:
+                for key, value in sample.items():
+                    if key not in new_dataset_dict[hash]:
+                        new_dataset_dict[hash][key] = value
+            zero_shot_prompt = zero_shot_dataset_dict.get(hash, None)
+            new_dataset_dict[hash]['zero_shot_prompt'] = zero_shot_prompt["prompt_base"] if zero_shot_prompt else None
+
+    # Ensure all dictionaries have the same keys
+    all_keys = set()
+    for sample in new_dataset_dict.values():
+        all_keys.update(sample.keys())
+
+    for sample in new_dataset_dict.values():
+        for key in all_keys:
+            if key not in sample:
+                sample[key] = None
+
+    hf_dataset = Dataset.from_list(list(new_dataset_dict.values()))
+
+    # reorder the columns put hash first, few_shot_prompt second, and zero_shot_prompt third, and then the rest
+    columns = ["hash", "few_shot_prompt", "zero_shot_prompt"]
+    columns += [key for key in hf_dataset.column_names if key not in columns]
+
+    hf_dataset = hf_dataset.select_columns(columns)
+
+    hf_dataset = DatasetDict({"test": hf_dataset})
+
+    hf_dataset.push_to_hub(f"dbaeka/soen_691_{test_name}_hashed_with_results")
 
     test_name = "test_500"
 
@@ -184,6 +184,53 @@ if __name__ == "__main__":
                 for key, value in sample.items():
                     if key not in new_dataset_dict[hash]:
                         new_dataset_dict[hash][key] = value
+
+    # Add anthropic few shot results
+    input_dir = os.path.join(local_drive_mount, "soen691/results/input/test_500_anthropic_batch_request")
+    few_without_input_file = os.path.join(input_dir, "batch_few_without.json")
+    with open(few_without_input_file, 'r') as f:
+        few_without_input_anthropic = json.loads(f.read())['requests']
+    few_summary_callgraph_input_file = os.path.join(input_dir, "batch_few_summary_callgraph.json")
+    with open(few_summary_callgraph_input_file, 'r') as f:
+        few_summary_callgraph_input_anthropic = json.loads(f.read())['requests']
+
+    anthropic_few_shot_dir = os.path.join(base_results_dir, "Anthropic_Claude_3_7_Sonnet_20250219", "few")
+    anthropic_few_shot_without_result = os.path.join(anthropic_few_shot_dir, "few_without_results.jsonl")
+    with open(anthropic_few_shot_without_result, 'r') as f:
+        data = f.readlines()
+    anthropic_few_shot_without_result = [json.loads(x) for x in data]
+
+    anthropic_few_shot_summary_callgraph_result = os.path.join(anthropic_few_shot_dir,
+                                                               "few_summary_callgraph_results.jsonl")
+    with open(anthropic_few_shot_summary_callgraph_result, 'r') as f:
+        data = f.readlines()
+    anthropic_few_shot_summary_callgraph_result = [json.loads(x) for x in data]
+
+    for input in few_without_input_anthropic:
+        hash = input["hash"]
+        custom_id = input["custom_id"]
+        for result in anthropic_few_shot_without_result:
+            if result["custom_id"] == custom_id:
+                if "few_without__Anthropic_Claude_3_7_Sonnet_20250219" not in new_dataset_dict[hash]:
+                    new_dataset_dict[hash]["few_without__Anthropic_Claude_3_7_Sonnet_20250219"] = []
+                new_dataset_dict[hash]["few_without__Anthropic_Claude_3_7_Sonnet_20250219"].append({
+                    "answer": result["result"]["message"]["content"][1]["text"],
+                    "cot": result["result"]["message"]["content"][0]["thinking"],
+                })
+                break
+
+    for input in few_summary_callgraph_input_anthropic:
+        hash = input["hash"]
+        custom_id = input["custom_id"]
+        for result in anthropic_few_shot_summary_callgraph_result:
+            if result["custom_id"] == custom_id:
+                if "few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219" not in new_dataset_dict[hash]:
+                    new_dataset_dict[hash]["few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219"] = []
+                new_dataset_dict[hash]["few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219"].append({
+                    "answer": result["result"]["message"]["content"][1]["text"],
+                    "cot": result["result"]["message"]["content"][0]["thinking"],
+                })
+                break
 
     # Ensure all dictionaries have the same keys
     all_keys = set()

@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 from src.common.tools import shard_dataset, init_logging
+from src.service.anthropic import review_comment_generation as rcg_anthropic
 from src.service.groq import review_comment_generation as rcg_groq
 from src.service.ollama import review_comment_generation as rcg_ollama
 from src.service.openai import review_comment_generation as rcg_openai
@@ -109,6 +110,9 @@ if __name__ == "__main__":
         n_jobs = 1
     elif provider == "openai":
         rcg_fn = rcg_openai
+        n_jobs = 1
+    elif provider == "anthropic":
+        rcg_fn = rcg_anthropic
         n_jobs = 1
     else:
         # rcg_fn = rcg_unsloth
