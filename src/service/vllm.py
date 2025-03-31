@@ -23,8 +23,8 @@ def load_model(model_name: str):
         vllm_model = LLM(
             model_name,
             dtype=torch.bfloat16,
-            quantization="bitsandbytes",
-            load_format="bitsandbytes"
+            # quantization="bitsandbytes",
+            # load_format="bitsandbytes"
         )
     else:
         vllm_model = LLM(model_name)
@@ -46,7 +46,7 @@ def forward(
 ):
     logging.debug("Generating model response")
 
-    if is_reasoning_model:
+    if not is_reasoning_model:
         max_new_tokens = 250
 
     sampling_params = SamplingParams(

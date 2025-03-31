@@ -63,6 +63,7 @@ if __name__ == "__main__":
     batch_call = args.batch_call
     num_instances = args.num_instances
     provider = args.provider
+    num_of_few_shot = args.num_of_few_shot
 
     if seed is not None:
         torch.manual_seed(seed)
@@ -72,18 +73,24 @@ if __name__ == "__main__":
 
     base_results_dir = os.path.join(base_drive_dir, "soen691/results/")
 
-    datasets_path = "_base" if not with_summary and not with_callgraph else ""
-    local_path_dir = "" if not with_summary and not with_callgraph else ""
-    if with_summary:
-        datasets_path += "_summary"
-        local_path_dir += "_summary"
-    if with_callgraph:
-        datasets_path += "_callgraph"
-        local_path_dir += "_callgraph"
+
+    if num_of_few_shot > 0:
+        datasets_path = "few_shot_" + test_name
+        datasets_path += "_base" if not with_summary and not with_callgraph else ""
+        local_path_dir = "_few" if not with_summary and not with_callgraph else ""
+        if with_summary:
+            datasets_path += "_summary"
+            local_path_dir += "_summary"
+        if with_callgraph:
+            datasets_path += "_callgraph"
+            local_path_dir += "_callgraph"
+    else:
+        datasets_path = "zero_shot_" + test_name
+        local_path_dir = "_zero"
 
     test_results_dir = os.path.join(base_results_dir, f"{test_name}{local_path_dir}_input")
 
-    shard_dataset(f"dbaeka/soen_691_few_shot_{test_name}{datasets_path}_hashed", test_results_dir, shard_size)
+    shard_dataset(f"dbaeka/soen_691_{datasets_path}_hashed", test_results_dir, shard_size)
 
     # Get total number of shards from test results directory
     total_shards = len(os.listdir(test_results_dir))
