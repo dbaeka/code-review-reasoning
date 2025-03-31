@@ -73,7 +73,6 @@ if __name__ == "__main__":
 
     base_results_dir = os.path.join(base_drive_dir, "soen691/results/")
 
-
     if num_of_few_shot > 0:
         datasets_path = "few_shot_" + test_name
         datasets_path += "_base" if not with_summary and not with_callgraph else ""
