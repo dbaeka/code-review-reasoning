@@ -255,12 +255,12 @@ def forward_with_budget_single(
             multi_result_output = outputs[0].outputs[0]
             logging.debug(
                 f"Prompt {i + 1} - With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
-            logging.debug("_" * 70)
             prior_thinking_tokens = "\n".join(item["content"] for item in prompt[-(budget + 1):])
             final = extract_cot_and_answer(multi_result_output.text, True)
             final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
             results.append(final)
             logging.debug(f"Result {i + 1}: {final}")
+            logging.debug("_" * 70)
 
     all_results = []
     for idx in range(0, len(results), num_of_results):
