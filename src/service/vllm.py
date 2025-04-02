@@ -12,7 +12,7 @@ from vllm import LLM, SamplingParams
 vllm_model = None
 tokenizer = None
 
-USE_BNB = False
+USE_BNB = True
 
 MAX_TOKENS_THINKING = 32000
 
