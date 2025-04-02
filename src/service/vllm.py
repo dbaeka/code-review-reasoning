@@ -193,7 +193,7 @@ def forward_with_budget_single(
     stop_token_ids = tokenizer("</think>")["input_ids"]
 
     results = []
-    for i, prompt in enumerate(prompts):
+    for i, prompt in tqdm(enumerate(prompts)):
         text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
         sampling_params = SamplingParams(
             max_tokens=max_new_tokens,
@@ -211,7 +211,7 @@ def forward_with_budget_single(
         ignore_str = "Wait"
         max_tokens_thinking_tmp = MAX_TOKENS_THINKING
         if max_tokens_thinking_tmp > 0:
-            for i in range(budget):  # Num of times to skip stop token
+            for j in range(budget):  # Num of times to skip stop token
                 max_tokens_thinking_tmp -= len(outputs[0].outputs[0].token_ids)
                 result = outputs[0].outputs[0].text
                 result = result.replace("</think>", "")
