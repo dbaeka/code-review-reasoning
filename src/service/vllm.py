@@ -16,6 +16,8 @@ USE_BNB = True
 
 MAX_TOKENS_THINKING = 32000
 
+MAX_ATTEMPT = 3
+
 
 def load_model(model_name: str):
     global vllm_model, tokenizer
@@ -201,32 +203,42 @@ def review_comment_generation(
         is_reasoning_model, dir_prefix
     )
 
-    model, tokenizer = load_model(model_name)
-    for i in tqdm(range(0, len(filtered_input), batch_size)):
-        end_index = min(i + batch_size, len(filtered_input))
-        batch = filtered_input[i:end_index]
+    attempt = 0
+    while len(filtered_input) > 0 and attempt < MAX_ATTEMPT:
+        model, tokenizer = load_model(model_name)
+        for i in tqdm(range(0, len(filtered_input), batch_size)):
+            end_index = min(i + batch_size, len(filtered_input))
+            batch = filtered_input[i:end_index]
 
-        prompts = [v["prompt"] for v in batch]
-        texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+            prompts = [v["prompt"] for v in batch]
+            texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
 
-        print(f"Processing batch {i} to {end_index}")
-        logging.debug(f"Processing batch {i} to {end_index}")
-        try:
-            results = forward(
-                texts,
-                model=model,
-                tokenizer=tokenizer,
-                temperature=temperature,
-                num_of_results=num_of_results,
-                seed=seed,
-                is_reasoning_model=is_reasoning_model
-            )
-            save_results(batch, results, existing_results, output_path)
-        except Exception as e:
-            logging.error("Error: ", e)
-            sleep(pause_duration)
+            print(f"Processing batch {i} to {end_index}")
+            logging.debug(f"Processing batch {i} to {end_index}")
+            try:
+                results = forward(
+                    texts,
+                    model=model,
+                    tokenizer=tokenizer,
+                    temperature=temperature,
+                    num_of_results=num_of_results,
+                    seed=seed,
+                    is_reasoning_model=is_reasoning_model
+                )
+                save_results(batch, results, existing_results, output_path)
+            except Exception as e:
+                logging.error("Error: ", e)
+                sleep(pause_duration)
 
-    logging.info(f"Completed processing shard {shard_index}")
+        logging.info(f"Completed processing shard {shard_index}")
+        logging.info(f"Attempt {attempt} to process shard {shard_index}")
+        attempt += 1
+        filtered_input, existing_results, output_path = get_unprocessed_examples(
+            base_dir, model_name, test_name,
+            shard_index, num_of_results,
+            is_reasoning_model, dir_prefix
+        )
+
 
 
 def budget_force_infer(
@@ -250,28 +262,36 @@ def budget_force_infer(
         shard_index, num_of_results,
         True, dir_prefix
     )
+    attempt = 0
+    while len(filtered_input) > 0 and attempt < MAX_ATTEMPT:
+        model, tokenizer = load_model(model_name)
+        for i in tqdm(range(0, len(filtered_input), batch_size)):
+            end_index = min(i + batch_size, len(filtered_input))
+            batch = filtered_input[i:end_index]
 
-    model, tokenizer = load_model(model_name)
-    for i in tqdm(range(0, len(filtered_input), batch_size)):
-        end_index = min(i + batch_size, len(filtered_input))
-        batch = filtered_input[i:end_index]
+            prompts = [v["prompt"] for v in batch] * num_of_results
+            print(f"Processing batch {i} to {end_index}")
+            logging.debug(f"Processing batch {i} to {end_index}")
+            try:
+                results = forward_with_budget(
+                    prompts,
+                    model=model,
+                    tokenizer=tokenizer,
+                    temperature=temperature,
+                    num_of_results=num_of_results,
+                    seed=seed,
+                    budget=budget,
+                )
+                save_results(batch, results, existing_results, output_path)
+            except Exception as e:
+                logging.error("Error: ", e)
+                sleep(pause_duration)
 
-        prompts = [v["prompt"] for v in batch] * num_of_results
-        print(f"Processing batch {i} to {end_index}")
-        logging.debug(f"Processing batch {i} to {end_index}")
-        try:
-            results = forward_with_budget(
-                prompts,
-                model=model,
-                tokenizer=tokenizer,
-                temperature=temperature,
-                num_of_results=num_of_results,
-                seed=seed,
-                budget=budget,
-            )
-            save_results(batch, results, existing_results, output_path)
-        except Exception as e:
-            logging.error("Error: ", e)
-            sleep(pause_duration)
-
-    logging.info(f"Completed processing shard {shard_index}")
+        logging.info(f"Completed processing shard {shard_index}")
+        logging.info(f"Attempt {attempt} to process shard {shard_index}")
+        attempt += 1
+        filtered_input, existing_results, output_path = get_unprocessed_examples(
+            base_dir, model_name, test_name,
+            shard_index, num_of_results,
+            True, dir_prefix
+        )
