@@ -178,6 +178,100 @@ def forward_with_budget(
     return all_results
 
 
+def forward_with_budget_single(
+        prompts,
+        model,
+        tokenizer,
+        max_new_tokens: int = 2048,
+        temperature: float = 0.05,
+        num_of_results: int = 1,
+        seed: int = None,
+        budget: int = 1
+):
+    logging.debug(f"Generating model response with budget forcing budget: {budget}")
+
+    stop_token_ids = tokenizer("</think>")["input_ids"]
+
+    results = []
+    for i, prompt in enumerate(prompts):
+        text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
+        sampling_params = SamplingParams(
+            max_tokens=max_new_tokens,
+            n=1,
+            seed=seed if seed is not None else None,
+            min_tokens=0,
+            stop_token_ids=stop_token_ids,
+            skip_special_tokens=False,
+            temperature=temperature,
+        )
+        outputs = model.generate(
+            text,
+            sampling_params=sampling_params,
+        )
+        ignore_str = "Wait"
+        max_tokens_thinking_tmp = MAX_TOKENS_THINKING
+        if max_tokens_thinking_tmp > 0:
+            for i in range(budget):  # Num of times to skip stop token
+                max_tokens_thinking_tmp -= len(outputs[0].outputs[0].token_ids)
+                result = outputs[0].outputs[0].text
+                result = result.replace("</think>", "")
+                prompt.append({"role": "assistant", "content": "<think>\n" + result + ignore_str})
+                sampling_params = SamplingParams(
+                    max_tokens=max_tokens_thinking_tmp,
+                    min_tokens=1,
+                    stop_token_ids=stop_token_ids,
+                    skip_special_tokens=False,
+                    seed=seed if seed is not None else None,
+                    n=1,
+                    temperature=temperature,
+                )
+                text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
+                text = re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", text)
+                outputs = model.generate(
+                    text,
+                    sampling_params=sampling_params
+                )
+
+            result = outputs[0].outputs[0].text
+            result = result.replace("</think>", "")
+            prompt.append({"role": "assistant", "content": result + (ignore_str if (i + 1) != budget else "")})
+
+            sampling_params = SamplingParams(
+                max_tokens=max_new_tokens,
+                temperature=temperature,
+                n=1,
+                seed=seed if seed is not None else None,
+                top_p=1,
+                stop=["</s>"]
+            )
+
+            text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
+            text = re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", text)
+            text += "</think>"
+            outputs = model.generate(
+                text,
+                sampling_params=sampling_params,
+            )
+            multi_result_output = outputs[0].outputs[0]
+            logging.debug(
+                f"Prompt {i + 1} - With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
+            logging.debug("_" * 70)
+            prior_thinking_tokens = "\n".join(item["content"] for item in prompt[-(budget + 1):])
+            final = extract_cot_and_answer(multi_result_output.text, True)
+            final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
+            results.append(final)
+
+    all_results = []
+    for idx in range(0, len(results), num_of_results):
+        result = []
+        for j in range(num_of_results):
+            if idx + j < len(results):
+                result.append(results[idx + j])
+        all_results.append(result)
+    logging.debug(f"Total number of results for the batch: {len(all_results)}")
+    return all_results
+
+
 def review_comment_generation(
         instance_index,
         model_name: str,
@@ -240,7 +334,6 @@ def review_comment_generation(
         )
 
 
-
 def budget_force_infer(
         model_name: str,
         test_name: str,
@@ -273,7 +366,7 @@ def budget_force_infer(
             print(f"Processing batch {i} to {end_index}")
             logging.debug(f"Processing batch {i} to {end_index}")
             try:
-                results = forward_with_budget(
+                results = forward_with_budget_single(
                     prompts,
                     model=model,
                     tokenizer=tokenizer,

@@ -63,7 +63,7 @@ if __name__ == "__main__":
         datasets_path = "zero_shot_" + test_name
         local_path_dir = "_zero"
 
-    local_path_dir += "_budget_force_{budget}"
+    local_path_dir += f"_budget_force_{budget}"
     test_results_dir = os.path.join(base_results_dir, f"{test_name}{local_path_dir}_input")
 
     shard_dataset(f"dbaeka/soen_691_{datasets_path}_hashed", test_results_dir, 500)
