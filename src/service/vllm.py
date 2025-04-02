@@ -1,17 +1,20 @@
 import logging
+import re
 from time import sleep
 
 import torch
 from tqdm import tqdm
 from transformers import AutoTokenizer
-from vllm import LLM, SamplingParams
 
 from src.service.common import extract_cot_and_answer, get_unprocessed_examples, save_results
+from vllm import LLM, SamplingParams
 
 vllm_model = None
 tokenizer = None
 
-USE_BNB = True
+USE_BNB = False
+
+MAX_TOKENS_THINKING = 32000
 
 
 def load_model(model_name: str):
@@ -74,6 +77,105 @@ def forward(
     return all_results
 
 
+def forward_with_budget(
+        prompts,
+        model,
+        tokenizer,
+        max_new_tokens: int = 2048,
+        temperature: float = 0.05,
+        num_of_results: int = 1,
+        seed: int = None,
+        budget: int = 1
+):
+    logging.debug(f"Generating model response with budget forcing budget: {budget}")
+
+    stop_token_ids = tokenizer("</think>")["input_ids"]
+
+    texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+    sampling_params = SamplingParams(
+        max_tokens=max_new_tokens,
+        n=1,
+        seed=seed if seed is not None else None,
+        min_tokens=0,
+        stop_token_ids=stop_token_ids,
+        skip_special_tokens=False,
+        temperature=temperature,
+    )
+    outputs = model.generate(
+        texts,
+        sampling_params=sampling_params,
+    )
+    max_tokens_thinking_length = float('-inf')
+    ignore_str = "Wait"
+
+    for idx, output in enumerate(outputs):
+        for seq_idx, multi_result_output in enumerate(output.outputs):
+            result = multi_result_output.text
+            max_tokens_thinking_length = max(max_tokens_thinking_length, len(result))
+            result = result.replace("</think>", "")
+            prompts[idx].append({"role": "assistant", "content": "<think>\n" + result + ignore_str})
+
+    max_tokens_thinking_tmp = MAX_TOKENS_THINKING
+    if max_tokens_thinking_tmp > 0:
+        for i in range(budget):
+            max_tokens_thinking_tmp -= max_tokens_thinking_length
+            sampling_params = SamplingParams(
+                max_tokens=max_tokens_thinking_tmp,
+                min_tokens=1,
+                stop_token_ids=stop_token_ids,
+                skip_special_tokens=False,
+                seed=seed if seed is not None else None,
+                n=1,
+                temperature=temperature,
+            )
+            texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+            texts = [re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", item) for item in texts]
+            outputs = model.generate(
+                texts,
+                sampling_params=sampling_params
+            )
+            for idx, output in enumerate(outputs):
+                for seq_idx, multi_result_output in enumerate(output.outputs):
+                    result = multi_result_output.text
+                    result = result.replace("</think>", "")
+                    prompts[idx].append(
+                        {"role": "assistant", "content": result + (ignore_str if (i + 1) != budget else "")})
+
+    sampling_params = SamplingParams(
+        max_tokens=max_new_tokens,
+        temperature=temperature,
+        n=1,
+        seed=seed if seed is not None else None,
+        top_p=1,
+        stop=["</s>"]
+    )
+
+    texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+    texts = [re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", item) for item in texts]
+    texts = [item + "</think>" for item in texts]
+    outputs = model.generate(
+        texts,
+        sampling_params=sampling_params,
+    )
+
+    all_results = []
+    for idx in range(0, len(outputs), num_of_results):
+        result = []
+        for j in range(num_of_results):
+            if idx + j < len(outputs):
+                multi_result_output = outputs[idx + j].outputs[0]
+                logging.debug(
+                    f"Prompt {idx + 1} - Sequence {j + 1} With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
+                logging.debug("_" * 70)
+                prior_thinking_tokens = "\n".join(item["content"] for item in prompts[idx + j][-(budget + 1):])
+                final = extract_cot_and_answer(multi_result_output.text, True)
+                final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
+                result.append(final)
+        all_results.append(result)
+    logging.debug(f"Total number of results for the batch: {len(all_results)}")
+    return all_results
+
+
 def review_comment_generation(
         instance_index,
         model_name: str,
@@ -118,6 +220,54 @@ def review_comment_generation(
                 num_of_results=num_of_results,
                 seed=seed,
                 is_reasoning_model=is_reasoning_model
+            )
+            save_results(batch, results, existing_results, output_path)
+        except Exception as e:
+            logging.error("Error: ", e)
+            sleep(pause_duration)
+
+    logging.info(f"Completed processing shard {shard_index}")
+
+
+def budget_force_infer(
+        model_name: str,
+        test_name: str,
+        shard_index: int,
+        base_dir: str,
+        batch_size: int = 32,
+        temperature: float = 0.7,
+        pause_duration: int = 4,
+        num_of_results: int = 1,
+        budget: int = 1,
+        seed: int = None,
+        dir_prefix: str = ""
+):
+    print(f"Processing shard {shard_index}")
+    logging.info(f"Processing shard {shard_index}")
+
+    filtered_input, existing_results, output_path = get_unprocessed_examples(
+        base_dir, model_name, test_name,
+        shard_index, num_of_results,
+        True, dir_prefix
+    )
+
+    model, tokenizer = load_model(model_name)
+    for i in tqdm(range(0, len(filtered_input), batch_size)):
+        end_index = min(i + batch_size, len(filtered_input))
+        batch = filtered_input[i:end_index]
+
+        prompts = [v["prompt"] for v in batch] * num_of_results
+        print(f"Processing batch {i} to {end_index}")
+        logging.debug(f"Processing batch {i} to {end_index}")
+        try:
+            results = forward_with_budget(
+                prompts,
+                model=model,
+                tokenizer=tokenizer,
+                temperature=temperature,
+                num_of_results=num_of_results,
+                seed=seed,
+                budget=budget,
             )
             save_results(batch, results, existing_results, output_path)
         except Exception as e:
