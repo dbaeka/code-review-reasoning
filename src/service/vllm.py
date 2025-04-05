@@ -16,8 +16,6 @@ USE_BNB = True
 MAX_ATTEMPT = 3
 MAX_NEW_TOKENS = 2048
 
-KEEP_INSTRUCTION = False
-
 
 def load_model(model_name: str):
     global vllm_model, tokenizer
@@ -107,31 +105,13 @@ def review_comment_generation(
     attempt = 0
     while len(filtered_input) > 0 and attempt < MAX_ATTEMPT:
         model, tokenizer = load_model(model_name)
-        max_model_len = tokenizer.model_max_length
-        max_new_tokens = MAX_NEW_TOKENS
         for i in tqdm(range(0, len(filtered_input), batch_size)):
             end_index = min(i + batch_size, len(filtered_input))
             batch = filtered_input[i:end_index]
 
             prompts = [v["prompt"] for v in batch]
 
-            if KEEP_INSTRUCTION:
-                instruction_prompt = prompts[0][0]
-                prompts = [v[1:] for v in prompts]
-                instruction_text = tokenizer.apply_chat_template([instruction_prompt], tokenize=False)
-                instruction_tokens = tokenizer(instruction_text)["input_ids"]
-                instruction_tokens_len = len(instruction_tokens)
-            else:
-                instruction_tokens = []
-                instruction_tokens_len = 0
-
             texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
-
-            tokens = tokenizer(texts)["input_ids"]
-            clipped_tokens = [token[-(max_model_len - instruction_tokens_len - max_new_tokens):] for token in tokens]
-
-            clipped_tokens = [instruction_tokens + token for token in clipped_tokens]
-            texts = tokenizer.batch_decode(clipped_tokens, skip_special_tokens=True)
 
             print(f"Processing batch {i} to {end_index}")
             logging.debug(f"Processing batch {i} to {end_index}")

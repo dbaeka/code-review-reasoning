@@ -46,6 +46,7 @@ if __name__ == "__main__":
             print(f"EM: {calculate_exact_match_batch(pred_values, golds)}")
             print("\n-----------------\n")
 
+            # We report only these below
             print("Ignoring Blank Lines\n")
             print(f"BERTScore: {bert_score / (len(pred_values) - blank_count):.4f}")
             print(
