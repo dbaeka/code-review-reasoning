@@ -113,9 +113,9 @@ def forward_with_budget(
     ignore_str = "Wait"
 
     for idx, output in enumerate(outputs):
-        print("Len: ", len(output))
+        logging.debug("Len", idx)
         for seq_idx, multi_result_output in enumerate(output.outputs):
-            print("Len 2: ", len(multi_result_output))
+            logging.debug("Len 2", idx)
             result = multi_result_output.text
             max_tokens_thinking_length = max(max_tokens_thinking_length, len(result))
             result = result.replace("</think>", "")
