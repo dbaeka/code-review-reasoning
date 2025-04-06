@@ -69,7 +69,10 @@ if __name__ == "__main__":
             shards = [x for x in os.listdir(zero_shot_dir) if x.endswith(".json")]
             for shard in shards:
                 path = os.path.join(zero_shot_dir, shard)
-                shards_dict[path] = {"type": "zero", "model": model}
+                if "budget_force" in shard:
+                    shards_dict[path] = {"type": "zero_budget_force", "model": model}
+                else:
+                    shards_dict[path] = {"type": "zero", "model": model}
 
         # go through few shot results
         few_shot_dir = os.path.join(base_results_dir, model, "few")

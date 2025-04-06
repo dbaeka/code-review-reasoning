@@ -24,6 +24,54 @@ EM: 0.0
 
 -----------------
 
+Evaluating few_summary_callgraph__Qwen_Qwen2_5_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8503
+Bleu score: 7.39
+Bleu score (with rmStop): 8.51
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8503
+Bleu score: 7.39
+EM: 0.0
+
+-----------------
+
+Evaluating zero_budget_force__deepseek_ai_DeepSeek_R1_Distill_Qwen_1_5B
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8259
+Bleu score: 3.24
+Bleu score (with rmStop): 3.38
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8259
+Bleu score: 3.24
+EM: 0.0
+
+-----------------
+
 Evaluating zero__Qwen_Qwen2_5_Coder_1_5B_Instruct
 
 -----------------
@@ -238,30 +286,6 @@ Ignoring Blank Lines
 
 BERTScore: 0.8501
 Bleu score: 7.54
-EM: 0.0
-
------------------
-
-Evaluating few_summary_callgraph__Qwen_Qwen2_5_1_5B_Instruct
-
------------------
-
-The number of samples: 500
-Total blank responses: 0
-
------------------
-
-BERTScore: 0.8503
-Bleu score: 7.39
-Bleu score (with rmStop): 8.51
-EM: 0.0
-
------------------
-
-Ignoring Blank Lines
-
-BERTScore: 0.8503
-Bleu score: 7.39
 EM: 0.0
 
 -----------------
