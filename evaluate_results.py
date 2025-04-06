@@ -13,7 +13,7 @@ transformers.modeling_utils.logger.setLevel(logging.ERROR)
 if __name__ == "__main__":
     columns_to_skip = ['hash', 'few_shot_prompt', 'zero_shot_prompt', 'gold']
 
-    test_names = ["test_500", "test_5000"]
+    test_names = ["test_500"]
     for test_name in test_names:
         pred_dataset = load_dataset(f"dbaeka/soen_691_{test_name}_final_selected_results")['test']
 

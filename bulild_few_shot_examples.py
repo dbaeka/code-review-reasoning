@@ -71,11 +71,12 @@ def build_dataset(instance, dataset_chunks):
 if __name__ == "__main__":
     init_logging(local_drive_mount)
 
-    test_name = "test_5000"
+    test_name = "test_500"
 
     n_jobs = min(8, mp.cpu_count())
 
-    dataset = load_dataset(f"dbaeka/soen_691_{test_name}_bm_25_indices_hashed")['test']
+    dataset = load_dataset(f"dbaeka/soen_691_{test_name}0_bm_25_indices_hashed")['test']
+    dataset = dataset.select(range(0, 500))
 
     chunk_size = len(dataset) // (n_jobs - 1)
     dataset_chunks = dataset.batch(chunk_size)

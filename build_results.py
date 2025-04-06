@@ -64,31 +64,10 @@ def build_results(instance, dataset, chunks):
 if __name__ == "__main__":
     init_logging(local_drive_mount)
 
-    test_name = "test_5000"
-
     n_jobs = min(8, mp.cpu_count())
 
-    base_dataset = load_dataset(f"dbaeka/soen_691_msg_{test_name}_hashed")['test']
-    pred_dataset = load_dataset(f"dbaeka/soen_691_{test_name}_hashed_with_results")['test']
-
-    chunk_size = len(pred_dataset) // (n_jobs - 1)
-    pred_dataset_chunks = pred_dataset.batch(chunk_size)
-
-    with mp.Pool(n_jobs) as pool:
-        new_datasets = list(tqdm(
-            pool.imap(partial(build_results, dataset=base_dataset, chunks=pred_dataset_chunks), range(n_jobs)),
-            desc=f"Building {test_name} dataset"
-        ))
-
-    new_dataset = [item for sublist in new_datasets for item in sublist]
-
-    hf_dataset = Dataset.from_list(new_dataset)
-    hf_dataset = DatasetDict({"test": hf_dataset})
-
-    hf_dataset.push_to_hub(f"dbaeka/soen_691_{test_name}_final_selected_results")
-
     test_name = "test_500"
-
+    base_dataset = load_dataset(f"dbaeka/soen_691_msg_{test_name}_hashed")['test']
     pred_dataset = load_dataset(f"dbaeka/soen_691_{test_name}_hashed_with_results")['test']
 
     chunk_size = len(pred_dataset) // (n_jobs - 1)

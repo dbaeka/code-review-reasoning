@@ -11,19 +11,7 @@ from tqdm import tqdm
 
 from src.common.tools import shard_dataset, init_logging
 from src.service.anthropic import review_comment_generation as rcg_anthropic
-from src.service.groq import review_comment_generation as rcg_groq
-from src.service.ollama import review_comment_generation as rcg_ollama
-from src.service.openai import review_comment_generation as rcg_openai
 from src.service.vllm import review_comment_generation as rcg_vllm
-
-# from src.service.unsloth import review_comment_generation as rcg_unsloth
-
-models = [
-    "Qwen/Qwen2.5-7B-Instruct",
-    "Qwen/Qwen2.5-Coder-7B-Instruct",
-    "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-    "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
-]
 
 if __name__ == "__main__":
     load_dotenv()
@@ -101,23 +89,11 @@ if __name__ == "__main__":
     provider = provider.lower()
 
     # choose provider
-    if provider == "groq":
-        rcg_fn = rcg_groq
-    elif provider == "ollama":
-        n_jobs = 3
-        rcg_fn = rcg_ollama
-    elif provider == "vllm":
-        rcg_fn = rcg_vllm
-        n_jobs = 1
-    elif provider == "openai":
-        rcg_fn = rcg_openai
-        n_jobs = 1
-    elif provider == "anthropic":
+    if provider == "anthropic":
         rcg_fn = rcg_anthropic
         n_jobs = 1
     else:
-        # rcg_fn = rcg_unsloth
-        rcg_fn = None
+        rcg_fn = rcg_vllm
         n_jobs = 1
 
     with mp.Pool(processes=n_jobs) as pool:
