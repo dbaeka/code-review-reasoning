@@ -374,7 +374,7 @@ def budget_force_infer(
             print(f"Processing batch {i} to {end_index}")
             logging.debug(f"Processing batch {i} to {end_index}")
             try:
-                results = forward_with_budget_single(
+                results = forward_with_budget(
                     prompts,
                     model=model,
                     tokenizer=tokenizer,
