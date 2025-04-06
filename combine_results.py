@@ -119,6 +119,9 @@ if __name__ == "__main__":
     few_summary_callgraph_input_file = os.path.join(input_dir, "batch_few_summary_callgraph.json")
     with open(few_summary_callgraph_input_file, 'r') as f:
         few_summary_callgraph_input_anthropic = json.loads(f.read())['requests']
+    zero_input_file = os.path.join(input_dir, "batch_zero.json")
+    with open(zero_input_file, 'r') as f:
+        zero_input_anthropic = json.loads(f.read())['requests']
 
     anthropic_few_shot_dir = os.path.join(base_results_dir, "Anthropic_Claude_3_7_Sonnet_20250219", "few")
     anthropic_few_shot_without_result = os.path.join(anthropic_few_shot_dir, "few_without_results.jsonl")
@@ -131,6 +134,12 @@ if __name__ == "__main__":
     with open(anthropic_few_shot_summary_callgraph_result, 'r') as f:
         data = f.readlines()
     anthropic_few_shot_summary_callgraph_result = [json.loads(x) for x in data]
+
+    anthropic_zero_shot_dir = os.path.join(base_results_dir, "Anthropic_Claude_3_7_Sonnet_20250219", "zero")
+    anthropic_zero_result = os.path.join(anthropic_zero_shot_dir, "zero_results.jsonl")
+    with open(anthropic_zero_result, 'r') as f:
+        data = f.readlines()
+    anthropic_zero_result = [json.loads(x) for x in data]
 
     for input in few_without_input_anthropic:
         hash = input["hash"]
@@ -153,6 +162,19 @@ if __name__ == "__main__":
                 if "few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219" not in new_dataset_dict[hash]:
                     new_dataset_dict[hash]["few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219"] = []
                 new_dataset_dict[hash]["few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219"].append({
+                    "answer": result["result"]["message"]["content"][1]["text"],
+                    "cot": result["result"]["message"]["content"][0]["thinking"],
+                })
+                break
+
+    for input in zero_input_anthropic:
+        hash = input["hash"]
+        custom_id = input["custom_id"]
+        for result in anthropic_zero_result:
+            if result["custom_id"] == custom_id:
+                if "zero__Anthropic_Claude_3_7_Sonnet_20250219" not in new_dataset_dict[hash]:
+                    new_dataset_dict[hash]["zero__Anthropic_Claude_3_7_Sonnet_20250219"] = []
+                new_dataset_dict[hash]["zero__Anthropic_Claude_3_7_Sonnet_20250219"].append({
                     "answer": result["result"]["message"]["content"][1]["text"],
                     "cot": result["result"]["message"]["content"][0]["thinking"],
                 })

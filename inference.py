@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # parse arguments
     parser = argparse.ArgumentParser(description="Generate review comments")
     parser.add_argument("--model_name", type=str, help="Model name to use for inference")
-    parser.add_argument("--test_name", type=str, help="Test name to use for inference")
+    parser.add_argument("--test_name", type=str, help="Test name to use for inference", default="test_500")
     parser.add_argument("--batch_size", type=int, help="Batch size to use for inference", default=2048)
     parser.add_argument("--base_drive_dir", type=str, help="Base drive directory to store results",
                         default="/home/ubuntu/")
