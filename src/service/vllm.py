@@ -113,12 +113,13 @@ def forward_with_budget(
     ignore_str = "Wait"
 
     for idx, output in enumerate(outputs):
-        logging.debug("Len", idx)
+        logging.debug(f"Len:, {idx}")
         for seq_idx, multi_result_output in enumerate(output.outputs):
-            logging.debug("Len 2", idx)
+            logging.debug(f"Len 2:, {idx}")
             result = multi_result_output.text
             max_tokens_thinking_length = max(max_tokens_thinking_length, len(result))
             result = result.replace("</think>", "")
+            logging.debug(f"Result:  {result}")
             prompts[idx].append({"role": "assistant", "content": "<think>\n" + result + ignore_str})
 
     max_tokens_thinking_tmp = MAX_TOKENS_THINKING
