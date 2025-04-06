@@ -42,7 +42,7 @@ def get_unprocessed_examples(
     input_dir = os.path.join(base_dir, f"{test_name}{dir_prefix}_input")
     input_path = os.path.join(input_dir, f"shard_{shard_index}_input.json")
     input_data = jload(input_path)
-    prompt_path = "prompt_thinking" if is_reasoning_model else "prompt_base"
+    prompt_path = "prompt"
     input_list = [{"hash": h, "value": v, "prompt": p} for h, v, p in
                   zip(input_data["hash"], input_data["value"], input_data[prompt_path])]
 
