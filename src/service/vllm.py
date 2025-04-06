@@ -179,7 +179,7 @@ def forward_with_budget(
         for j in range(num_of_results):
             if idx + j < len(final_results):
                 logging.debug(
-                    f"Prompt {idx + 1} - Sequence {j + 1} With Budget Forcing: {final_results[idx + j]}")
+                    f"Prompt {idx + j} - Sequence {j + 1} With Budget Forcing: {final_results[idx + j]}")
                 logging.debug("_" * 70)
                 result.append(final_results[idx + j])
         all_results.append(result)
