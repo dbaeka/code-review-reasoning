@@ -94,6 +94,7 @@ def forward_with_budget(
 
     stop_token_ids = tokenizer("</think>")["input_ids"]
 
+    final_results = []
     texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
     sampling_params = SamplingParams(
         max_tokens=max_new_tokens,
@@ -113,14 +114,13 @@ def forward_with_budget(
     ignore_str = "Wait"
 
     for idx, output in enumerate(outputs):
-        logging.debug(f"Len:, {idx}")
         for seq_idx, multi_result_output in enumerate(output.outputs):
-            logging.debug(f"Len 2:, {idx}")
             result = multi_result_output.text
             max_tokens_thinking_length = max(max_tokens_thinking_length, len(result))
             result = result.replace("</think>", "")
             logging.debug(f"Result:  {result}")
             prompts[idx].append({"role": "assistant", "content": "<think>\n" + result + ignore_str})
+            final_results.append({"cot": result + ignore_str})
 
     max_tokens_thinking_tmp = MAX_TOKENS_THINKING
     if max_tokens_thinking_tmp > 0:
@@ -148,6 +148,8 @@ def forward_with_budget(
                     result = result.replace("</think>", "")
                     prompts[idx].append(
                         {"role": "assistant", "content": result + (ignore_str if (i + 1) != budget else "")})
+                    final_results[idx]["cot"] = final_results[idx]["cot"] + result + (
+                        ignore_str if (i + 1) != budget else "")
 
     sampling_params = SamplingParams(
         max_tokens=max_new_tokens,
@@ -165,20 +167,21 @@ def forward_with_budget(
         texts,
         sampling_params=sampling_params,
     )
+    for idx, output in enumerate(outputs):
+        for seq_idx, multi_result_output in enumerate(output.outputs):
+            final = extract_cot_and_answer(multi_result_output.text, True)
+            final_results[idx]["cot"] = final_results[idx]["cot"] + final["cot"]
+            final_results[idx]["answer"] = final["answer"]
 
     all_results = []
-    for idx in range(0, len(outputs), num_of_results):
+    for idx in range(0, len(final_results), num_of_results):
         result = []
         for j in range(num_of_results):
-            if idx + j < len(outputs):
-                multi_result_output = outputs[idx + j].outputs[0]
+            if idx + j < len(final_results):
                 logging.debug(
-                    f"Prompt {idx + 1} - Sequence {j + 1} With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
+                    f"Prompt {idx + 1} - Sequence {j + 1} With Budget Forcing: {final_results[idx + j]}")
                 logging.debug("_" * 70)
-                prior_thinking_tokens = "\n".join(item["content"] for item in prompts[idx + j][-(budget + 1):])
-                final = extract_cot_and_answer(multi_result_output.text, True)
-                final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
-                result.append(final)
+                result.append(final_results[idx + j])
         all_results.append(result)
     logging.debug(f"Total number of results for the batch: {len(all_results)}")
     return all_results
