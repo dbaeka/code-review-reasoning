@@ -102,7 +102,8 @@ def forward_with_budget(
         min_tokens=0,
         stop_token_ids=stop_token_ids,
         skip_special_tokens=False,
-        temperature=temperature,
+        temperature=0.0,
+        top_p=1,
     )
     outputs = model.generate(
         texts,
@@ -129,7 +130,8 @@ def forward_with_budget(
                 skip_special_tokens=False,
                 seed=seed if seed is not None else None,
                 n=1,
-                temperature=temperature,
+                top_p=1,
+                temperature=0.0,
             )
             texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
             texts = [re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", item) for item in texts]
@@ -203,7 +205,7 @@ def forward_with_budget_single(
             min_tokens=0,
             stop_token_ids=stop_token_ids,
             skip_special_tokens=False,
-            temperature=temperature,
+            temperature=0.0,
         )
         outputs = model.generate(
             text,
@@ -224,7 +226,8 @@ def forward_with_budget_single(
                     skip_special_tokens=False,
                     seed=seed if seed is not None else None,
                     n=1,
-                    temperature=temperature,
+                    top_p=1,
+                    temperature=0.0,
                 )
                 text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
                 text = re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", text)
@@ -369,7 +372,7 @@ def budget_force_infer(
             print(f"Processing batch {i} to {end_index}")
             logging.debug(f"Processing batch {i} to {end_index}")
             try:
-                results = forward_with_budget(
+                results = forward_with_budget_single(
                     prompts,
                     model=model,
                     tokenizer=tokenizer,
