@@ -38,7 +38,7 @@ def combine_results(instance, dataset, chunks):
             if new_sample is None:
                 new_sample = {
                     "hash": hash,
-                    "few_shot_prompt": sample["prompt_base"],
+                    "few_shot_prompt": sample["prompt"],
                     f"{result_type}__{model}": result
                 }
                 new_dataset[hash] = new_sample
@@ -63,14 +63,6 @@ if __name__ == "__main__":
         if not os.path.isdir(os.path.join(base_results_dir, model)):
             continue
 
-        # go through zero shot results
-        zero_shot_dir = os.path.join(base_results_dir, model, "zero")
-        if os.path.isdir(zero_shot_dir):
-            shards = [x for x in os.listdir(zero_shot_dir) if x.endswith(".json")]
-            for shard in shards:
-                path = os.path.join(zero_shot_dir, shard)
-                shards_dict[path] = {"type": "zero", "model": model}
-
         # go through few shot results
         few_shot_dir = os.path.join(base_results_dir, model, "few")
         if os.path.isdir(few_shot_dir) and "deepseek" in model:
@@ -87,7 +79,6 @@ if __name__ == "__main__":
                     shards_dict[path] = {"type": "few_without", "model": model}
 
     few_shot_dataset = load_dataset(f"dbaeka/soen_691_few_shot_{test_name}_base_hashed")['test']
-    zero_shot_dataset = load_dataset(f"dbaeka/soen_691_zero_shot_{test_name}_hashed")['test']
 
     shards_dict_chunks = {}
     for i in range(n_jobs):
@@ -102,7 +93,6 @@ if __name__ == "__main__":
             desc="Combining dataset"
         ))
 
-    zero_shot_dataset_dict = {hash: sample for hash, sample in zip(zero_shot_dataset["hash"], zero_shot_dataset)}
     new_dataset_dict = {}
     for i, new_dataset in tqdm(enumerate(new_datasets)):
         for hash, sample in new_dataset.items():
@@ -112,8 +102,6 @@ if __name__ == "__main__":
                 for key, value in sample.items():
                     if key not in new_dataset_dict[hash]:
                         new_dataset_dict[hash][key] = value
-            zero_shot_prompt = zero_shot_dataset_dict.get(hash, None)
-            new_dataset_dict[hash]['zero_shot_prompt'] = zero_shot_prompt["prompt_base"] if zero_shot_prompt else None
 
     # Ensure all dictionaries have the same keys
     all_keys = set()
@@ -144,6 +132,14 @@ if __name__ == "__main__":
     for model in models:
         if not os.path.isdir(os.path.join(base_results_dir, model)):
             continue
+
+        # go through zero shot results
+        zero_shot_dir = os.path.join(base_results_dir, model, "zero")
+        if os.path.isdir(zero_shot_dir):
+            shards = [x for x in os.listdir(zero_shot_dir) if x.endswith(".json")]
+            for shard in shards:
+                path = os.path.join(zero_shot_dir, shard)
+                shards_dict[path] = {"type": "zero", "model": model}
 
         # go through few shot results
         few_shot_dir = os.path.join(base_results_dir, model, "few")
@@ -232,6 +228,20 @@ if __name__ == "__main__":
                 })
                 break
 
+    zero_shot_dataset = load_dataset(f"dbaeka/soen_691_zero_shot_{test_name}_hashed")['test']
+    zero_shot_dataset_dict = {hash: sample for hash, sample in zip(zero_shot_dataset["hash"], zero_shot_dataset)}
+    new_dataset_dict = {}
+    for i, new_dataset in tqdm(enumerate(new_datasets)):
+        for hash, sample in new_dataset.items():
+            if hash not in new_dataset_dict:
+                new_dataset_dict[hash] = sample
+            else:
+                for key, value in sample.items():
+                    if key not in new_dataset_dict[hash]:
+                        new_dataset_dict[hash][key] = value
+            zero_shot_prompt = zero_shot_dataset_dict.get(hash, None)
+            new_dataset_dict[hash]['zero_shot_prompt'] = zero_shot_prompt["prompt"] if zero_shot_prompt else None
+
     # Ensure all dictionaries have the same keys
     all_keys = set()
     for sample in new_dataset_dict.values():
@@ -245,7 +255,7 @@ if __name__ == "__main__":
     hf_dataset = Dataset.from_list(list(new_dataset_dict.values()))
 
     # reorder the columns put hash first, few_shot_prompt second, and then the rest
-    columns = ["hash", "few_shot_prompt"]
+    columns = ["hash", "few_shot_prompt", "zero_shot_prompt"]
     columns += [key for key in hf_dataset.column_names if key not in columns]
 
     hf_dataset = hf_dataset.select_columns(columns)

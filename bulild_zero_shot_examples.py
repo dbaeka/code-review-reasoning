@@ -10,9 +10,9 @@ local_drive_mount = "/Users/dbaeka/Library/CloudStorage/GoogleDrive-dbaekajnr@gm
 
 train_dataset = load_dataset("dbaeka/soen_691_msg_train")['train']
 
-INSTRUCTION_PROMPT = ("Please GIVE FORMAL Codereview for software developers in ONE SENTENCE for testcase, "
-                      "implementing Few Shot Learning from example. Dont start with Codereview/review. Just give the "
-                      "answer.")
+INSTRUCTION_PROMPT = (
+    "Please Give FORMAL Codereview for software developers in one sentence from the given diff hunk. "
+    "Don’t start with Codereview/review. Just give the answer")
 
 NUM_OF_FEW_SHOT = 0
 SEED = 0
@@ -25,7 +25,6 @@ def build_dataset(instance, dataset_chunks):
                        desc=f"Processing sample {instance}"):
         data = {"hash": sample[0], "value": sample[1]}
         dialog = [{"role": "user", "content": INSTRUCTION_PROMPT}]
-        dialog_thinking = [{"role": "user", "content": INSTRUCTION_PROMPT}]
 
         test_code = data["value"]["patch"]
 
@@ -34,9 +33,7 @@ def build_dataset(instance, dataset_chunks):
         context = context + "Codereview: "
 
         dialog.append({"role": "user", "content": context})
-        dialog_thinking.append({"role": "user", "content": context})
-        data["prompt_base"] = dialog
-        data["prompt_thinking"] = dialog_thinking
+        data["prompt"] = dialog
         new_dataset.append(data)
     return new_dataset
 
@@ -44,12 +41,12 @@ def build_dataset(instance, dataset_chunks):
 if __name__ == "__main__":
     init_logging(local_drive_mount)
 
-    test_name = "test_5000"
+    test_name = "test_500"
 
     n_jobs = min(8, mp.cpu_count())
 
     dataset = load_dataset(f"dbaeka/soen_691_{test_name}0_bm_25_indices_hashed")['test']
-    dataset = dataset.select(range(0, 5000))
+    dataset = dataset.select(range(0, 500))
 
     chunk_size = len(dataset) // (n_jobs - 1)
     dataset_chunks = dataset.batch(chunk_size)

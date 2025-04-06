@@ -13,7 +13,7 @@ tokenizer = None
 
 USE_BNB = True
 
-MAX_ATTEMPT = 3
+MAX_ATTEMPT = 8
 MAX_NEW_TOKENS = 2048
 
 

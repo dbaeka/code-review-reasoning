@@ -1,4 +1,4 @@
-from datasets import load_dataset, DatasetDict
+from datasets import load_dataset
 
 if __name__ == "__main__":
     for ds in ["_base", "_summary", "_callgraph", "_summary_callgraph"]:
