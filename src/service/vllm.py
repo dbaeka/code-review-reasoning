@@ -19,7 +19,7 @@ MAX_NEW_TOKENS = 2048
 MAX_TOKENS_THINKING = 32000
 
 
-def load_model(model_name: str):
+def load_model(model_name: str, seed: int = None):
     global vllm_model, tokenizer
     if vllm_model is not None:
         return vllm_model, tokenizer
@@ -29,10 +29,11 @@ def load_model(model_name: str):
             model_name,
             dtype=torch.bfloat16,
             quantization="bitsandbytes",
-            load_format="bitsandbytes"
+            load_format="bitsandbytes",
+            seed=seed
         )
     else:
-        vllm_model = LLM(model_name)
+        vllm_model = LLM(model_name, seed=seed)
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "left"
 
@@ -300,7 +301,7 @@ def review_comment_generation(
 
     attempt = 0
     while len(filtered_input) > 0 and attempt < MAX_ATTEMPT:
-        model, tokenizer = load_model(model_name)
+        model, tokenizer = load_model(model_name, seed)
         for i in tqdm(range(0, len(filtered_input), batch_size)):
             end_index = min(i + batch_size, len(filtered_input))
             batch = filtered_input[i:end_index]
@@ -368,7 +369,7 @@ def budget_force_infer(
             print(f"Processing batch {i} to {end_index}")
             logging.debug(f"Processing batch {i} to {end_index}")
             try:
-                results = forward_with_budget_single(
+                results = forward_with_budget(
                     prompts,
                     model=model,
                     tokenizer=tokenizer,
