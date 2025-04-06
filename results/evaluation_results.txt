@@ -1,0 +1,342 @@
+PROCESSING  test_500
+Evaluating zero__deepseek_ai_DeepSeek_R1_Distill_Qwen_1_5B
+Warning: Empty candidate sentence detected; setting raw BERTscores to 0.
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 2
+
+-----------------
+
+BERTScore: 0.8427
+Bleu score: 5.61
+Bleu score (with rmStop): 6.3
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8461
+Bleu score: 5.632530120481928
+EM: 0.0
+
+-----------------
+
+Evaluating zero__Qwen_Qwen2_5_Coder_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8480
+Bleu score: 6.62
+Bleu score (with rmStop): 7.49
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8480
+Bleu score: 6.62
+EM: 0.0
+
+-----------------
+
+Evaluating few_without__deepseek_ai_DeepSeek_R1_Distill_Qwen_1_5B
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8380
+Bleu score: 4.47
+Bleu score (with rmStop): 4.85
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8380
+Bleu score: 4.47
+EM: 0.0
+
+-----------------
+
+Evaluating few_without__Qwen_Qwen2_5_Coder_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8512
+Bleu score: 7.79
+Bleu score (with rmStop): 9.17
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8512
+Bleu score: 7.79
+EM: 0.0
+
+-----------------
+
+Evaluating few_summary_callgraph__deepseek_ai_DeepSeek_R1_Distill_Qwen_1_5B
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8325
+Bleu score: 3.96
+Bleu score (with rmStop): 4.48
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8325
+Bleu score: 3.96
+EM: 0.0
+
+-----------------
+
+Evaluating few_summary_callgraph__Qwen_Qwen2_5_Coder_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8501
+Bleu score: 7.56
+Bleu score (with rmStop): 8.87
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8501
+Bleu score: 7.56
+EM: 0.0
+
+-----------------
+
+Evaluating few_callgraph__deepseek_ai_DeepSeek_R1_Distill_Qwen_1_5B
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8331
+Bleu score: 3.99
+Bleu score (with rmStop): 4.25
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8331
+Bleu score: 3.99
+EM: 0.0
+
+-----------------
+
+Evaluating few_summary__deepseek_ai_DeepSeek_R1_Distill_Qwen_1_5B
+Warning: Empty candidate sentence detected; setting raw BERTscores to 0.
+Warning: Empty candidate sentence detected; setting raw BERTscores to 0.
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 2
+
+-----------------
+
+BERTScore: 0.8336
+Bleu score: 4.25
+Bleu score (with rmStop): 4.75
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8370
+Bleu score: 4.267068273092369
+EM: 0.0
+
+-----------------
+
+Evaluating zero__Qwen_Qwen2_5_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8417
+Bleu score: 6.07
+Bleu score (with rmStop): 6.8
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8417
+Bleu score: 6.07
+EM: 0.0
+
+-----------------
+
+Evaluating few_without__Qwen_Qwen2_5_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8501
+Bleu score: 7.54
+Bleu score (with rmStop): 8.72
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8501
+Bleu score: 7.54
+EM: 0.0
+
+-----------------
+
+Evaluating few_summary_callgraph__Qwen_Qwen2_5_1_5B_Instruct
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8503
+Bleu score: 7.39
+Bleu score (with rmStop): 8.51
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8503
+Bleu score: 7.39
+EM: 0.0
+
+-----------------
+
+Evaluating few_without__Anthropic_Claude_3_7_Sonnet_20250219
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8516
+Bleu score: 6.96
+Bleu score (with rmStop): 8.22
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8516
+Bleu score: 6.96
+EM: 0.0
+
+-----------------
+
+Evaluating few_summary_callgraph__Anthropic_Claude_3_7_Sonnet_20250219
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8517
+Bleu score: 6.87
+Bleu score (with rmStop): 8.06
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8517
+Bleu score: 6.87
+EM: 0.0
+
+-----------------
+
+Evaluating zero__Anthropic_Claude_3_7_Sonnet_20250219
+
+-----------------
+
+The number of samples: 500
+Total blank responses: 0
+
+-----------------
+
+BERTScore: 0.8505
+Bleu score: 6.4
+Bleu score (with rmStop): 7.25
+EM: 0.0
+
+-----------------
+
+Ignoring Blank Lines
+
+BERTScore: 0.8505
+Bleu score: 6.4
+EM: 0.0
+
+-----------------
+
+
+Process finished with exit code 0

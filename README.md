@@ -1,9 +1,9 @@
-# Thinking Before Generating Code Review
+# Thinking Before Generating Code Review Comment
 
 ## Description
 
-This repository contains code for running inference and evaluating the performance of reasoning models on Review Code
-Generation using LLMs.
+This repository contains code for running inference and evaluating the performance of reasoning models on Code Review
+Comment Generation using LLMs.
 
 ## Prerequisites
 
@@ -93,12 +93,53 @@ To run the tests with pytest, run the following command:
 pytest
 ```
 
-## File Structure
+## Repo Structure
+
 - `inference.py`: The script for running inference on the models.
 - `requirements.txt`: The file containing the dependencies for the project.
 - `README.md`: The file containing the instructions for running the code.
 - `tests/`: The directory containing the tests for the project.
-- `misc/`: The directory containing the miscellaneous files for the project including replication material from Haider et al. (2022).
+- `misc/`: The directory containing the miscellaneous files for the project including replication material from Haider
+  et al. (2022).
 - `notebooks/`: The directory containing the notebooks for the project.
-- `src/`: The directory containing the source code for the project including shred tools and service providers for running inference.
+- `src/`: The directory containing the source code for the project including shred tools and service providers for
+  running inference.
+- `results/`: The directory containing the prompts and responses used per model. Also contains evaluation results from
+  log output.
+- `build_few_shot_examples.py`: The script to build the few shot examples and push to HF.
+- `extract_bm_25_indices.py`: The script to build a temp of bm25 5 shot examples for quick referencing during few shot
+  prompt generation.
+- `build_zero_shot_examples.py`: The script to build the zero shot examples and push to HF.
+- `create_500_dataset.py`: The script to build the 500 subset data used in this research. Data pushed to HF.
+- `budget_force_inference.py`: The script for running inference on local model with budget forcing.
+- `combine_results.py`: The script to put all results from results/output like data into a single HF dataset. Contains 5
+  attempts per prompt results.
+- `build_results.py`: The script to select the best result per prompt based on BLEU score. Pushed to HF.
+- `evaluate_results.py`: The script to run BERTScore and BLEU evaluations against truth set.
 
+## Evaluation
+
+Evaluation is done using BLEU, BERTScore and ExactMatch. Only BLEU and BERTScore are reported for this project. Empty
+lines are ignored in the final results selected. See `results/evaluation_results.txt` for detailed results per model and
+prompt type.
+
+## HuggingFace Copies
+
+### Datasets
+
+- [Few Shot (Without Semantic Metadata)](https://huggingface.co/datasets/dbaeka/soen_691_few_shot_test_500_base_hashed)
+- [Few Shot (With Summary Semantic Metadata)](https://huggingface.co/datasets/dbaeka/soen_691_few_shot_test_500_summary_hashed)
+- [Few Shot (With Summary + Callgraph Semantic Metadata)](https://huggingface.co/datasets/dbaeka/soen_691_few_shot_test_500_summary_callgraph_hashed)
+- [Few Shot (With Callgraph Semantic Metadata)](https://huggingface.co/datasets/dbaeka/soen_691_few_shot_test_500_callgraph_hashed)
+- [Zero Shot](https://huggingface.co/datasets/dbaeka/soen_691_zero_shot_test_500_hashed)
+- [Results (5 Attempts)](https://huggingface.co/datasets/dbaeka/soen_691_test_500_hashed_with_results)
+- [Final Results (Best Response Chosen)](https://huggingface.co/datasets/dbaeka/soen_691_test_500_final_selected_results)
+
+### Models
+
+Open Sourced Models are cloned to preserve their states and weights to our repo. Links are below. The original model
+repo can be traced when opened on HuggingFace.
+
+- [Qwen/Qwen2.5-Coder-1.5B-Instruct](https://huggingface.co/dbaeka/Qwen2.5-Coder-1.5B-Instruct)
+- [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/dbaeka/Qwen2.5-1.5B-Instruct)
+- [deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B](https://huggingface.co/dbaeka/DeepSeek-R1-Distill-Qwen-1.5B)
