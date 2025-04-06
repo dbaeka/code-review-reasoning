@@ -80,6 +80,109 @@ def forward(
     return all_results
 
 
+def forward_with_budget(
+        prompts,
+        model,
+        tokenizer,
+        max_new_tokens: int = 2048,
+        temperature: float = 0.05,
+        num_of_results: int = 1,
+        seed: int = None,
+        budget: int = 1
+):
+    logging.debug(f"Generating model response with budget forcing budget: {budget}")
+
+    stop_token_ids = tokenizer("</think>")["input_ids"]
+
+    texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+    sampling_params = SamplingParams(
+        max_tokens=max_new_tokens,
+        n=1,
+        seed=seed if seed is not None else None,
+        min_tokens=0,
+        stop_token_ids=stop_token_ids,
+        skip_special_tokens=False,
+        temperature=0.0,
+        top_p=1,
+    )
+    outputs = model.generate(
+        texts,
+        sampling_params=sampling_params,
+    )
+    max_tokens_thinking_length = float('-inf')
+    ignore_str = "Wait"
+
+    for idx, output in enumerate(outputs):
+        print("Len: ", len(output))
+        for seq_idx, multi_result_output in enumerate(output.outputs):
+            print("Len 2: ", len(multi_result_output))
+            result = multi_result_output.text
+            max_tokens_thinking_length = max(max_tokens_thinking_length, len(result))
+            result = result.replace("</think>", "")
+            prompts[idx].append({"role": "assistant", "content": "<think>\n" + result + ignore_str})
+
+    max_tokens_thinking_tmp = MAX_TOKENS_THINKING
+    if max_tokens_thinking_tmp > 0:
+        for i in range(budget):
+            max_tokens_thinking_tmp -= max_tokens_thinking_length
+            sampling_params = SamplingParams(
+                max_tokens=min(max_new_tokens, max_tokens_thinking_tmp),
+                min_tokens=1,
+                stop_token_ids=stop_token_ids,
+                skip_special_tokens=False,
+                seed=seed if seed is not None else None,
+                n=1,
+                top_p=1,
+                temperature=0.0,
+            )
+            texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+            texts = [re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", item) for item in texts]
+            outputs = model.generate(
+                texts,
+                sampling_params=sampling_params
+            )
+            for idx, output in enumerate(outputs):
+                for seq_idx, multi_result_output in enumerate(output.outputs):
+                    result = multi_result_output.text
+                    result = result.replace("</think>", "")
+                    prompts[idx].append(
+                        {"role": "assistant", "content": result + (ignore_str if (i + 1) != budget else "")})
+
+    sampling_params = SamplingParams(
+        max_tokens=max_new_tokens,
+        temperature=temperature,
+        n=1,
+        seed=seed if seed is not None else None,
+        top_p=1,
+        stop=["</s>"]
+    )
+
+    texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
+    texts = [re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", item) for item in texts]
+    texts = [item + "</think>" for item in texts]
+    outputs = model.generate(
+        texts,
+        sampling_params=sampling_params,
+    )
+
+    all_results = []
+    for idx in range(0, len(outputs), num_of_results):
+        result = []
+        for j in range(num_of_results):
+            if idx + j < len(outputs):
+                multi_result_output = outputs[idx + j].outputs[0]
+                logging.debug(
+                    f"Prompt {idx + 1} - Sequence {j + 1} With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
+                logging.debug("_" * 70)
+                prior_thinking_tokens = "\n".join(item["content"] for item in prompts[idx + j][-(budget + 1):])
+                final = extract_cot_and_answer(multi_result_output.text, True)
+                final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
+                result.append(final)
+        all_results.append(result)
+    logging.debug(f"Total number of results for the batch: {len(all_results)}")
+    return all_results
+
+
 def forward_with_budget_single(
         prompts,
         model,
@@ -135,35 +238,35 @@ def forward_with_budget_single(
                     sampling_params=sampling_params
                 )
 
-            result = outputs[0].outputs[0].text
-            result = result.replace("</think>", "")
-            prompt.append({"role": "assistant", "content": result})
+        result = outputs[0].outputs[0].text
+        result = result.replace("</think>", "")
+        prompt.append({"role": "assistant", "content": result})
 
-            sampling_params = SamplingParams(
-                max_tokens=max_new_tokens,
-                temperature=temperature,
-                n=1,
-                seed=seed if seed is not None else None,
-                top_p=1,
-                stop=["</s>"]
-            )
+        sampling_params = SamplingParams(
+            max_tokens=max_new_tokens,
+            temperature=temperature,
+            n=1,
+            seed=seed if seed is not None else None,
+            top_p=1,
+            stop=["</s>"]
+        )
 
-            text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
-            text = re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", text)
-            text += "</think>"
-            outputs = model.generate(
-                text,
-                sampling_params=sampling_params,
-            )
-            multi_result_output = outputs[0].outputs[0]
-            logging.debug(
-                f"Prompt {i + 1} - With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
-            prior_thinking_tokens = "\n".join(item["content"] for item in prompt[-(budget + 1):])
-            final = extract_cot_and_answer(multi_result_output.text, True)
-            final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
-            results.append(final)
-            logging.debug(f"Result {i + 1}: {final}")
-            logging.debug("_" * 70)
+        text = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, tokenize=False)
+        text = re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", text)
+        text += "</think>"
+        outputs = model.generate(
+            text,
+            sampling_params=sampling_params,
+        )
+        multi_result_output = outputs[0].outputs[0]
+        logging.debug(
+            f"Prompt {i + 1} - With Budget Forcing: {multi_result_output.text.replace(tokenizer.pad_token, '')}")
+        prior_thinking_tokens = "\n".join(item["content"] for item in prompt[-(budget + 1):])
+        final = extract_cot_and_answer(multi_result_output.text, True)
+        final["cot"] = prior_thinking_tokens.replace("<think>", "") + "\n" + final["cot"]
+        results.append(final)
+        logging.debug(f"Result {i + 1}: {final}")
+        logging.debug("_" * 70)
 
     all_results = []
     for idx in range(0, len(results), num_of_results):
