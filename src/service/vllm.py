@@ -238,7 +238,7 @@ def forward_with_budget_single(
 
             result = outputs[0].outputs[0].text
             result = result.replace("</think>", "")
-            prompt.append({"role": "assistant", "content": result + (ignore_str if (i + 1) != budget else "")})
+            prompt.append({"role": "assistant", "content": result})
 
             sampling_params = SamplingParams(
                 max_tokens=max_new_tokens,
