@@ -1,3 +1,4 @@
+import copy
 import logging
 import re
 from time import sleep
@@ -13,6 +14,8 @@ vllm_model = None
 tokenizer = None
 
 USE_BNB = True
+
+BUDGET_THINKING_TEMP = 0.0
 
 MAX_ATTEMPT = 8
 MAX_NEW_TOKENS = 2048
@@ -103,7 +106,7 @@ def forward_with_budget(
         min_tokens=0,
         stop_token_ids=stop_token_ids,
         skip_special_tokens=False,
-        temperature=0.0,
+        temperature=BUDGET_THINKING_TEMP,
         top_p=1,
     )
     outputs = model.generate(
@@ -135,7 +138,7 @@ def forward_with_budget(
                 seed=seed if seed is not None else None,
                 n=1,
                 top_p=1,
-                temperature=0.0,
+                temperature=BUDGET_THINKING_TEMP,
             )
             texts = tokenizer.apply_chat_template(prompts, add_generation_prompt=True, tokenize=False)
             texts = [re.sub(r"<｜end▁of▁sentence｜><｜Assistant｜>(<think>\n)?", "", item) for item in texts]
@@ -378,8 +381,12 @@ def budget_force_infer(
         for i in tqdm(range(0, len(filtered_input), batch_size)):
             end_index = min(i + batch_size, len(filtered_input))
             batch = filtered_input[i:end_index]
-
-            prompts = [v["prompt"] for v in batch] * num_of_results
+            prompts = [v["prompt"] for v in batch]
+            final_prompts = []
+            for prompt in prompts:
+                for i in range(num_of_results):
+                    final_prompts.append(copy.deepcopy(prompt))
+            prompts = final_prompts
             print(f"Processing batch {i} to {end_index}")
             logging.debug(f"Processing batch {i} to {end_index}")
             try:
