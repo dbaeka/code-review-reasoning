@@ -118,7 +118,7 @@ def forward_with_budget(
             result = multi_result_output.text
             max_tokens_thinking_length = max(max_tokens_thinking_length, len(result))
             result = result.replace("</think>", "")
-            logging.debug(f"Result:  {result}")
+            logging.debug(f"Pre-Result:  {result}")
             prompts[idx].append({"role": "assistant", "content": "<think>\n" + result + ignore_str})
             final_results.append({"cot": result + ignore_str})
 
@@ -146,6 +146,7 @@ def forward_with_budget(
                 for seq_idx, multi_result_output in enumerate(output.outputs):
                     result = multi_result_output.text
                     result = result.replace("</think>", "")
+                    logging.debug(f"Result {i}:  {result}")
                     prompts[idx].append(
                         {"role": "assistant", "content": result + (ignore_str if (i + 1) != budget else "")})
                     final_results[idx]["cot"] = final_results[idx]["cot"] + result + (
