@@ -384,7 +384,7 @@ def budget_force_infer(
             prompts = [v["prompt"] for v in batch]
             final_prompts = []
             for prompt in prompts:
-                for i in range(num_of_results):
+                for _ in range(num_of_results):
                     final_prompts.append(copy.deepcopy(prompt))
             prompts = final_prompts
             print(f"Processing batch {i} to {end_index}")
