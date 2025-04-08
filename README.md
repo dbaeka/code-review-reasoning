@@ -63,7 +63,7 @@ python inference.py --model_name {MODEL_NAME \
 
 ### Explanation of Arguments
 
-- `model_name`: The name of the model to use for inference. Example: `deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B`
+- `model_name`: The name of the model to use for inference. Example: `deepseek-ai/DeepSeek-R1-Distill-Llama-8B`
 - `pause_duration`: The duration to pause between each generated code snippet. Default: `0.5`
 - `num_of_few_shot`: The number of few-shot examples to use for inference. Default: `5`
 - `with_summary`: Whether to include the summary in the prompt. Default: `False`
@@ -137,9 +137,7 @@ prompt type.
 
 ### Models
 
-Open Sourced Models are cloned to preserve their states and weights to our repo. Links are below. The original model
+Open Sourced Models are cloned to preserve their states and weights to our repo, except gated models like Llama 3.1. Links are below. The original model
 repo can be traced when opened on HuggingFace.
 
-- [Qwen/Qwen2.5-Coder-1.5B-Instruct](https://huggingface.co/dbaeka/Qwen2.5-Coder-1.5B-Instruct)
-- [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/dbaeka/Qwen2.5-1.5B-Instruct)
-- [deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B](https://huggingface.co/dbaeka/DeepSeek-R1-Distill-Qwen-1.5B)
+- [deepseek-ai/DeepSeek-R1-Distill-Llama-8B](https://huggingface.co/dbaeka/DeepSeek-R1-Distill-Llama-8B)

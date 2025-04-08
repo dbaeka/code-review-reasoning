@@ -1,6 +1,7 @@
 import json
 import multiprocessing as mp
 import os
+import re
 from functools import partial
 
 from datasets import Dataset, DatasetDict, load_dataset
@@ -70,7 +71,8 @@ if __name__ == "__main__":
             for shard in shards:
                 path = os.path.join(zero_shot_dir, shard)
                 if "budget_force" in shard:
-                    shards_dict[path] = {"type": "zero_budget_force", "model": model}
+                    ftype = re.search(r'zero_budget_force_\d+', path).group(0)
+                    shards_dict[path] = {"type": ftype, "model": model}
                 else:
                     shards_dict[path] = {"type": "zero", "model": model}
 
