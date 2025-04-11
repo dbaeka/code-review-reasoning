@@ -35,7 +35,7 @@ def build_results(instance, dataset, chunks):
                 continue
             values = pred[column]
             if values is None:
-                values = [{"answer": "", "value": ""}]
+                values = [{"answer": "", "cot": ""}]
             bleu_score = -1
             final_response = ""
             for value in values:
