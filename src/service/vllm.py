@@ -19,7 +19,7 @@ BUDGET_THINKING_TEMP = 0.7
 
 MAX_ATTEMPT = 8
 MAX_NEW_TOKENS = 2048
-MAX_TOKENS_THINKING = 32000
+MAX_TOKENS_THINKING = 120000
 
 
 def load_model(model_name: str, seed: int = None):
@@ -127,8 +127,9 @@ def forward_with_budget(
             final_results.append({"cot": result + ignore_str})
 
     max_tokens_thinking_tmp = MAX_TOKENS_THINKING
-    if max_tokens_thinking_tmp > 0:
-        for i in range(budget):
+
+    for i in range(budget):
+        if max_tokens_thinking_tmp > 0:
             max_tokens_thinking_tmp -= max_tokens_thinking_length
             sampling_params = SamplingParams(
                 max_tokens=min(max_new_tokens, max_tokens_thinking_tmp),
